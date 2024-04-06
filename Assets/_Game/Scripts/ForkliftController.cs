@@ -51,12 +51,12 @@ public class ForkliftController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         isBrake = Input.GetKey(KeyCode.Space);
 
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.E))
         {
             isLiftUp = true;
             isLiftDown = false;
         }
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.Q))
         {
             isLiftUp = false;
             isLiftDown = true;
