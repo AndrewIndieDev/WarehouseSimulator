@@ -18,6 +18,9 @@ public class MovementController : MonoBehaviour
     private float currentYaw;
     private float currentPitch;
     private float currentYVelocity;
+
+    private bool hasControl = true;
+    private List<string> currentControlTakers = new List<string>();
     
     
     // Start is called before the first frame update
@@ -28,9 +31,27 @@ public class MovementController : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void AddControlTaker(string id)
+    {
+        currentControlTakers.Add(id);
+        hasControl = currentControlTakers.Count <= 0;
+        Cursor.lockState = hasControl ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !hasControl;
+    }
+    
+    public void RemoveControlTaker(string id)
+    {
+        currentControlTakers.Remove(id);
+        hasControl = currentControlTakers.Count <= 0;
+        Cursor.lockState = hasControl ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !hasControl;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!hasControl) return;
+        
         currentYaw += Input.GetAxisRaw("Mouse X") * mouseSensitivityX;
         currentPitch -= Input.GetAxisRaw("Mouse Y") * mouseSensitivityY;
         bool isSprinting = Input.GetButton("Sprint");

@@ -1,0 +1,70 @@
+.DefaultBackground {
+    background-image: url("project://database/Assets/_Game/Art/UI/Background.png?fileID=2800000&guid=afd14cafd1d6f334091dbf62ee706043&type=3#Background");
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.AppIcon {
+    background-image: url("project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=4584671053970592468&guid=0a80e9d1d01e5ee4098765964307344b&type=3#console.warnicon");
+    -unity-background-scale-mode: scale-to-fit;
+    transition-property: scale;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out-bounce;
+}
+
+.AppIcon:hover {
+    background-image: url("project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=4584671053970592468&guid=0a80e9d1d01e5ee4098765964307344b&type=3#console.warnicon");
+    -unity-background-scale-mode: scale-to-fit;
+    scale: 1.25 1.25;
+}
+
+.App {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.AppText {
+    flex-wrap: wrap;
+    align-self: center;
+    justify-content: flex-end;
+}
+
+.WindowBackground {
+    background-color: rgb(75, 75, 75);
+    border-left-color: rgb(132, 132, 132);
+    border-right-color: rgb(132, 132, 132);
+    border-top-color: rgb(132, 132, 132);
+    border-bottom-color: rgb(132, 132, 132);
+    border-top-width: 24px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
