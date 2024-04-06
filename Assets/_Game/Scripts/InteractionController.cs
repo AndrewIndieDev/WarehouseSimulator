@@ -34,13 +34,13 @@ public class InteractionController : MonoBehaviour
             if (currentHeld != null && currentHeld.Type == InteractableType.Pickup &&
                 currentHover != null && currentHover.Type == InteractableType.Container)
             {
-                if ((currentHover as Box).PlaceItemInContainer(currentHeld))
+                if ((currentHover as Container).PlaceItemInContainer(currentHeld))
                 {
-                    currentHeld.OnInteract(InteractType.Place);
+                    currentHeld.OnInteract(InteractType.PlaceInContainer);
                     currentHeld = null;
                 }
             }
-            else if (currentHeld != null)
+            else if (currentHeld != null && currentHover == null)
             {
                 HandlePickup();
             }
@@ -52,7 +52,34 @@ public class InteractionController : MonoBehaviour
                         HandleVehicle();
                         break;
                     default:
-                        HandlePickup();
+                        if ((currentHover as TakeOutButton) == null)
+                            HandlePickup();
+                        else
+                        {
+                            TakeOutButton takeOut = currentHover as TakeOutButton;
+                            if (currentHeld == null)
+                            {
+                                currentHover.OnInteract(InteractType.TakeOutOfContainer);
+                                IInteractable item = takeOut.Container.TakeItemOutOfContainer();
+                                if (item != null)
+                                {
+                                    item.OnInteract(InteractType.Default);
+                                    item.Transform.parent = heldItemSlot;
+                                    item.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                                    item.Collider.enabled = false;
+                                    currentHover = null;
+                                    currentHeld = item;
+                                }
+                            }
+                            else
+                            {
+                                if (takeOut.Container.PlaceItemInContainer(currentHeld))
+                                {
+                                    currentHeld.OnInteract(InteractType.PlaceInContainer);
+                                    currentHeld = null;
+                                }
+                            }
+                        }
                         break;
                 }
             }

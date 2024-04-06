@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Product : MonoBehaviour, IInteractable
@@ -34,8 +35,10 @@ public class Product : MonoBehaviour, IInteractable
                     Collider.enabled = true;
                 }
                 break;
-            case InteractType.Place:
-                Destroy(Transform.gameObject);
+            case InteractType.PlaceInContainer:
+                isHeld = false;
+                rb.isKinematic = true;
+                Collider.enabled = false;
                 break;
         }
     }
@@ -48,5 +51,22 @@ public class Product : MonoBehaviour, IInteractable
     public void OnHoverExit()
     {
         // stop glow around object
+    }
+
+    public void PutInside(Transform newParent)
+    {
+        transform.parent = newParent;
+        transform.SetPositionAndRotation(newParent.position, newParent.rotation);
+        transform.localScale = Vector3.zero;
+    }
+
+    public void TakeOut()
+    {
+        transform.localScale = Vector3.one;
+        transform.parent = null;
+        transform.SetLocalPositionAndRotation(transform.position + Transform.up * 0.5f, Quaternion.identity);
+        isHeld = false;
+        rb.isKinematic = false;
+        Collider.enabled = true;
     }
 }

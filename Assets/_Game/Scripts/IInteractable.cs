@@ -11,7 +11,8 @@ public enum InteractableType
 public enum InteractType
 {
     Default,
-    Place
+    PlaceInContainer,
+    TakeOutOfContainer
 }
 
 public interface IInteractable

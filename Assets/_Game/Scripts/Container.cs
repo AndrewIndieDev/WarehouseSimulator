@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Box : MonoBehaviour, IInteractable
+public class Container : MonoBehaviour, IInteractable
 {
     public InteractableType Type => InteractableType.Container;
     public Transform Transform => transform;
@@ -14,9 +14,10 @@ public class Box : MonoBehaviour, IInteractable
     [SerializeField] private bool isHeld = false;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private new Collider collider;
-
+    [SerializeField] private GameObject takeOutButton;
+    [SerializeField] private Transform containedItemParent;
     [SerializeField] private IInteractable containedItem;
-    [SerializeField] private int currentAmount;
+    [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
 
     public void OnInteract(InteractType interactType)
@@ -37,7 +38,7 @@ public class Box : MonoBehaviour, IInteractable
                     Collider.enabled = true;
                 }
                 break;
-            case InteractType.Place:
+            case InteractType.PlaceInContainer:
                 // Do nothing, something is being placed in it.
                 break;
         }
@@ -56,17 +57,37 @@ public class Box : MonoBehaviour, IInteractable
 
     public bool PlaceItemInContainer(IInteractable interactable)
     {
+        Product product = (interactable as Product);
         if (containedItem == null)
         {
+            takeOutButton.SetActive(true);
             containedItem = interactable;
-            currentAmount = 1;
+            product.PutInside(containedItemParent);
             return true;
         }
-        else if ((containedItem as Product).productId == (interactable as Product).productId && currentAmount < maxStackSize)
+        else if ((containedItem as Product).productId == product.productId && currentAmount < maxStackSize)
         {
-            currentAmount++;
+            product.PutInside(containedItemParent);
             return true;
         }
         return false;
+    }
+
+    public IInteractable TakeItemOutOfContainer()
+    {
+        if (containedItem == null || currentAmount <= 0)
+            return null;
+
+        IInteractable item = containedItemParent.GetChild(0).GetComponent<IInteractable>();
+        Product product = (item as Product);
+        product.TakeOut();
+        
+        if (currentAmount <= 0)
+        {
+            containedItem = null;
+            takeOutButton.SetActive(false);
+        }
+
+        return item;
     }
 }
