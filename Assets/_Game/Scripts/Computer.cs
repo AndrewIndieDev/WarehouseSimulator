@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class Computer : MonoBehaviour, IInteractable
 {
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private VisualTreeAsset shopItem;
     
     public InteractableType Type => InteractableType.None;
     public Transform Transform => null;
@@ -18,14 +19,25 @@ public class Computer : MonoBehaviour, IInteractable
 
     private VisualElement ui;
     private Button shopApp;
+    private Button shopCloseButton;
     private VisualElement shopWindow;
+    private ScrollView shopList;
 
     private void Start()
     {
         ui = uiDocument.rootVisualElement;
         shopApp = ui.Q<Button>("ShopApp");
+        shopCloseButton = ui.Q<Button>("ShopCloseButton");
         shopWindow = ui.Q<VisualElement>("ShopWindow");
-        shopApp.clicked += () => { shopWindow.visible = !shopWindow.visible; }; 
+        shopList = ui.Q<ScrollView>("ShopList");
+        shopApp.clicked += () => { shopWindow.visible = true; }; 
+        shopCloseButton.clicked += () => { shopWindow.visible = false; }; 
+        for(int i = 0; i < 10; i++)
+        {
+            var shopItemInstance = shopItem.CloneTree();
+            shopItemInstance.name = "Item" + i;
+            shopList.Add(shopItemInstance);
+        }
     }
 
     public void OnHoverEnter()

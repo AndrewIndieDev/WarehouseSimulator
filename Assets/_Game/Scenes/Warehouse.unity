@@ -8513,6 +8513,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiDocument: {fileID: 1585400543}
+  shopItem: {fileID: 9197481963319205126, guid: b61e58a712fe32f429a09f74dbcfdd5e,
+    type: 3}
 --- !u!64 &1585400545
 MeshCollider:
   m_ObjectHideFlags: 0
