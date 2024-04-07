@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public partial class UITextBindLabel : VisualElement
+[UxmlElement]
+public partial class UITextBindLabel : Label
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField, DontCreateProperty]
+    string internalText;
+    
+    [UxmlAttribute]
+    string prefix;
+    
+    [UxmlAttribute, CreateProperty]
+    public string Text
     {
-        
+        get => internalText;
+        set
+        {
+            internalText = value;
+            text = prefix + value;
+            MarkDirtyRepaint();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public UITextBindLabel()
     {
         
     }

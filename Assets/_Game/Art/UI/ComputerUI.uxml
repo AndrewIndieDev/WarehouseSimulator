@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/_Game/Art/UI/ComputerUI.uss?fileID=7433441132597879392&amp;guid=ef7993e708edf4642aeda8cbb72df1ad&amp;type=3#ComputerUI" />
     <ui:VisualElement name="Background" class="DefaultBackground" style="flex-grow: 1; left: 100px; top: 100px; right: 100px; bottom: 100px; opacity: 1; position: absolute; -unity-background-scale-mode: stretch-to-fill; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px;">
-        <ui:ScrollView mode="Horizontal" name="Desktop" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: flex-end; align-self: flex-end;">
+        <ui:ScrollView mode="Horizontal" name="Desktop" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: stretch; align-self: stretch;">
             <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ShopApp" class="App">
                 <ui:VisualElement name="AppIcon" class="AppIcon" style="flex-grow: 1;" />
                 <ui:Label tabindex="-1" text="Shop" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AppName" class="AppText" />
