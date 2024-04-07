@@ -10,7 +10,7 @@ public class Container : MonoBehaviour, IInteractable
     public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
-    public List<Behaviour> DisableOnPlacement => disableOnPlacement;
+    public List<Component> DisableOnPlacement => disableOnPlacement;
 
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isHeld = false;
@@ -21,7 +21,7 @@ public class Container : MonoBehaviour, IInteractable
     [SerializeField] private IInteractable containedItem;
     [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
-    [SerializeField] private List<Behaviour> disableOnPlacement = new();
+    [SerializeField] private List<Component> disableOnPlacement = new();
 
     public void OnInteract(InteractType interactType)
     {

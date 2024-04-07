@@ -10,7 +10,7 @@ public class TakeOutButton : MonoBehaviour, IInteractable
     public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => false;
-    public List<Behaviour> DisableOnPlacement => null;
+    public List<Component> DisableOnPlacement => null;
 
     public Container Container => container;
 

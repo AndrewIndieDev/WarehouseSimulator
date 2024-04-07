@@ -140,8 +140,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8503647, y: 0.46523914, z: 0.855381}
-  m_Center: {x: -0.0011711121, y: 0.23261954, z: -0.0013365746}
+  m_Size: {x: 0.8503647, y: 0.45657954, z: 0.855381}
+  m_Center: {x: -0.0011711121, y: 0.22828974, z: -0.0013365746}
 --- !u!54 &8876597755329258769
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,6 +188,13 @@ MonoBehaviour:
   takeOutButton: {fileID: 8495578908193998949}
   containedItemParent: {fileID: 2546966927566248034}
   maxStackSize: 10
+  disableOnPlacement:
+  - {fileID: 8518940336161821734}
+  - {fileID: 3999465434848292101}
+  - {fileID: 1878391906631385013}
+  - {fileID: 5880343763959074430}
+  - {fileID: 8641212370871475368}
+  - {fileID: 4304679731390222674}
 --- !u!1 &1607293339180050867
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1021743454259740141
 Transform:
   m_ObjectHideFlags: 0
@@ -755,8 +762,8 @@ Transform:
   m_GameObject: {fileID: 8495578908193998949}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.46, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.01, z: 0.4}
+  m_LocalPosition: {x: 0, y: 0.41, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.11, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3574975382634998030}

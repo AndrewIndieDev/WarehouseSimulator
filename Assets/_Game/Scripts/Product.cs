@@ -10,7 +10,7 @@ public class Product : MonoBehaviour, IInteractable
     public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
-    public List<Behaviour> DisableOnPlacement => null;
+    public List<Component> DisableOnPlacement => null;
 
     public string productId;
     [SerializeField] private bool isInteractable = true;

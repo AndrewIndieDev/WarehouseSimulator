@@ -108,7 +108,7 @@ public class InteractionController : MonoBehaviour
 
                 acceptable = true;
 
-                ToggleBehaviours(currentHeld.DisableOnPlacement, false);
+                ToggleComponents(currentHeld.DisableOnPlacement, false);
             }
             else
             {
@@ -119,7 +119,7 @@ public class InteractionController : MonoBehaviour
 
                 acceptable = false;
 
-                ToggleBehaviours(currentHeld.DisableOnPlacement, true);
+                ToggleComponents(currentHeld.DisableOnPlacement, true);
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -131,7 +131,7 @@ public class InteractionController : MonoBehaviour
                 currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 placementRenderer.material = originalMaterial;
                 originalMaterial = null;
-                ToggleBehaviours(currentHeld.DisableOnPlacement, true);
+                ToggleComponents(currentHeld.DisableOnPlacement, true);
                 currentHeld = null;
             }
         }
@@ -147,6 +147,7 @@ public class InteractionController : MonoBehaviour
             {
                 placementRenderer.material = originalMaterial;
                 originalMaterial = null;
+                ToggleComponents(currentHeld.DisableOnPlacement, true);
             }
         }
     }
@@ -177,11 +178,16 @@ public class InteractionController : MonoBehaviour
         // TODO
     }
 
-    private void ToggleBehaviours(List<Behaviour> components, bool enabled)
+    private void ToggleComponents(List<Component> components, bool enabled)
     {
-        foreach (Behaviour component in components)
+        foreach (Component component in components)
         {
-            component.enabled = enabled;
+            MeshRenderer mr = (component as MeshRenderer);
+            Collider col = (component as Collider);
+            if (mr != null)
+                mr.enabled = enabled;
+            else if (col != null)
+                col.enabled = enabled;
         }
     }
 }

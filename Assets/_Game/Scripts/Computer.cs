@@ -16,7 +16,7 @@ public class Computer : MonoBehaviour, IInteractable
     public Transform Seat => null;
     public bool IsInteractable => true;
     public bool IsHeld => false;
-    public List<Behaviour> DisableOnPlacement => null;
+    public List<Component> DisableOnPlacement => null;
 
     private VisualElement ui;
     private Button shopApp;
