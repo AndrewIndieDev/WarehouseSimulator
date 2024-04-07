@@ -180,6 +180,8 @@ public class InteractionController : MonoBehaviour
 
     private void ToggleComponents(List<Component> components, bool enabled)
     {
+        if (components == null)
+            return;
         foreach (Component component in components)
         {
             MeshRenderer mr = (component as MeshRenderer);
