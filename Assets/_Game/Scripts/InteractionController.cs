@@ -155,6 +155,11 @@ public class InteractionController : MonoBehaviour
 
     private void HandlePickup()
     {
+        if (currentHover.Type == InteractableType.None)
+        {
+            currentHover.OnInteract(InteractType.Default);
+            return;
+        }
         if (currentHeld == null)
         {
             currentHover.OnInteract(InteractType.Default);

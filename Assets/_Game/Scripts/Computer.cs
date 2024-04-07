@@ -65,7 +65,7 @@ public class Computer : MonoBehaviour, IInteractable
 
     public void OnInteract(InteractType interactType)
     {
-        FindObjectOfType<MovementController>().AddControlTaker("Computer");
+        FindFirstObjectByType<MovementController>().AddControlTaker("Computer");
         uiDocument.enabled = true;
     }
 }
