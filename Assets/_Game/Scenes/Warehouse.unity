@@ -2725,6 +2725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 483629621}
   - component: {fileID: 483629620}
+  - component: {fileID: 483629622}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2749,61 +2750,61 @@ MonoBehaviour:
     type: 1
     name: Gold
     icon: {fileID: -6090568113533005507, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 10000
     data: {fileID: 2100000, guid: 4cfe2302eacbd024a9ebbfaae130509c, type: 2}
   - id: material_gravel
     type: 1
     name: Gravel
     icon: {fileID: -6527069497977903076, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 10000
     data: {fileID: 2100000, guid: bece104fc301ed343b80667b78ae491b, type: 2}
   - id: material_lavarock
     type: 1
     name: Lava Rock
     icon: {fileID: 6936960519852013934, guid: 0a80e9d1d01e5ee4098765964307344b, type: 3}
-    price: 1
+    price: 10000
     data: {fileID: 2100000, guid: 3e1fb89b928340b4383f55bd3b596b1f, type: 2}
   - id: material_marble
     type: 1
     name: Marble
     icon: {fileID: 4154780841294389669, guid: 0a80e9d1d01e5ee4098765964307344b, type: 3}
-    price: 1
+    price: 10000
     data: {fileID: 2100000, guid: 79fbf58f695dafa4b8b9ee2eb20dced7, type: 2}
   - id: material_metallic
     type: 1
     name: Metallic
     icon: {fileID: 1169890249420208065, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 10000
     data: {fileID: 2100000, guid: 088300cdef53eb84db502385a40481b8, type: 2}
   - id: sound_boo
     type: 2
     name: Boo
     icon: {fileID: 4584671053970592468, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 4000
     data: {fileID: 8300000, guid: 2bab8cc5f6111c84dbfd6a1728d75d53, type: 3}
   - id: sound_crowdclap
     type: 2
     name: Crowd Clap
     icon: {fileID: 2346436936791262179, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 4000
     data: {fileID: 8300000, guid: c96dc51093a330346846d5eb83132df9, type: 3}
   - id: sound_burp
     type: 2
     name: Burp
     icon: {fileID: -1087164816274819069, guid: 005a4d93fe924f84f99a30de7b0e3b5e, type: 3}
-    price: 1
+    price: 4000
     data: {fileID: 8300000, guid: 556056c7e1c8c7f488dd9e0e10cfeeae, type: 3}
   - id: sound_chew
     type: 2
     name: Chew
     icon: {fileID: -2236324273849735119, guid: 0a80e9d1d01e5ee4098765964307344b, type: 3}
-    price: 1
+    price: 4000
     data: {fileID: 8300000, guid: 2a36033c9f74e5b46ba1be4b08e4de40, type: 3}
   - id: sound_malescream
     type: 2
     name: Male Scream
     icon: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
-    price: 1
+    price: 4000
     data: {fileID: 8300000, guid: 3e86cffdf142a8246a9542ee8eaeb50a, type: 3}
   materialPrefab: {fileID: 497700003294900482, guid: 259d17aae5cddd645b00c4aba59e2663,
     type: 3}
@@ -2829,6 +2830,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &483629622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483629619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4fede0b108d3c4f8f6b4964c747751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: 0
+  respawnProduct: {fileID: 483629621}
 --- !u!1001 &485053473
 PrefabInstance:
   m_ObjectHideFlags: 0

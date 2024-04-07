@@ -77,6 +77,15 @@ public class Product : MonoBehaviour, IInteractable
         ProductManager.Instance.AddProductCount(productId, 1);
     }
 
+    private void Update()
+    {
+        if (transform.position.y < -10)
+        {
+            rb.linearVelocity = Vector3.zero;
+            transform.position = GameManager.Instance.RespawnPosition;
+        }
+    }
+
     private void OnDestroy()
     {
         ProductManager.Instance.RemoveProductCount(productId, 1);

@@ -68,7 +68,7 @@ public class ProductItem
     public EProductType type;
     public string name;
     public Texture2D icon;
-    public float price;
+    public long price;
     public UnityEngine.Object data;
 }
 
@@ -112,8 +112,11 @@ public class ProductManager : MonoBehaviour
     {
         if (productData.TryGetValue(id, out var value))
         {
-            value.transitCount += count;
-            SpawnProductPrefab(id, transform.position, transform.rotation);
+            if (GameManager.Instance.BuyProduct(productItemDictionary[id].price * count))
+            {
+                value.transitCount += count;
+                SpawnProductPrefab(id, transform.position, transform.rotation);
+            }
         }
     }
     
