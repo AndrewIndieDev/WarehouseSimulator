@@ -26,7 +26,11 @@ public class Computer : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        enabled = false;
+        
         ui = uiDocument.rootVisualElement;
+        ui.style.display = DisplayStyle.None;
+        
         shopApp = ui.Q<Button>("ShopApp");
         shopCloseButton = ui.Q<Button>("ShopCloseButton");;
         shopWindow = ui.Q<VisualElement>("ShopWindow");
@@ -37,6 +41,16 @@ public class Computer : MonoBehaviour, IInteractable
         foreach (ProductItem item in ProductManager.Instance.productItems)
         {
             AddShopItem(item);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            enabled = false;
+            FindFirstObjectByType<MovementController>().RemoveControlTaker("Computer");
+            ui.style.display = DisplayStyle.None;
         }
     }
 
@@ -66,6 +80,7 @@ public class Computer : MonoBehaviour, IInteractable
     public void OnInteract(InteractType interactType)
     {
         FindFirstObjectByType<MovementController>().AddControlTaker("Computer");
-        uiDocument.enabled = true;
+        enabled = true;
+        ui.style.display = DisplayStyle.Flex;
     }
 }
