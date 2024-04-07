@@ -8,6 +8,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private IInteractable currentHeld;
     [SerializeField] private IInteractable currentHover;
     [SerializeField] private LayerMask interactionLayer;
+    [SerializeField] private LayerMask placementLayers;
     [SerializeField] private Material acceptablePlacementMaterial;
     [SerializeField] private Material unacceptablePlacementMaterial;
     [SerializeField] private Material originalMaterial;
@@ -99,7 +100,7 @@ public class InteractionController : MonoBehaviour
                 originalMaterial = placementRenderer.material;
 
             bool acceptable = false;
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 5f))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 5f, placementLayers))
             {
                 currentHeld.Transform.parent = null;
                 currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
