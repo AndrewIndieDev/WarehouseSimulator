@@ -7,12 +7,18 @@ public class ForkliftController : MonoBehaviour
     [SerializeField] private float motorTorque = 100.0f;
     [SerializeField] private float brakeForce = 30.0f;
     [SerializeField] private float maxSteerAngle = 45.0f;
-
+    //0.14 > 1.72
     [Header("Lift")]
     [SerializeField] private Transform lift;
     [SerializeField] private float speedLift;
     [SerializeField] private float maxDownLift = 2.4f;
     [SerializeField] private float maxUpLift = 9.5f;
+
+    [Header("Lift Middle")]
+    [SerializeField] private Transform liftMiddle;
+    [SerializeField] private float speedLiftMiddle;
+    [SerializeField] private float maxDownLiftMiddle = 2.4f;
+    [SerializeField] private float maxUpLiftMiddle = 9.5f;
 
     [Header("Collider")]
     [SerializeField] private WheelCollider frontLeftWheelCollider;
@@ -70,8 +76,8 @@ public class ForkliftController : MonoBehaviour
 
     private void HandlTorque()
     {
-        frontLeftWheelCollider.motorTorque = verticalInput * motorTorque;
-        frontRightWheelCollider.motorTorque = verticalInput * motorTorque;
+        //frontLeftWheelCollider.motorTorque = verticalInput * motorTorque;
+        //frontRightWheelCollider.motorTorque = verticalInput * motorTorque;
         rearLeftWheelCollider.motorTorque = verticalInput * motorTorque;
         rearRightWheelCollider.motorTorque = verticalInput * motorTorque;
 
@@ -108,17 +114,26 @@ public class ForkliftController : MonoBehaviour
     private void HandleLift()
     {
         float y = lift.localPosition.y;
+        float yMiddle = liftMiddle.localPosition.y;
         if (isLiftUp)
         {
             y += speedLift * Time.deltaTime;
             y = Mathf.Clamp(y, maxDownLift, maxUpLift);
             lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
+
+            yMiddle += speedLiftMiddle * Time.deltaTime;
+            yMiddle = Mathf.Clamp(yMiddle, maxDownLiftMiddle, maxUpLiftMiddle);
+            liftMiddle.localPosition = new Vector3(liftMiddle.localPosition.x, yMiddle, liftMiddle.localPosition.z);
         }
         else if (isLiftDown)
         {
             y -= speedLift * Time.deltaTime;
             y = Mathf.Clamp(y, maxDownLift, maxUpLift);
             lift.localPosition = new Vector3(lift.localPosition.x, y, lift.localPosition.z);
+
+            yMiddle -= speedLiftMiddle * Time.deltaTime;
+            yMiddle = Mathf.Clamp(yMiddle, maxDownLiftMiddle, maxUpLiftMiddle);
+            liftMiddle.localPosition = new Vector3(liftMiddle.localPosition.x, yMiddle, liftMiddle.localPosition.z);
         }
     }
 }
