@@ -42,7 +42,7 @@ Camera:
   m_GameObject: {fileID: 2572794201460321819}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 3468918468544320799}
   - component: {fileID: 6032640953932947455}
   - component: {fileID: 6839855954745479735}
+  - component: {fileID: 299868660976603360}
   m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
@@ -349,7 +350,6 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -394,8 +394,28 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 8192
+  placementLayers:
+    serializedVersion: 2
+    m_Bits: 8193
   acceptablePlacementMaterial: {fileID: 2100000, guid: ca8c803904b011f4b97cf6133179e7dc,
     type: 2}
   unacceptablePlacementMaterial: {fileID: 2100000, guid: e5b045b9858077b499f8fd48381cb852,
     type: 2}
   originalMaterial: {fileID: 0}
+--- !u!114 &299868660976603360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258456458544590089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 909d917d73a63f940ac158d02e936645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  canPush: 0
+  strength: 1.1
