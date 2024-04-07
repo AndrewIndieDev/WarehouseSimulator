@@ -21,11 +21,12 @@ public class ProductManagerEditor : Editor
 
         
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("id", GUILayout.Width(Screen.width/5.0f - 8));
-        GUILayout.Label("name", GUILayout.Width(Screen.width/5.0f - 8));
-        GUILayout.Label("icon", GUILayout.Width(Screen.width/5.0f - 8));
-        GUILayout.Label("prefab", GUILayout.Width(Screen.width/5.0f - 8));
-        GUILayout.Label("price", GUILayout.Width(Screen.width/5.0f - 8));
+        GUILayout.Label("id", GUILayout.Width(Screen.width/6.0f - 8));
+        GUILayout.Label("type", GUILayout.Width(Screen.width/6.0f - 8));
+        GUILayout.Label("name", GUILayout.Width(Screen.width/6.0f - 8));
+        GUILayout.Label("icon", GUILayout.Width(Screen.width/6.0f - 8));
+        GUILayout.Label("price", GUILayout.Width(Screen.width/6.0f - 8));
+        GUILayout.Label("data", GUILayout.Width(Screen.width/6.0f - 8));
         EditorGUILayout.EndHorizontal();
         
         for (var i = 0; i < productManager.productItems.Count; i++)
@@ -39,6 +40,7 @@ public class ProductManagerEditor : Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("name"), new GUIContent());
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("icon"), new GUIContent());
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("price"), new GUIContent());
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("data"), new GUIContent());
             EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
         }
@@ -65,6 +67,7 @@ public class ProductItem
     public string name;
     public Texture2D icon;
     public float price;
+    public UnityEngine.Object data;
 }
 
 [System.Serializable]
