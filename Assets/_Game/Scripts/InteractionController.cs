@@ -158,6 +158,7 @@ public class InteractionController : MonoBehaviour
         if (currentHover != null && currentHover.Type == InteractableType.None)
         {
             currentHover.OnInteract(InteractType.Default);
+            currentHover = null;
             return;
         }
         if (currentHeld == null)
