@@ -2629,6 +2629,67 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 478657342}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &483629619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 483629621}
+  - component: {fileID: 483629620}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &483629620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483629619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df17cf69641d814fb2e30dfb6857809, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productItems:
+  - productID: milk
+    productName: Milk
+    productIcon: {fileID: -4528830608231651361, guid: 005a4d93fe924f84f99a30de7b0e3b5e,
+      type: 3}
+    productPrefab: {fileID: 0}
+    price: 123
+  - productID: bread
+    productName: Bread
+    productIcon: {fileID: 2800000, guid: dbcdeea94862bfa4b9f12cd9556ba1ea, type: 3}
+    productPrefab: {fileID: 0}
+    price: 14141
+  - productID: sushi
+    productName: Sushi
+    productIcon: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+    productPrefab: {fileID: 0}
+    price: 0.01
+--- !u!4 &483629621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483629619}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.9488144, y: -5.7489204, z: 22.314507}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &485053473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12366,6 +12427,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 483629621}
   - {fileID: 1160234427}
   - {fileID: 37421208}
   - {fileID: 590895982}

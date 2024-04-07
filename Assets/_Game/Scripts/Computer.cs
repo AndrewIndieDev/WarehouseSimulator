@@ -32,13 +32,22 @@ public class Computer : MonoBehaviour, IInteractable
         shopWindow = ui.Q<VisualElement>("ShopWindow");
         shopList = ui.Q<ScrollView>("ShopList");
         shopApp.clicked += () => { shopWindow.visible = true; }; 
-        shopCloseButton.clicked += () => { shopWindow.visible = false; }; 
-        for(int i = 0; i < 10; i++)
+        shopCloseButton.clicked += () => { shopWindow.visible = false; };
+
+        foreach (ProductItem item in ProductManager.Instance.productItems)
         {
-            var shopItemInstance = shopItem.CloneTree();
-            shopItemInstance.name = "Item" + i;
-            shopList.Add(shopItemInstance);
+            AddShopItem(item);
         }
+    }
+
+    private void AddShopItem(ProductItem productItem)
+    {
+        var shopItemInstance = shopItem.CloneTree();
+        shopItemInstance.name = productItem.id;
+        shopItemInstance.Q<Label>("DisplayNameText").text = productItem.name;
+        shopItemInstance.Q<Label>("PriceText").text = "$" + productItem.price.ToString("0.00");
+        shopItemInstance.Q<VisualElement>("DisplayIcon").style.backgroundImage = new StyleBackground(productItem.icon);
+        shopList.Add(shopItemInstance);
     }
 
     public void OnHoverEnter()
