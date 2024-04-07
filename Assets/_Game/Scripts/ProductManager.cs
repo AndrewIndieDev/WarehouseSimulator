@@ -84,6 +84,14 @@ public class ProductManager : MonoBehaviour
         }
     }
     
+    public void OrderProduct(string id, int count)
+    {
+        if (productData.TryGetValue(id, out var value))
+        {
+            value.transitCount += count;
+        }
+    }
+    
     public void AddProductCount(string id, int count)
     {
         if (productData.TryGetValue(id, out var value))

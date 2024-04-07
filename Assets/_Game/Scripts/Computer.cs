@@ -28,7 +28,7 @@ public class Computer : MonoBehaviour, IInteractable
     {
         ui = uiDocument.rootVisualElement;
         shopApp = ui.Q<Button>("ShopApp");
-        shopCloseButton = ui.Q<Button>("ShopCloseButton");
+        shopCloseButton = ui.Q<Button>("ShopCloseButton");;
         shopWindow = ui.Q<VisualElement>("ShopWindow");
         shopList = ui.Q<ScrollView>("ShopList");
         shopApp.clicked += () => { shopWindow.visible = true; }; 
@@ -47,6 +47,9 @@ public class Computer : MonoBehaviour, IInteractable
         shopItemInstance.Q<Label>("DisplayNameText").text = productItem.name;
         shopItemInstance.Q<Label>("PriceText").text = "$" + productItem.price.ToString("0.00");
         shopItemInstance.Q<VisualElement>("DisplayIcon").style.backgroundImage = new StyleBackground(productItem.icon);
+        shopItemInstance.Q<UITextBindLabel>("InStockText").dataSource = ProductManager.Instance.productData[productItem.id];
+        shopItemInstance.Q<UITextBindLabel>("InTransitText").dataSource = ProductManager.Instance.productData[productItem.id];
+        shopItemInstance.Q<Button>("OrderButton").clicked += () => { ProductManager.Instance.OrderProduct(productItem.id, 1); };
         shopList.Add(shopItemInstance);
     }
 
