@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class Product_Material : Product
+public class Product_Sprite : Product
 {
-    [Header("Material Specific")]
+    [Header("Sprite Specific")]
     [SerializeField] private MeshRenderer meshRenderer;
-    public Material material;
+    public Sprite sprite;
 
     protected override void Start()
     {
         base.Start();
         if (meshRenderer != null)
         {
-            meshRenderer.material = material;
+            meshRenderer.material.SetTexture("_MainTex", sprite.texture);
         }
     }
 }

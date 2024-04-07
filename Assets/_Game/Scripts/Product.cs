@@ -72,7 +72,7 @@ public class Product : MonoBehaviour, IInteractable
         Collider.enabled = true;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         ProductManager.Instance.AddProductCount(productId, 1);
     }

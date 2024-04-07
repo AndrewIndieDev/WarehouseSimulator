@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Audio;
+
 
 #if UNITY_EDITOR
 
@@ -13,7 +15,7 @@ public class ProductManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        //base.OnInspectorGUI();
+        base.OnInspectorGUI();
         
         // iterate through all productItems and show serialized object id, name, icon, prefab and price horizontally
         
@@ -87,13 +89,22 @@ public class ProductManager : MonoBehaviour
     }
 
     public List<ProductItem> productItems = new List<ProductItem>();
-    public Dictionary<string, ProductData> productData = new Dictionary<string, ProductData>(); 
+    public Dictionary<string, ProductData> productData = new Dictionary<string, ProductData>();
+
+    private Dictionary<string, ProductItem> productItemDictionary = new();
+
+    public GameObject materialPrefab;
+    public GameObject soundPrefab;
+    public GameObject meshPrefab;
+    public GameObject spritePrefab;
+    public GameObject scriptPrefab;
 
     private void Start()
     {
         foreach (var item in productItems)
         {
             productData.Add(item.id, new ProductData() { stockCount = 0, transitCount = 0 });
+            productItemDictionary.Add(item.id, item);
         }
     }
     
@@ -102,6 +113,7 @@ public class ProductManager : MonoBehaviour
         if (productData.TryGetValue(id, out var value))
         {
             value.transitCount += count;
+            SpawnProductPrefab(id, transform.position, transform.rotation);
         }
     }
     
@@ -118,6 +130,40 @@ public class ProductManager : MonoBehaviour
         if (productData.TryGetValue(id, out var value))
         {
             value.stockCount -= count;
+        }
+    }
+
+    public void SpawnProductPrefab(string id, Vector3 position, Quaternion rotation)
+    {
+        if (productItemDictionary.TryGetValue(id, out var value))
+        {
+            switch (value.type)
+            {
+                case EProductType.None:
+                    break;
+                case EProductType.Material:
+                    Product_Material pm = Instantiate(materialPrefab, position, rotation).GetComponent<Product_Material>();
+                    pm.productId = id;
+                    pm.material = value.data as Material;
+                    break;
+                case EProductType.Sound:
+                    Product_Sound ps = Instantiate(soundPrefab, position, rotation).GetComponent<Product_Sound>();
+                    ps.productId = id;
+                    ps.audioResource = value.data as AudioResource;
+                    break;
+                case EProductType.Mesh:
+                    Product_Mesh pmesh = Instantiate(meshPrefab, position, rotation).GetComponent<Product_Mesh>();
+                    pmesh.productId = id;
+                    pmesh.mesh = value.data as Mesh;
+                    break;
+                case EProductType.Sprite:
+                    Product_Sprite psprite = Instantiate(spritePrefab, position, rotation).GetComponent<Product_Sprite>();
+                    psprite.productId = id;
+                    psprite.sprite = value.data as Sprite;
+                    break;
+                case EProductType.Script:
+                    break;
+            }
         }
     }
 }
