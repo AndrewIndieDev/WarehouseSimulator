@@ -50,11 +50,19 @@ public class ProductManagerEditor : Editor
 [System.Serializable]
 public class ProductItem
 {
-    [FormerlySerializedAs("productID")] public string id;
-    [FormerlySerializedAs("productName")] public string name;
-    [FormerlySerializedAs("productIcon")] public Texture2D icon;
-    [FormerlySerializedAs("productPrefab")] public GameObject prefab;
+    public string id;
+    public string name;
+    public Texture2D icon;
+    public GameObject prefab;
     public float price;
+}
+
+[System.Serializable]
+public class ProductData
+{
+    public int stockCount;
+    public int transitCount;
+    public int TotalCount => stockCount + transitCount;
 }
 
 public class ProductManager : MonoBehaviour
@@ -62,9 +70,30 @@ public class ProductManager : MonoBehaviour
     public static ProductManager Instance;
     
     public List<ProductItem> productItems = new List<ProductItem>();
+    public Dictionary<string, ProductData> productData = new Dictionary<string, ProductData>(); 
 
     private void Start()
     {
         Instance = this;
+        foreach (var item in productItems)
+        {
+            productData.Add(item.id, new ProductData() { stockCount = 0, transitCount = 0 });
+        }
+    }
+    
+    public void AddProductCount(string id, int count)
+    {
+        if (productData.TryGetValue(id, out var value))
+        {
+            value.stockCount += count;
+        }
+    }
+    
+    public void RemoveProductCount(string id, int count)
+    {
+        if (productData.TryGetValue(id, out var value))
+        {
+            value.stockCount -= count;
+        }
     }
 }
