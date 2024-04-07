@@ -12,14 +12,19 @@ public class DoorControllerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if (!Application.isPlaying) return;
         if (GUILayout.Button("Open"))
         {
-            (target as DoorController)?.Open();
+            if (Application.isPlaying)
+                (target as DoorController)?.Open();
+            else
+                (target as DoorController).doorTransform.localPosition = (target as DoorController).openPosition;
         }
         if (GUILayout.Button("Close"))
         {
-            (target as DoorController)?.Close();
+            if (Application.isPlaying)
+                (target as DoorController)?.Close();
+            else
+                (target as DoorController).doorTransform.localPosition = (target as DoorController).closePosition;
         }
     }
 }
@@ -29,18 +34,24 @@ public class DoorControllerEditor : Editor
 public class DoorController : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private Transform doorTransform;
-    [SerializeField] private Vector3 openPosition;
-    [SerializeField] private Vector3 closePosition;
+    public Transform doorTransform;
+    public Vector3 openPosition;
+    public Vector3 closePosition;
     [SerializeField] private AudioClip openSound;
     [SerializeField] private AudioClip closeSound;
     [SerializeField] private AnimationCurve openCurve;
     [SerializeField] private float openTime = 5f;
 
+    [HideInInspector] public bool isInTransition = false;
+    [HideInInspector] public bool isOpen = false;
+    
+
     public void Open()
     {
         audioSource.clip = openSound;
         audioSource.Play();
+        isInTransition = true;
+        isOpen = true;
         StartCoroutine(OpenDoor());
     }
     
@@ -48,7 +59,17 @@ public class DoorController : MonoBehaviour
     {
         audioSource.clip = closeSound;
         audioSource.Play();
+        isInTransition = true;
+        isOpen = false;
         StartCoroutine(CloseDoor());
+    }
+
+    public void ToggleOpen()
+    {
+        if (isOpen)
+            Close();
+        else
+            Open();
     }
     
     IEnumerator OpenDoor()
@@ -61,6 +82,7 @@ public class DoorController : MonoBehaviour
             doorTransform.localPosition = Vector3.Lerp(closePosition, openPosition, openCurve.Evaluate(i / openTime));
             yield return null;
         }
+        isInTransition = false;
     }
 
     IEnumerator CloseDoor()
@@ -73,5 +95,6 @@ public class DoorController : MonoBehaviour
             doorTransform.localPosition = Vector3.Lerp(openPosition, closePosition, openCurve.Evaluate(i / openTime));
             yield return null;
         }
+        isInTransition = false;
     }
 }

@@ -35,9 +35,9 @@ public class ProductManagerEditor : Editor
             serializedObject.Update();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("id"), new GUIContent());
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("type"), new GUIContent());
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("name"), new GUIContent());
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("icon"), new GUIContent());
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("prefab"), new GUIContent());
             EditorGUILayout.PropertyField(serializedObject.FindProperty("productItems").GetArrayElementAtIndex(i).FindPropertyRelative("price"), new GUIContent());
             EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
@@ -47,13 +47,23 @@ public class ProductManagerEditor : Editor
 
 #endif
 
+public enum EProductType
+{
+    None,
+    Material,
+    Sound,
+    Mesh,
+    Sprite,
+    Script
+}
+
 [System.Serializable]
 public class ProductItem
 {
     public string id;
+    public EProductType type;
     public string name;
     public Texture2D icon;
-    public GameObject prefab;
     public float price;
 }
 
