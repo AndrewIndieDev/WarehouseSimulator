@@ -21,7 +21,7 @@ public class InteractionController : MonoBehaviour
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 2f, interactionLayer))
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                if (interactable != null && currentHover != interactable)
+                if (interactable != null && currentHover != interactable && interactable.IsInteractable)
                 {
                     currentHover?.OnHoverExit();
                     interactable.OnHoverEnter();
