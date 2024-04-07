@@ -68,13 +68,16 @@ public class ProductData
 public class ProductManager : MonoBehaviour
 {
     public static ProductManager Instance;
-    
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public List<ProductItem> productItems = new List<ProductItem>();
     public Dictionary<string, ProductData> productData = new Dictionary<string, ProductData>(); 
 
     private void Start()
     {
-        Instance = this;
         foreach (var item in productItems)
         {
             productData.Add(item.id, new ProductData() { stockCount = 0, transitCount = 0 });
