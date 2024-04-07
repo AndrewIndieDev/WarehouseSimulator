@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Container : MonoBehaviour, IInteractable
@@ -9,6 +10,7 @@ public class Container : MonoBehaviour, IInteractable
     public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
+    public List<Behaviour> DisableOnPlacement => disableOnPlacement;
 
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isHeld = false;
@@ -19,6 +21,7 @@ public class Container : MonoBehaviour, IInteractable
     [SerializeField] private IInteractable containedItem;
     [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
+    [SerializeField] private List<Behaviour> disableOnPlacement = new();
 
     public void OnInteract(InteractType interactType)
     {

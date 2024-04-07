@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum InteractableType
@@ -27,4 +28,5 @@ public interface IInteractable
     public void OnHoverEnter();
     public void OnHoverExit();
     public void OnInteract(InteractType interactType);
+    public List<Behaviour> DisableOnPlacement { get; }
 }

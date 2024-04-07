@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionController : MonoBehaviour
@@ -7,6 +8,10 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private IInteractable currentHeld;
     [SerializeField] private IInteractable currentHover;
     [SerializeField] private LayerMask interactionLayer;
+    [SerializeField] private Material acceptablePlacementMaterial;
+    [SerializeField] private Material unacceptablePlacementMaterial;
+    [SerializeField] private Material originalMaterial;
+    [SerializeField] private MeshRenderer placementRenderer => currentHeld != null ? currentHeld.Transform.GetComponentInChildren<MeshRenderer>() : null;
 
     void Update()
     {
@@ -84,6 +89,66 @@ public class InteractionController : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetMouseButton(1)) // Right click held
+        {
+            if (currentHeld == null)
+                return;
+            
+            if (originalMaterial == null)
+                originalMaterial = placementRenderer.material;
+
+            bool acceptable = false;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 5f))
+            {
+                currentHeld.Transform.parent = null;
+                currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
+                
+                placementRenderer.material = acceptablePlacementMaterial;
+
+                acceptable = true;
+
+                ToggleBehaviours(currentHeld.DisableOnPlacement, false);
+            }
+            else
+            {
+                currentHeld.Transform.parent = heldItemSlot;
+                currentHeld.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                
+                placementRenderer.material = originalMaterial;
+
+                acceptable = false;
+
+                ToggleBehaviours(currentHeld.DisableOnPlacement, true);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!acceptable)
+                    return;
+                currentHeld.OnInteract(InteractType.Default);
+                currentHeld.Transform.parent = null;
+                currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
+                placementRenderer.material = originalMaterial;
+                originalMaterial = null;
+                ToggleBehaviours(currentHeld.DisableOnPlacement, true);
+                currentHeld = null;
+            }
+        }
+        else
+        {
+            if (currentHeld == null)
+                return;
+
+            currentHeld.Transform.parent = heldItemSlot;
+            currentHeld.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+            if (originalMaterial != null)
+            {
+                placementRenderer.material = originalMaterial;
+                originalMaterial = null;
+            }
+        }
     }
 
     private void HandlePickup()
@@ -93,7 +158,7 @@ public class InteractionController : MonoBehaviour
             currentHover.OnInteract(InteractType.Default);
             currentHover.Transform.parent = heldItemSlot;
             currentHover.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            currentHover.Collider.enabled = false;
+            //currentHover.Collider.enabled = false;
             currentHeld = currentHover;
             currentHover = null;
         }
@@ -102,7 +167,7 @@ public class InteractionController : MonoBehaviour
             currentHeld.OnInteract(InteractType.Default);
             currentHeld.Transform.parent = null;
             currentHeld.Transform.SetPositionAndRotation(cam.transform.position + cam.transform.forward * 0.75f, Quaternion.identity);
-            currentHeld.Collider.enabled = true;
+            //currentHeld.Collider.enabled = true;
             currentHeld = null;
         }
     }
@@ -110,5 +175,13 @@ public class InteractionController : MonoBehaviour
     private void HandleVehicle()
     {
         // TODO
+    }
+
+    private void ToggleBehaviours(List<Behaviour> components, bool enabled)
+    {
+        foreach (Behaviour component in components)
+        {
+            component.enabled = enabled;
+        }
     }
 }
