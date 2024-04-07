@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,5 +70,15 @@ public class Product : MonoBehaviour, IInteractable
         isHeld = false;
         rb.isKinematic = false;
         Collider.enabled = true;
+    }
+
+    private void Start()
+    {
+        ProductManager.Instance.AddProductCount(productId, 1);
+    }
+
+    private void OnDestroy()
+    {
+        ProductManager.Instance.RemoveProductCount(productId, 1);
     }
 }
