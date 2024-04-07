@@ -33,6 +33,7 @@ public class MovementController : MonoBehaviour
 
     public void AddControlTaker(string id)
     {
+        if (currentControlTakers.Contains(id)) return;
         currentControlTakers.Add(id);
         hasControl = currentControlTakers.Count <= 0;
         Cursor.lockState = hasControl ? CursorLockMode.Locked : CursorLockMode.None;

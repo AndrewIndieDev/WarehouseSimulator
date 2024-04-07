@@ -90,8 +90,7 @@ public class ProductManager : MonoBehaviour
 
     public List<ProductItem> productItems = new List<ProductItem>();
     public Dictionary<string, ProductData> productData = new Dictionary<string, ProductData>();
-
-    private Dictionary<string, ProductItem> productItemDictionary = new();
+    public Dictionary<string, ProductItem> productItemDictionary = new();
 
     public GameObject materialPrefab;
     public GameObject soundPrefab;
