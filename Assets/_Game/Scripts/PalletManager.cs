@@ -35,4 +35,27 @@ public class PalletManager : MonoBehaviour
         // Unable to find enough space, remainder will need to be refunded, or needs to be rolled over to next order
         return amount;
     }
+
+
+    /// <summary>
+    /// REMOVE THIS LATER WHEN THE ORDERS CAN BE COMPLETED WITH UI
+    /// </summary>
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.R))
+        {
+            EnableOrderPhysics();
+        }
+    }
+
+    public void EnableOrderPhysics()
+    {
+        foreach (Pallet pallet in pallets)
+        {
+            foreach (KeyValuePair<int, Container> container in pallet.Containers)
+            {
+                container.Value.UnFreezeContainer();
+            }
+        }
+    }
 }

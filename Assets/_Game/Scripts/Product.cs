@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Product : MonoBehaviour, IInteractable
@@ -29,14 +30,12 @@ public class Product : MonoBehaviour, IInteractable
                 if (!isHeld) // If the object we are interacting with is not held
                 {
                     isHeld = true;
-                    rb.isKinematic = true;
-                    Collider.enabled = false;
+                    FreezeProduct();
                 }
                 else // If the object we are interacting with is held
                 {
                     isHeld = false;
-                    rb.isKinematic = false;
-                    Collider.enabled = true;
+                    UnFreezeProduct();
                 }
                 break;
             case InteractType.PlaceInContainer:
@@ -45,6 +44,18 @@ public class Product : MonoBehaviour, IInteractable
                 Collider.enabled = false;
                 break;
         }
+    }
+
+    public void FreezeProduct()
+    {
+        rb.isKinematic = true;
+        Collider.enabled = false;
+    }
+
+    public void UnFreezeProduct()
+    {
+        rb.isKinematic = false;
+        Collider.enabled = true;
     }
 
     public void OnHoverEnter()
@@ -60,18 +71,18 @@ public class Product : MonoBehaviour, IInteractable
     public void PutInside(Transform newParent)
     {
         transform.parent = newParent;
-        transform.SetPositionAndRotation(newParent.position, newParent.rotation);
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         transform.localScale = Vector3.zero;
+        FreezeProduct();
     }
 
     public void TakeOut()
     {
         transform.localScale = Vector3.one;
         transform.parent = null;
-        transform.SetLocalPositionAndRotation(transform.position + Transform.up * 0.5f, Quaternion.identity);
+        //transform.SetLocalPositionAndRotation(transform.position + Transform.up * 0.5f, Quaternion.identity);
         isHeld = false;
-        rb.isKinematic = false;
-        Collider.enabled = true;
+        UnFreezeProduct();
     }
     
     protected virtual void Start()

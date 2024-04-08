@@ -40,15 +40,13 @@ public class Container : MonoBehaviour, IInteractable
                 if (!isHeld) // If the object we are interacting with is not held
                 {
                     isHeld = true;
-                    rb.isKinematic = true;
-                    Collider.enabled = false;
+                    FreezeContainer();
                     OnPickupContainer?.Invoke(this);
                 }
                 else // If the object we are interacting with is held
                 {
                     isHeld = false;
-                    rb.isKinematic = false;
-                    Collider.enabled = true;
+                    UnFreezeContainer();
                 }
                 break;
             case InteractType.PlaceInContainer:
@@ -125,5 +123,17 @@ public class Container : MonoBehaviour, IInteractable
         {
             displayParent.gameObject.SetActive(false);
         }
+    }
+
+    public void FreezeContainer()
+    {
+        rb.isKinematic = true;
+        Collider.enabled = false;
+    }
+
+    public void UnFreezeContainer()
+    {
+        rb.isKinematic = false;
+        Collider.enabled = true;
     }
 }

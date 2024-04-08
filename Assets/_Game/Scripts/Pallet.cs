@@ -10,13 +10,13 @@ public class Pallet : MonoBehaviour
             return containerSlotParent.childCount;
         }
     }
-    private int TotalContainersSpawned => containers.Count;
+    private int TotalContainersSpawned => Containers.Count;
 
     [SerializeField] private Transform containerSlotParent;
     [SerializeField] private Container containerPrefab;
     [SerializeField] private Transform palletVisualsParent;
 
-    private Dictionary<int, Container> containers = new();
+    public Dictionary<int, Container> Containers = new();
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class Pallet : MonoBehaviour
             if (TotalContainersSpawned < MaxContainerCount)
             {
                 Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
-                containers.Add(TotalContainersSpawned + 1, container);
+                Containers.Add(TotalContainersSpawned, container);
                 container.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 PlaceProductInContainer(container, productId, 10);
                 amount -= 10;
@@ -61,7 +61,7 @@ public class Pallet : MonoBehaviour
         if (TotalContainersSpawned < MaxContainerCount)
         {
             Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
-            containers.Add(TotalContainersSpawned + 1, container);
+            Containers.Add(TotalContainersSpawned, container);
             container.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             PlaceProductInContainer(container, productId, amount);
             amount = 0;
@@ -73,7 +73,7 @@ public class Pallet : MonoBehaviour
     private List<Container> FindAllContainersWithProduct(string productId)
     {
         List<Container> containersWithProduct = new();
-        foreach (Container container in containers.Values)
+        foreach (Container container in Containers.Values)
         {
             if ((container.ContainedItem as Product).productId == productId)
             {
@@ -99,26 +99,25 @@ public class Pallet : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             Product product = ProductManager.Instance.SpawnProductPrefab(productId, container.Transform.position, container.Transform.rotation);
-            product.ProductIcon = ProductManager.Instance.productItemDictionary[productId].icon;
             if (product == null)
             {
                 Debug.LogError($"No product found with id <{productId}>");
                 return;
             }
+            product.ProductIcon = ProductManager.Instance.productItemDictionary[productId].icon;
             container.OnPickupContainer.AddListener(RemoveContainer);
             container.PlaceItemInContainer(product);
-            product.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
     }
 
     private void RemoveContainer(Container toRemove)
     {
         toRemove.OnPickupContainer.RemoveListener(RemoveContainer);
-        foreach (var intContainerPair in containers)
+        foreach (var intContainerPair in Containers)
         {
             if (intContainerPair.Value == toRemove)
             {
-                containers.Remove(intContainerPair.Key);
+                Containers.Remove(intContainerPair.Key);
                 break;
             }
         }
