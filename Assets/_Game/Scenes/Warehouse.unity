@@ -6361,7 +6361,7 @@ PrefabInstance:
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.33241057
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
@@ -6371,37 +6371,37 @@ PrefabInstance:
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9989451
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.045919713
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.0001813029
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.00023724923
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 5.264
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 2686168217605463460, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 0.026
       objectReference: {fileID: 0}
     - target: {fileID: 3318307880018446110, guid: 8a0389506bad1b54f8a1a53f96113eee,
         type: 3}
@@ -9433,6 +9433,9 @@ MonoBehaviour:
   uiDocument: {fileID: 1585400543}
   shopItem: {fileID: 9197481963319205126, guid: b61e58a712fe32f429a09f74dbcfdd5e,
     type: 3}
+  orderItem: {fileID: 9197481963319205126, guid: 5a3d5161ea61bbf47addd1956c94d794,
+    type: 3}
+  defaultProfileImage: {fileID: 2800000, guid: 9ed685abde1e0f440ae0bae570e70e24, type: 3}
 --- !u!64 &1585400545
 MeshCollider:
   m_ObjectHideFlags: 0

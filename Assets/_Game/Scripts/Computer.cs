@@ -6,8 +6,12 @@ using UnityEngine.UIElements;
 
 public class Computer : MonoBehaviour, IInteractable
 {
+    public static Computer Instance;
+    
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private VisualTreeAsset shopItem;
+    [SerializeField] private VisualTreeAsset orderItem;
+    [SerializeField] private Texture2D defaultProfileImage;
     
     public InteractableType Type => InteractableType.None;
     public Transform Transform => null;
@@ -20,9 +24,18 @@ public class Computer : MonoBehaviour, IInteractable
 
     private VisualElement ui;
     private Button shopApp;
+    private Button ordersApp;
     private Button shopCloseButton;
+    private Button ordersCloseButton;
     private VisualElement shopWindow;
+    private VisualElement ordersWindow;
     private ScrollView shopList;
+    private ScrollView orderList;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -32,12 +45,18 @@ public class Computer : MonoBehaviour, IInteractable
         ui.style.display = DisplayStyle.None;
         
         shopApp = ui.Q<Button>("ShopApp");
-        shopCloseButton = ui.Q<Button>("ShopCloseButton");;
+        ordersApp = ui.Q<Button>("OrdersApp");
+        shopCloseButton = ui.Q<Button>("ShopCloseButton");
+        ordersCloseButton = ui.Q<Button>("OrdersCloseButton");
         shopWindow = ui.Q<VisualElement>("ShopWindow");
+        ordersWindow = ui.Q<VisualElement>("OrdersWindow");
         shopList = ui.Q<ScrollView>("ShopList");
+        orderList = ui.Q<ScrollView>("OrderList");
         ui.Q<UITextMoneyLabel>("MoneyText").dataSource = GameManager.Instance;
         shopApp.clicked += () => { shopWindow.visible = true; }; 
+        ordersApp.clicked += () => { UpdateOrderList(); ordersWindow.visible = true; };
         shopCloseButton.clicked += () => { shopWindow.visible = false; };
+        ordersCloseButton.clicked += () => { ordersWindow.visible = false; };
 
         foreach (ProductItem item in ProductManager.Instance.productItems)
         {
@@ -67,6 +86,21 @@ public class Computer : MonoBehaviour, IInteractable
         shopItemInstance.Q<UITextMoneyLabel>("PriceText").dataSource = ProductManager.Instance.productItemDictionary[productItem.id];
         shopItemInstance.Q<Button>("OrderButton").clicked += () => { ProductManager.Instance.OrderProduct(productItem.id, 1); };
         shopList.Add(shopItemInstance);
+    }
+
+    public void UpdateOrderList()
+    {
+        orderList.Clear();
+
+        foreach (var order in ProductManager.Instance.onlineOrders)
+        {
+            var orderItemInstance = orderItem.CloneTree();
+            orderItemInstance.Q<VisualElement>("AvatarImage").style.backgroundImage = order.ProfileImage ? order.ProfileImage : defaultProfileImage;
+            orderItemInstance.Q<Label>("SenderName").text = order.Name;
+            orderItemInstance.Q<Label>("SenderMail").text = order.Email;
+            orderItemInstance.Q<Label>("SenderMessage").text = order.Description;
+            orderList.Add(orderItemInstance);
+        }
     }
 
     public void OnHoverEnter()

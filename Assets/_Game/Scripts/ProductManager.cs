@@ -108,24 +108,30 @@ public class ProductManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKey(KeyCode.P))
         {
-            NameGenerator.GenerateName(out string firstname, out string surname, out string email);
-            string name = firstname + " " + surname;
-            Dictionary<string, int> productList = new();
-            int howMany = Random.Range(1, 8);
-            for (int i = 0; i < howMany; i++)
-            {
-                try
-                {
-                    productList.TryAdd(productItems.ToArray().GetRandomElement().id, Random.Range(1, 10));
-                }
-                catch { }
-            }
-            OnlineOrder order = new OnlineOrder(name, email, "Test Description", null, productList);
-            onlineOrders.Add(order);
-            Debug.Log($"Name: {name} | Email: {email} | Description: {order.Description} | Products: {order.Order.Keys.Count}");
+            GenerateNewRandomOrder();
         }
+    }
+    
+    public void GenerateNewRandomOrder()
+    {
+        NameGenerator.GenerateName(out string firstname, out string surname, out string email);
+        string name = firstname + " " + surname;
+        Dictionary<string, int> productList = new();
+        int howMany = Random.Range(1, 8);
+        for (int i = 0; i < howMany; i++)
+        {
+            try
+            {
+                productList.TryAdd(productItems.ToArray().GetRandomElement().id, Random.Range(1, 10));
+            }
+            catch { }
+        }
+        OnlineOrder order = new OnlineOrder(name, email, "Test Description", null, productList);
+        onlineOrders.Add(order);
+        Debug.Log($"Name: {name} | Email: {email} | Description: {order.Description} | Products: {order.Order.Keys.Count}");
+        Computer.Instance.UpdateOrderList();
     }
 
     public void OrderProduct(string id, int count)
@@ -202,11 +208,11 @@ public class OnlineOrder
     public string Name;
     public string Email;
     public string Description;
-    public Sprite ProfileImage;
+    public Texture2D ProfileImage;
     public Dictionary<string, int> Order;
 
 
-    public OnlineOrder(string name, string email, string description, Sprite profileImage, Dictionary<string, int> order)
+    public OnlineOrder(string name, string email, string description, Texture2D profileImage, Dictionary<string, int> order)
     {
         Name = name;
         Email = email;
