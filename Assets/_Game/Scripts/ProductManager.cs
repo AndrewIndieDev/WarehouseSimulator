@@ -95,6 +95,8 @@ public class ProductManager : MonoBehaviour
     public GameObject spritePrefab;
     public GameObject scriptPrefab;
 
+    public List<OnlineOrder> onlineOrders = new();
+
     private void Start()
     {
         foreach (var item in productItems)
@@ -103,7 +105,29 @@ public class ProductManager : MonoBehaviour
             productItemDictionary.Add(item.id, item);
         }
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            NameGenerator.GenerateName(out string firstname, out string surname, out string email);
+            string name = firstname + " " + surname;
+            Dictionary<string, int> productList = new();
+            int howMany = Random.Range(1, 8);
+            for (int i = 0; i < howMany; i++)
+            {
+                try
+                {
+                    productList.TryAdd(productItems.ToArray().GetRandomElement().id, Random.Range(1, 10));
+                }
+                catch { }
+            }
+            OnlineOrder order = new OnlineOrder(name, email, "Test Description", null, productList);
+            onlineOrders.Add(order);
+            Debug.Log($"Name: {name} | Email: {email} | Description: {order.Description} | Products: {order.Order.Keys.Count}");
+        }
+    }
+
     public void OrderProduct(string id, int count)
     {
         if (productData.TryGetValue(id, out var value))
@@ -170,5 +194,24 @@ public class ProductManager : MonoBehaviour
             }
         }
         return null;
+    }
+}
+
+public class OnlineOrder
+{
+    public string Name;
+    public string Email;
+    public string Description;
+    public Sprite ProfileImage;
+    public Dictionary<string, int> Order;
+
+
+    public OnlineOrder(string name, string email, string description, Sprite profileImage, Dictionary<string, int> order)
+    {
+        Name = name;
+        Email = email;
+        Description = description;
+        ProfileImage = profileImage;
+        Order = order;
     }
 }

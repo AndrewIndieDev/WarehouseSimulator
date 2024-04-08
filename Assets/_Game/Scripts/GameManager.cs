@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        NameGenerator.Init();
         AddMoney(100000);
     }
 
