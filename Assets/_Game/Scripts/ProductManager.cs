@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Audio;
 
 
@@ -114,7 +111,12 @@ public class ProductManager : MonoBehaviour
             if (GameManager.Instance.BuyProduct(productItemDictionary[id].price * count))
             {
                 value.transitCount += count;
-                SpawnProductPrefab(id, transform.position, transform.rotation);
+                //SpawnProductPrefab(id, transform.position, transform.rotation);
+                int remainder = PalletManager.Instance.OrderNewStock(id, count);
+                if (remainder > 0)
+                {
+                    Debug.LogWarning($"Unable to find pallet space for {remainder} {id}'s.");
+                }
             }
         }
     }
@@ -135,37 +137,38 @@ public class ProductManager : MonoBehaviour
         }
     }
 
-    public void SpawnProductPrefab(string id, Vector3 position, Quaternion rotation)
+    public Product SpawnProductPrefab(string id, Vector3 position, Quaternion rotation)
     {
         if (productItemDictionary.TryGetValue(id, out var value))
         {
             switch (value.type)
             {
                 case EProductType.None:
-                    break;
+                    return null;
                 case EProductType.Material:
                     Product_Material pm = Instantiate(materialPrefab, position, rotation).GetComponent<Product_Material>();
                     pm.productId = id;
                     pm.material = value.data as Material;
-                    break;
+                    return pm;
                 case EProductType.Sound:
                     Product_Sound ps = Instantiate(soundPrefab, position, rotation).GetComponent<Product_Sound>();
                     ps.productId = id;
                     ps.audioResource = value.data as AudioResource;
-                    break;
+                    return ps;
                 case EProductType.Mesh:
                     Product_Mesh pmesh = Instantiate(meshPrefab, position, rotation).GetComponent<Product_Mesh>();
                     pmesh.productId = id;
                     pmesh.mesh = value.data as Mesh;
-                    break;
+                    return pmesh;
                 case EProductType.Sprite:
                     Product_Sprite psprite = Instantiate(spritePrefab, position, rotation).GetComponent<Product_Sprite>();
                     psprite.productId = id;
                     psprite.sprite = value.data as Sprite;
-                    break;
+                    return psprite;
                 case EProductType.Script:
-                    break;
+                    return null;
             }
         }
+        return null;
     }
 }

@@ -12,12 +12,14 @@ public class Product : MonoBehaviour, IInteractable
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
     public List<Component> DisableOnPlacement => null;
+    public Texture2D ProductIcon { get { return productIcon;  } set { productIcon = value; } }
 
     public string productId;
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isHeld = false;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private new Collider collider;
+    [SerializeField] private Texture2D productIcon;
 
     public void OnInteract(InteractType interactType)
     {
@@ -71,7 +73,7 @@ public class Product : MonoBehaviour, IInteractable
         rb.isKinematic = false;
         Collider.enabled = true;
     }
-
+    
     protected virtual void Start()
     {
         ProductManager.Instance.AddProductCount(productId, 1);

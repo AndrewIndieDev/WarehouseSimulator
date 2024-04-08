@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Container : MonoBehaviour, IInteractable
 {
@@ -11,6 +14,11 @@ public class Container : MonoBehaviour, IInteractable
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
     public List<Component> DisableOnPlacement => disableOnPlacement;
+    public IInteractable ContainedItem => containedItem;
+    public int MaxStackSize => maxStackSize;
+    public int CurrentAmount => currentAmount;
+
+    [HideInInspector] public UnityEvent<Container> OnPickupContainer;
 
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isHeld = false;
@@ -22,6 +30,7 @@ public class Container : MonoBehaviour, IInteractable
     [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
     [SerializeField] private List<Component> disableOnPlacement = new();
+    [SerializeField] private Transform displayParent;
 
     public void OnInteract(InteractType interactType)
     {
@@ -33,6 +42,7 @@ public class Container : MonoBehaviour, IInteractable
                     isHeld = true;
                     rb.isKinematic = true;
                     Collider.enabled = false;
+                    OnPickupContainer?.Invoke(this);
                 }
                 else // If the object we are interacting with is held
                 {
@@ -65,12 +75,14 @@ public class Container : MonoBehaviour, IInteractable
         {
             takeOutButton.SetActive(true);
             containedItem = interactable;
+            UpdateDisplay();
             product.PutInside(containedItemParent);
             return true;
         }
         else if ((containedItem as Product).productId == product.productId && currentAmount < maxStackSize)
         {
             product.PutInside(containedItemParent);
+            UpdateDisplay();
             return true;
         }
         return false;
@@ -91,6 +103,27 @@ public class Container : MonoBehaviour, IInteractable
             takeOutButton.SetActive(false);
         }
 
+        UpdateDisplay();
         return item;
+    }
+
+    private void UpdateDisplay()
+    {
+        List<MeshRenderer> meshRenderers = displayParent.GetComponentsInChildren<MeshRenderer>(true).ToList();
+        if (containedItem != null)
+        {
+            foreach (MeshRenderer mr in meshRenderers)
+            {
+                if ((containedItem as Product).ProductIcon != null)
+                {
+                    mr.material.SetTexture("_MainTex", (containedItem as Product).ProductIcon);
+                }
+            }
+            displayParent.gameObject.SetActive(true);
+        }
+        else
+        {
+            displayParent.gameObject.SetActive(false);
+        }
     }
 }

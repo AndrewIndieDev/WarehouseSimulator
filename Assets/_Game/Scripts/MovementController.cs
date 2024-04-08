@@ -1,11 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
 {
+    public static MovementController Instance { get; private set; }
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public float CurrentPitch { get { return currentPitch; } }
+
     public Camera cam;
     public float movementSpeed = 5.0f;
     public float mouseSensitivityX = 5.0f;
@@ -56,7 +65,7 @@ public class MovementController : MonoBehaviour
         currentYaw += Input.GetAxisRaw("Mouse X") * mouseSensitivityX;
         currentPitch -= Input.GetAxisRaw("Mouse Y") * mouseSensitivityY;
         bool isSprinting = Input.GetButton("Sprint");
-        currentPitch = Math.Clamp(currentPitch, -89.99f, 89.99f);
+        currentPitch = Math.Clamp(currentPitch, -80f, 80f);
         transform.rotation = Quaternion.Euler(0.0f, currentYaw, 0.0f);
         cam.transform.localRotation = Quaternion.Euler(currentPitch, 0.0f, 0.0f);
 

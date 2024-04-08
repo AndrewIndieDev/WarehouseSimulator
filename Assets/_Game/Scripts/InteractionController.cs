@@ -14,6 +14,8 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private Material originalMaterial;
     [SerializeField] private MeshRenderer placementRenderer => currentHeld != null ? currentHeld.Transform.GetComponentInChildren<MeshRenderer>() : null;
 
+    private bool isPlacing;
+
     void Update()
     {
         if (currentHover == null || !currentHover.IsHeld)
@@ -35,7 +37,7 @@ public class InteractionController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !isPlacing)
         {
             if (currentHeld != null && currentHeld.Type == InteractableType.Pickup &&
                 currentHover != null && currentHover.Type == InteractableType.Container)
@@ -95,7 +97,9 @@ public class InteractionController : MonoBehaviour
         {
             if (currentHeld == null)
                 return;
-            
+
+            isPlacing = true;
+
             if (originalMaterial == null)
                 originalMaterial = placementRenderer.material;
 
@@ -138,6 +142,8 @@ public class InteractionController : MonoBehaviour
         }
         else
         {
+            isPlacing = false;
+
             if (currentHeld == null)
                 return;
 
@@ -151,6 +157,8 @@ public class InteractionController : MonoBehaviour
                 ToggleComponents(currentHeld.DisableOnPlacement, true);
             }
         }
+
+        heldItemSlot.localRotation = Quaternion.Euler(-MovementController.Instance.CurrentPitch, 0f, 0f);
     }
 
     private void HandlePickup()
@@ -174,7 +182,7 @@ public class InteractionController : MonoBehaviour
         {
             currentHeld.OnInteract(InteractType.Default);
             currentHeld.Transform.parent = null;
-            currentHeld.Transform.SetPositionAndRotation(cam.transform.position + cam.transform.forward * 0.75f, Quaternion.identity);
+            //currentHeld.Transform.SetPositionAndRotation(cam.transform.position + cam.transform.forward * 0.75f, Quaternion.identity);
             //currentHeld.Collider.enabled = true;
             currentHeld = null;
         }
