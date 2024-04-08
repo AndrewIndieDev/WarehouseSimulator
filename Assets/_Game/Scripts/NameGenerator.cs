@@ -27,6 +27,6 @@ public static class NameGenerator
         string emailSuffix = EmailSuffixes.GetRandomElement();
         rand = Random.Range(0, 3);
         string separator = rand == 0 ? "" : rand == 1 ? "_" : ".";
-        email = $"{first}{separator}{last}@{emailDomain}.{emailSuffix}";
+        email = $"{first}{separator}{last}@{emailDomain}.{emailSuffix}".ToLower();
     }
 }
