@@ -21,14 +21,14 @@
                     </Bindings>
                 </UITextMoneyLabel>
             </ui:VisualElement>
-            <ui:ScrollView name="ShopList" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+            <ui:ScrollView name="ShopList" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
         </ui:VisualElement>
         <ui:VisualElement focusable="false" name="OrdersWindow" class="WindowBackground" style="flex-grow: 1; display: flex; position: absolute; left: 50px; top: 50px; right: 50px; bottom: 50px; visibility: hidden;">
             <ui:Label tabindex="-1" text="Orders" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: -24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-bottom: 0; -unity-font-style: bold; color: rgb(255, 255, 255);" />
             <ui:Button text="X" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OrdersCloseButton" class="CloseButton" style="margin-top: -20px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255); -unity-font-style: bold;" />
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; margin-top: 3px; margin-right: 0; margin-bottom: 0; margin-left: 0;">
-                <ui:ScrollView name="OrderList" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 30%; border-right-color: rgb(140, 140, 140); border-right-width: 2px; border-top-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-                <ui:ScrollView name="OrderDetails" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 70%;" />
+                <ui:ScrollView name="OrderList" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 20%; border-right-color: rgb(140, 140, 140); border-right-width: 2px; border-top-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                <ui:ScrollView name="OrderDetails" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 80%;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -31,6 +31,7 @@ public class Computer : MonoBehaviour, IInteractable
     private VisualElement ordersWindow;
     private ScrollView shopList;
     private ScrollView orderList;
+    private VisualElement currentSelected;
 
     private void Awake()
     {
@@ -99,6 +100,14 @@ public class Computer : MonoBehaviour, IInteractable
             orderItemInstance.Q<Label>("SenderName").text = order.Name;
             orderItemInstance.Q<Label>("SenderMail").text = order.Email;
             orderItemInstance.Q<Label>("SenderMessage").text = order.Description;
+            Button b = orderItemInstance.Q<Button>("OrderItem");
+            b.clicked += () =>
+            {
+                if (currentSelected != null)
+                    currentSelected.style.backgroundColor = Color.clear;
+                currentSelected = b.Q<VisualElement>("ButtonBackground");
+                currentSelected.style.backgroundColor = new Color(0.3f, 0.35f, 1.0f, 0.5f);
+            };
             orderList.Add(orderItemInstance);
         }
     }
