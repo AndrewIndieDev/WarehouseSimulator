@@ -27,9 +27,10 @@ public class ContainerBox : BaseInteractable, IInteractable
         SetContainerClosed(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.GetComponent<Product>() != null)
+        if (other.contacts[0].thisCollider.transform == transform) return;
+        if (other.gameObject.GetComponent<Product>() != null)
         {
             if (isClosing == true)
                 failedClose = true;
@@ -61,6 +62,8 @@ public class ContainerBox : BaseInteractable, IInteractable
 
             yield return null;
         }
+
+        animationCoroutine = null;
     }
 
     private IEnumerator FailedClose()
@@ -88,9 +91,8 @@ public class ContainerBox : BaseInteractable, IInteractable
     private void SetContainerClosed(bool isClosing)
     {
         this.isClosing = isClosing;
-        if (animationCoroutine != null)
-            StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(OpenAnimation());
+        if (animationCoroutine == null)
+            animationCoroutine = StartCoroutine(OpenAnimation());
     }
 
     private void ToggleOpen()
