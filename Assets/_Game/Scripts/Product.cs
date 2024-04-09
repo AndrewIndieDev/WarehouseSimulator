@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Product : BaseInteractable, IInteractable
@@ -32,6 +31,11 @@ public class Product : BaseInteractable, IInteractable
                 }
                 break;
             case InteractType.Secondary:
+                break;
+            case InteractType.HeldInteraction:
+                UnFreezeProduct();
+                rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
+                isHeld = false;
                 break;
             default:
                 break;
