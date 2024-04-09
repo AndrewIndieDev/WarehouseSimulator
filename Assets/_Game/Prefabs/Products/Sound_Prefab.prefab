@@ -96,11 +96,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3bb0e6a906d57449c2282a216c71b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnGhostPlacement:
+  - {fileID: 401652809539238019}
   productId: sound_
   isInteractable: 1
   isHeld: 0
   rb: {fileID: 2054378764011110440}
   collider: {fileID: 401652809539238019}
+  productIcon: {fileID: 0}
   audioSource: {fileID: 4074057706291761613}
   audioResource: {fileID: 0}
 --- !u!1 &4013620650248688482

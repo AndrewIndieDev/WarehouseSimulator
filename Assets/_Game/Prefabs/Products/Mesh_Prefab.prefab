@@ -181,10 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b6cb50d3f82254e8568fc2eeb5a027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnGhostPlacement:
+  - {fileID: 6686103050377723842}
   productId: mesh_
   isInteractable: 1
   isHeld: 0
   rb: {fileID: 3021565793560579445}
   collider: {fileID: 6686103050377723842}
+  productIcon: {fileID: 0}
   meshFilter: {fileID: 8733842206353563566}
   mesh: {fileID: 0}

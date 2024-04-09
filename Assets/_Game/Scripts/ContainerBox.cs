@@ -1,4 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class ContainerBox : BaseInteractable, IInteractable
@@ -10,38 +13,71 @@ public class ContainerBox : BaseInteractable, IInteractable
     [SerializeField] private bool isInteractable;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
+    [SerializeField] private List<BoxCollider> flapColliders = new();
+    [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private AnimationCurve failedCloseCurve;
     private bool isHeld;
     private float animationTime;
     private bool isClosing;
+    private bool failedClose;
     Coroutine animationCoroutine;
-    
+
+    void Start()
+    {
+        SetContainerClosed(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"{other.gameObject.name} entered.");
+        if (other.GetComponent<Product>() != null)
+        {
+            if (isClosing == true)
+                failedClose = true;
+        }
     }
 
     private IEnumerator OpenAnimation()
     {
         while (true)
         {
-            if (isClosing)
+            if (isClosing && !failedClose)
             {
                 animationTime -= Time.deltaTime;
                 if (animationTime <= 0)
                     break;
             }
-            else
+            else if (!failedClose)
             {
                 animationTime += Time.deltaTime;
                 if (animationTime >= 1)
                     break;
+            }
+            else
+            {
+                yield return FailedClose();
             }
 
             animator.SetFloat("OpenTime", animationTime);
 
             yield return null;
         }
-        animationCoroutine = null;
+    }
+
+    private IEnumerator FailedClose()
+    {
+        float animTime = animationTime;
+        float i = 0;
+
+        while (i < 1)
+        {
+            i += Time.deltaTime;
+            animationTime = animTime + failedCloseCurve.Evaluate(i);
+            animator.SetFloat("OpenTime", animationTime);
+            yield return null;
+        }
+
+        failedClose = false;
+        isClosing = false;
     }
 
     public void OnFlapHit()
@@ -52,8 +88,9 @@ public class ContainerBox : BaseInteractable, IInteractable
     private void SetContainerClosed(bool isClosing)
     {
         this.isClosing = isClosing;
-        if (animationCoroutine == null)
-            animationCoroutine = StartCoroutine(OpenAnimation());
+        if (animationCoroutine != null)
+            StopCoroutine(animationCoroutine);
+        animationCoroutine = StartCoroutine(OpenAnimation());
     }
 
     private void ToggleOpen()
@@ -109,4 +146,14 @@ public class ContainerBox : BaseInteractable, IInteractable
         rb.isKinematic = false;
         ToggleComponents(true);
     }
+
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.blue;
+    //    foreach (var collider in flapColliders)
+    //    {
+    //        Gizmos.matrix = Matrix4x4.TRS(collider.bounds.center, collider.transform.rotation, collider.size * collider.transform.lossyScale.x);
+    //        Gizmos.DrawCube(Vector3.zero, Vector3.one);
+    //    }
+    //}
 }

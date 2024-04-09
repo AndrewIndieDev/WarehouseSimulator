@@ -20,7 +20,7 @@ public class InteractionController : MonoBehaviour
     {
         if (currentHover == null || !currentHover.IsHeld)
         {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 2f, interactionLayer))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 3f, interactionLayer))
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable != null && currentHover != interactable && interactable.IsInteractable)
@@ -39,16 +39,7 @@ public class InteractionController : MonoBehaviour
 
         if (Input.GetButtonDown("Interact") && !isPlacing)
         {
-            if (currentHeld != null && currentHeld.Type == InteractableType.Pickup &&
-                currentHover != null && currentHover.Type == InteractableType.Container)
-            {
-                if ((currentHover as Container).PlaceItemInContainer(currentHeld))
-                {
-                    currentHeld.OnInteract(InteractType.Primary);
-                    currentHeld = null;
-                }
-            }
-            else if (currentHeld != null && currentHover == null)
+            if (currentHeld != null)
             {
                 HandlePickup();
             }

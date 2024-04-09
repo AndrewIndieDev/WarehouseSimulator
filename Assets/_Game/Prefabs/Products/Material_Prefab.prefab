@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310366eee286439409950a863d5f41e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnGhostPlacement:
+  - {fileID: 8691423303526410558}
   productId: material_
   isInteractable: 1
   isHeld: 0

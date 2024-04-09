@@ -95,11 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de948bfda3db21c4bbbc73ae8ca52ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnGhostPlacement:
+  - {fileID: 6718331383000928996}
   productId: sprite_
   isInteractable: 1
   isHeld: 0
   rb: {fileID: 2630231867806618642}
   collider: {fileID: 6718331383000928996}
+  productIcon: {fileID: 0}
   meshRenderer: {fileID: 3810155527806981076}
   sprite: {fileID: 0}
 --- !u!1 &4536121903993199070
