@@ -45,7 +45,7 @@ public class Pallet : MonoBehaviour
             {
                 Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
                 Containers.Add(TotalContainersSpawned, container);
-                container.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 PlaceProductInContainer(container, productId, 10);
                 amount -= 10;
             }
@@ -62,7 +62,7 @@ public class Pallet : MonoBehaviour
         {
             Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
             Containers.Add(TotalContainersSpawned, container);
-            container.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             PlaceProductInContainer(container, productId, amount);
             amount = 0;
         }
@@ -98,21 +98,19 @@ public class Pallet : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            Product product = ProductManager.Instance.SpawnProductPrefab(productId, container.Transform.position, container.Transform.rotation);
+            Product product = ProductManager.Instance.SpawnProductPrefab(productId, container.transform.position, container.transform.rotation);
             if (product == null)
             {
                 Debug.LogError($"No product found with id <{productId}>");
                 return;
             }
             product.ProductIcon = ProductManager.Instance.productItemDictionary[productId].icon;
-            container.OnPickupContainer.AddListener(RemoveContainer);
             container.PlaceItemInContainer(product);
         }
     }
 
     private void RemoveContainer(Container toRemove)
     {
-        toRemove.OnPickupContainer.RemoveListener(RemoveContainer);
         foreach (var intContainerPair in Containers)
         {
             if (intContainerPair.Value == toRemove)

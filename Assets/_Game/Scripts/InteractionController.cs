@@ -12,7 +12,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private Material acceptablePlacementMaterial;
     [SerializeField] private Material unacceptablePlacementMaterial;
     [SerializeField] private Material originalMaterial;
-    [SerializeField] private MeshRenderer placementRenderer => currentHeld != null ? currentHeld.Transform.GetComponentInChildren<MeshRenderer>() : null;
+    [SerializeField] private Renderer placementRenderer => currentHeld != null ? currentHeld.transform.GetComponentInChildren<Renderer>() : null;
 
     private bool isPlacing;
 
@@ -37,14 +37,14 @@ public class InteractionController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !isPlacing)
+        if (Input.GetButtonDown("Interact") && !isPlacing)
         {
             if (currentHeld != null && currentHeld.Type == InteractableType.Pickup &&
                 currentHover != null && currentHover.Type == InteractableType.Container)
             {
                 if ((currentHover as Container).PlaceItemInContainer(currentHeld))
                 {
-                    currentHeld.OnInteract(InteractType.PlaceInContainer);
+                    currentHeld.OnInteract(InteractType.Primary);
                     currentHeld = null;
                 }
             }
@@ -60,40 +60,32 @@ public class InteractionController : MonoBehaviour
                         HandleVehicle();
                         break;
                     default:
-                        if ((currentHover as TakeOutButton) == null)
+                        if ((currentHover as InteractableButton) == null)
                             HandlePickup();
                         else
-                        {
-                            TakeOutButton takeOut = currentHover as TakeOutButton;
-                            if (currentHeld == null)
-                            {
-                                currentHover.OnInteract(InteractType.TakeOutOfContainer);
-                                IInteractable item = takeOut.Container.TakeItemOutOfContainer();
-                                if (item != null)
-                                {
-                                    item.OnInteract(InteractType.Default);
-                                    item.Transform.parent = heldItemSlot;
-                                    item.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                                    item.Collider.enabled = false;
-                                    currentHover = null;
-                                    currentHeld = item;
-                                }
-                            }
-                            else
-                            {
-                                if (takeOut.Container.PlaceItemInContainer(currentHeld))
-                                {
-                                    currentHeld.OnInteract(InteractType.PlaceInContainer);
-                                    currentHeld = null;
-                                }
-                            }
-                        }
+                            (currentHover as InteractableButton).OnInteract(InteractType.Primary);
                         break;
                 }
             }
         }
 
-        if (Input.GetMouseButton(1)) // Right click held
+        if (Input.GetButtonDown("InteractOther"))
+        {
+            if (!Input.GetButton("Placement"))
+            {
+                if (currentHover != null)
+                {
+                    currentHover.OnInteract(InteractType.Secondary);
+                }
+
+                if (currentHeld != null)
+                {
+                    currentHeld.OnInteract(InteractType.HeldInteraction);
+                }
+            }
+        }
+
+        if (Input.GetButton("Placement"))
         {
             if (currentHeld == null)
                 return;
@@ -106,37 +98,35 @@ public class InteractionController : MonoBehaviour
             bool acceptable = false;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 5f, placementLayers))
             {
-                currentHeld.Transform.parent = null;
-                currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
+                currentHeld.transform.parent = null;
+                currentHeld.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 
                 placementRenderer.material = acceptablePlacementMaterial;
 
                 acceptable = true;
 
-                ToggleComponents(currentHeld.DisableOnPlacement, false);
+                ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, false);
             }
             else
             {
-                currentHeld.Transform.parent = heldItemSlot;
-                currentHeld.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                currentHeld.transform.parent = heldItemSlot;
+                currentHeld.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 
                 placementRenderer.material = originalMaterial;
 
                 acceptable = false;
-
-                ToggleComponents(currentHeld.DisableOnPlacement, true);
             }
 
             if (Input.GetMouseButtonDown(0))
             {
                 if (!acceptable)
                     return;
-                currentHeld.OnInteract(InteractType.Default);
-                currentHeld.Transform.parent = null;
-                currentHeld.Transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
+                currentHeld.OnInteract(InteractType.Primary);
+                currentHeld.transform.parent = null;
+                currentHeld.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 placementRenderer.material = originalMaterial;
                 originalMaterial = null;
-                ToggleComponents(currentHeld.DisableOnPlacement, true);
+                ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, true);
                 currentHeld = null;
             }
         }
@@ -147,14 +137,14 @@ public class InteractionController : MonoBehaviour
             if (currentHeld == null)
                 return;
 
-            currentHeld.Transform.parent = heldItemSlot;
-            currentHeld.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            currentHeld.transform.parent = heldItemSlot;
+            currentHeld.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
             if (originalMaterial != null)
             {
                 placementRenderer.material = originalMaterial;
                 originalMaterial = null;
-                ToggleComponents(currentHeld.DisableOnPlacement, true);
+                ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, true);
             }
         }
 
@@ -165,23 +155,23 @@ public class InteractionController : MonoBehaviour
     {
         if (currentHover != null && currentHover.Type == InteractableType.None)
         {
-            currentHover.OnInteract(InteractType.Default);
+            currentHover.OnInteract(InteractType.Primary);
             currentHover = null;
             return;
         }
         if (currentHeld == null)
         {
-            currentHover.OnInteract(InteractType.Default);
-            currentHover.Transform.parent = heldItemSlot;
-            currentHover.Transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            currentHover.OnInteract(InteractType.Primary);
+            currentHover.transform.parent = heldItemSlot;
+            currentHover.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //currentHover.Collider.enabled = false;
             currentHeld = currentHover;
             currentHover = null;
         }
         else
         {
-            currentHeld.OnInteract(InteractType.Default);
-            currentHeld.Transform.parent = null;
+            currentHeld.OnInteract(InteractType.Primary);
+            currentHeld.transform.parent = null;
             //currentHeld.Transform.SetPositionAndRotation(cam.transform.position + cam.transform.forward * 0.75f, Quaternion.identity);
             //currentHeld.Collider.enabled = true;
             currentHeld = null;

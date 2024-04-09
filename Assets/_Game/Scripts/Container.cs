@@ -1,24 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Container : MonoBehaviour, IInteractable
+public class Container : BaseInteractable, IInteractable
 {
     public InteractableType Type => InteractableType.Container;
-    public Transform Transform => transform;
-    public Collider Collider => collider;
-    public Rigidbody Rigidbody => rb;
-    public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
-    public List<Component> DisableOnPlacement => disableOnPlacement;
     public IInteractable ContainedItem => containedItem;
     public int MaxStackSize => maxStackSize;
     public int CurrentAmount => currentAmount;
-
-    [HideInInspector] public UnityEvent<Container> OnPickupContainer;
 
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isHeld = false;
@@ -29,19 +20,17 @@ public class Container : MonoBehaviour, IInteractable
     [SerializeField] private IInteractable containedItem;
     [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
-    [SerializeField] private List<Component> disableOnPlacement = new();
     [SerializeField] private Transform displayParent;
 
-    public void OnInteract(InteractType interactType)
+    public void OnInteract(InteractType type)
     {
-        switch (interactType)
+        switch (type)
         {
-            case InteractType.Default:
+            case InteractType.Primary:
                 if (!isHeld) // If the object we are interacting with is not held
                 {
                     isHeld = true;
                     FreezeContainer();
-                    OnPickupContainer?.Invoke(this);
                 }
                 else // If the object we are interacting with is held
                 {
@@ -49,11 +38,11 @@ public class Container : MonoBehaviour, IInteractable
                     UnFreezeContainer();
                 }
                 break;
-            case InteractType.PlaceInContainer:
-                // Do nothing, something is being placed in it.
+            case InteractType.Secondary:
+                break;
+            default:
                 break;
         }
-        
     }
 
     public void OnHoverEnter()
@@ -74,12 +63,10 @@ public class Container : MonoBehaviour, IInteractable
             takeOutButton.SetActive(true);
             containedItem = interactable;
             UpdateDisplay();
-            product.PutInside(containedItemParent);
             return true;
         }
         else if ((containedItem as Product).productId == product.productId && currentAmount < maxStackSize)
         {
-            product.PutInside(containedItemParent);
             UpdateDisplay();
             return true;
         }
@@ -93,7 +80,6 @@ public class Container : MonoBehaviour, IInteractable
 
         IInteractable item = containedItemParent.GetChild(0).GetComponent<IInteractable>();
         Product product = (item as Product);
-        product.TakeOut();
         
         if (currentAmount <= 0)
         {
@@ -128,12 +114,12 @@ public class Container : MonoBehaviour, IInteractable
     public void FreezeContainer()
     {
         rb.isKinematic = true;
-        Collider.enabled = false;
+        ToggleComponents(false);
     }
 
     public void UnFreezeContainer()
     {
         rb.isKinematic = false;
-        Collider.enabled = true;
+        ToggleComponents(true);
     }
 }

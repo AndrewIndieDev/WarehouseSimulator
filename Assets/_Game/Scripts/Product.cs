@@ -1,18 +1,11 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Product : MonoBehaviour, IInteractable
+public class Product : BaseInteractable, IInteractable
 {
     public InteractableType Type => InteractableType.Pickup;
-    public Transform Transform => transform;
-    public Collider Collider => collider;
-    public Rigidbody Rigidbody => rb;
-    public Transform Seat => null;
     public bool IsInteractable => isInteractable;
     public bool IsHeld => isHeld;
-    public List<Component> DisableOnPlacement => null;
     public Texture2D ProductIcon { get { return productIcon;  } set { productIcon = value; } }
 
     public string productId;
@@ -22,11 +15,11 @@ public class Product : MonoBehaviour, IInteractable
     [SerializeField] private new Collider collider;
     [SerializeField] private Texture2D productIcon;
 
-    public void OnInteract(InteractType interactType)
+    public void OnInteract(InteractType type)
     {
-        switch (interactType)
+        switch (type)
         {
-            case InteractType.Default:
+            case InteractType.Primary:
                 if (!isHeld) // If the object we are interacting with is not held
                 {
                     isHeld = true;
@@ -38,10 +31,9 @@ public class Product : MonoBehaviour, IInteractable
                     UnFreezeProduct();
                 }
                 break;
-            case InteractType.PlaceInContainer:
-                isHeld = false;
-                rb.isKinematic = true;
-                Collider.enabled = false;
+            case InteractType.Secondary:
+                break;
+            default:
                 break;
         }
     }
@@ -49,13 +41,13 @@ public class Product : MonoBehaviour, IInteractable
     public void FreezeProduct()
     {
         rb.isKinematic = true;
-        Collider.enabled = false;
+        ToggleComponents(false);
     }
 
     public void UnFreezeProduct()
     {
         rb.isKinematic = false;
-        Collider.enabled = true;
+        ToggleComponents(true);
     }
 
     public void OnHoverEnter()
@@ -66,23 +58,6 @@ public class Product : MonoBehaviour, IInteractable
     public void OnHoverExit()
     {
         // stop glow around object
-    }
-
-    public void PutInside(Transform newParent)
-    {
-        transform.parent = newParent;
-        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        transform.localScale = Vector3.zero;
-        FreezeProduct();
-    }
-
-    public void TakeOut()
-    {
-        transform.localScale = Vector3.one;
-        transform.parent = null;
-        //transform.SetLocalPositionAndRotation(transform.position + Transform.up * 0.5f, Quaternion.identity);
-        isHeld = false;
-        UnFreezeProduct();
     }
     
     protected virtual void Start()

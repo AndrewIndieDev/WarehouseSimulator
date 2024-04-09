@@ -14,13 +14,8 @@ public class Computer : MonoBehaviour, IInteractable
     [SerializeField] private Texture2D defaultProfileImage;
     
     public InteractableType Type => InteractableType.None;
-    public Transform Transform => null;
-    public Collider Collider => null;
-    public Rigidbody Rigidbody => null;
-    public Transform Seat => null;
     public bool IsInteractable => true;
     public bool IsHeld => false;
-    public List<Component> DisableOnPlacement => null;
 
     private VisualElement ui;
     private Button shopApp;
@@ -122,10 +117,19 @@ public class Computer : MonoBehaviour, IInteractable
         
     }
 
-    public void OnInteract(InteractType interactType)
+    public void OnInteract(InteractType type)
     {
-        FindFirstObjectByType<MovementController>().AddControlTaker("Computer");
-        enabled = true;
-        ui.style.display = DisplayStyle.Flex;
+        switch (type)
+        {
+            case InteractType.Primary:
+                FindFirstObjectByType<MovementController>().AddControlTaker("Computer");
+                enabled = true;
+                ui.style.display = DisplayStyle.Flex;
+                break;
+            case InteractType.Secondary:
+                break;
+            default:
+                break;
+        }
     }
 }

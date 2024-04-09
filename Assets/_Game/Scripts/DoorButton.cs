@@ -6,13 +6,8 @@ public class DoorButton : MonoBehaviour, IInteractable
     public DoorController door;
     
     public InteractableType Type => InteractableType.None;
-    public Transform Transform => null;
-    public Collider Collider => null;
-    public Rigidbody Rigidbody => null;
-    public Transform Seat => null;
     public bool IsInteractable => door && !door.isInTransition;
     public bool IsHeld => false;
-    public List<Component> DisableOnPlacement => null;
 
     public void OnHoverEnter()
     {
@@ -24,9 +19,19 @@ public class DoorButton : MonoBehaviour, IInteractable
         
     }
 
-    public void OnInteract(InteractType interactType)
+    public void OnInteract(InteractType type)
     {
-        if (door == null) return;
-        door.ToggleOpen();
+        switch (type)
+        {
+            case InteractType.Primary:
+                if (door == null) return;
+                door.ToggleOpen();
+                break;
+            case InteractType.Secondary:
+                break;
+            default:
+                break;
+        }
+        
     }
 }
