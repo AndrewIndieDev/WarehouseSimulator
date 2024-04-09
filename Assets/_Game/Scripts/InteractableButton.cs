@@ -9,7 +9,7 @@ public class InteractableButton : MonoBehaviour, IInteractable
     public bool IsHeld => false;
 
     [SerializeField] private bool isInteractable = true;
-    [SerializeField] private UnityAction onInteract;
+    [SerializeField] private UnityEvent onInteract;
 
     public void OnInteract(InteractType type)
     {

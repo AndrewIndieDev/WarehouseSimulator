@@ -66,6 +66,7 @@ public class DoorController : MonoBehaviour
 
     public void ToggleOpen()
     {
+        if (isInTransition) return;
         if (isOpen)
             Close();
         else

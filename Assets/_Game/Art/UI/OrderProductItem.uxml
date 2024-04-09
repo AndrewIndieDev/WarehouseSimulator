@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Game/Art/UI/ComputerUI.uss?fileID=7433441132597879392&amp;guid=ef7993e708edf4642aeda8cbb72df1ad&amp;type=3#ComputerUI" />
+    <ui:VisualElement template="ShopItem">
+        <ui:VisualElement name="ShopItem" style="flex-grow: 1; align-items: stretch; justify-content: flex-start; align-self: stretch; flex-direction: row; border-left-color: rgba(219, 219, 219, 0); border-right-color: rgba(219, 219, 219, 0); border-top-color: rgba(219, 219, 219, 0); border-bottom-color: rgba(219, 219, 219, 0); border-top-width: 0; border-bottom-width: 0; border-right-width: 0; border-left-width: 0;">
+            <ui:VisualElement style="flex-grow: 0; width: 32px; height: 32px; background-color: rgb(188, 188, 188); border-left-color: rgb(147, 147, 147); border-right-color: rgb(147, 147, 147); border-top-color: rgb(147, 147, 147); border-bottom-color: rgb(147, 147, 147); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px;">
+                <ui:VisualElement name="DisplayIcon" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=8228938214290033325&amp;guid=0a80e9d1d01e5ee4098765964307344b&amp;type=3#console.erroricon&quot;);" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="&lt;color=#00ff00&gt;99x&lt;/color&gt; Product name" display-tooltip-when-elided="true" name="DisplayNameText" enable-rich-text="true" style="-unity-font-style: bold; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 20px; flex-grow: 1; -unity-text-align: middle-left;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

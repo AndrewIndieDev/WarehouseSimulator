@@ -11,6 +11,7 @@ public class Computer : MonoBehaviour, IInteractable
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private VisualTreeAsset shopItem;
     [SerializeField] private VisualTreeAsset orderItem;
+    [SerializeField] private VisualTreeAsset orderProductItem;
     [SerializeField] private Texture2D defaultProfileImage;
     
     public InteractableType Type => InteractableType.None;
@@ -27,6 +28,12 @@ public class Computer : MonoBehaviour, IInteractable
     private ScrollView shopList;
     private ScrollView orderList;
     private VisualElement currentSelected;
+    private OnlineOrder currentlySelectedOnlineOrder;
+    private VisualElement currentAvatarImage;
+    private Label currentSenderName;
+    private Label currentSenderMail;
+    private Label currentSenderMessage;
+    private VisualElement orderProductList;
 
     private void Awake()
     {
@@ -48,6 +55,11 @@ public class Computer : MonoBehaviour, IInteractable
         ordersWindow = ui.Q<VisualElement>("OrdersWindow");
         shopList = ui.Q<ScrollView>("ShopList");
         orderList = ui.Q<ScrollView>("OrderList");
+        currentAvatarImage = ui.Q<VisualElement>("CurrentAvatarImage");
+        currentSenderName = ui.Q<Label>("CurrentSenderName");
+        currentSenderMail = ui.Q<Label>("CurrentSenderMail");
+        currentSenderMessage = ui.Q<Label>("CurrentText");
+        orderProductList = ui.Q<VisualElement>("OrderProductList");
         ui.Q<UITextMoneyLabel>("MoneyText").dataSource = GameManager.Instance;
         shopApp.clicked += () => { shopWindow.visible = true; }; 
         ordersApp.clicked += () => { UpdateOrderList(); ordersWindow.visible = true; };
@@ -102,8 +114,27 @@ public class Computer : MonoBehaviour, IInteractable
                     currentSelected.style.backgroundColor = Color.clear;
                 currentSelected = b.Q<VisualElement>("ButtonBackground");
                 currentSelected.style.backgroundColor = new Color(0.3f, 0.35f, 1.0f, 0.5f);
+                currentlySelectedOnlineOrder = order;
+                UpdateCurrentSelectedOnlineOrder();
             };
             orderList.Add(orderItemInstance);
+        }
+    }
+
+    public void UpdateCurrentSelectedOnlineOrder()
+    {
+        orderProductList.Clear();
+        currentAvatarImage.style.backgroundImage = currentlySelectedOnlineOrder.ProfileImage ? currentlySelectedOnlineOrder.ProfileImage : defaultProfileImage;
+        currentSenderName.text = currentlySelectedOnlineOrder.Name;
+        currentSenderMail.text = currentlySelectedOnlineOrder.Email;
+        currentSenderMessage.text = currentlySelectedOnlineOrder.Description;
+        
+        foreach (var order in currentlySelectedOnlineOrder.Order)
+        {
+            var orderProductItemInstance = orderProductItem.CloneTree();
+            orderProductItemInstance.Q<VisualElement>("DisplayIcon").style.backgroundImage = ProductManager.Instance.productItemDictionary[order.Key].icon;
+            orderProductItemInstance.Q<Label>("DisplayNameText").text = order.Value + "x " + ProductManager.Instance.productItemDictionary[order.Key].name;
+            orderProductList.Add(orderProductItemInstance);
         }
     }
 

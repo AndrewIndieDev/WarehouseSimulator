@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3573879081756848771}
   - component: {fileID: 6225429815233443844}
   - component: {fileID: 1239462664208533750}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2129815116424524079}
   - component: {fileID: 7599363276037519332}
   - component: {fileID: 199854932268219070}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 7727825685532769631}
   - component: {fileID: 7288106365770889387}
   - component: {fileID: 3760127383092469553}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 290903312009176123}
   - component: {fileID: 2262769999883007122}
   - component: {fileID: 5535278731998743664}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,8 +354,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4439357094777256474}
   - component: {fileID: 8816438018234769740}
-  - component: {fileID: 7406099091109123850}
-  m_Layer: 0
+  - component: {fileID: 8495287525697693909}
+  m_Layer: 13
   m_Name: DoorButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19695301, y: 0.43284222, z: 0.30839834}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7406099091109123850
+--- !u!114 &8495287525697693909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -413,10 +413,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7871117435341385088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb2b5137cb331644992a73bcc29c263f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f5f85460fd0dc346b12d3d814dec00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 0}
+  isInteractable: 1
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DoorController, Assembly-CSharp
+        m_MethodName: ToggleOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8081829015067416675
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +443,7 @@ GameObject:
   - component: {fileID: 2407807868231568415}
   - component: {fileID: 8262748150697404764}
   - component: {fileID: 3841412435371222851}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +529,7 @@ GameObject:
   - component: {fileID: 5803795305039263673}
   - component: {fileID: 1594509730218073201}
   - component: {fileID: 4992134003722413123}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

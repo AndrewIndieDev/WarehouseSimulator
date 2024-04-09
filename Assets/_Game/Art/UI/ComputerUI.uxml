@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="OrderProductItem" src="project://database/Assets/_Game/Art/UI/OrderProductItem.uxml?fileID=9197481963319205126&amp;guid=0ccf6d7ba06559146826e7ebe490f955&amp;type=3#OrderProductItem" />
     <Style src="project://database/Assets/_Game/Art/UI/ComputerUI.uss?fileID=7433441132597879392&amp;guid=ef7993e708edf4642aeda8cbb72df1ad&amp;type=3#ComputerUI" />
     <ui:VisualElement name="Background" class="DefaultBackground" style="flex-grow: 1; left: 100px; top: 100px; right: 100px; bottom: 100px; opacity: 1; position: absolute; -unity-background-scale-mode: stretch-to-fill; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px;">
         <ui:ScrollView mode="Horizontal" name="Desktop" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: stretch; align-self: stretch;">
@@ -23,12 +24,30 @@
             </ui:VisualElement>
             <ui:ScrollView name="ShopList" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
         </ui:VisualElement>
-        <ui:VisualElement focusable="false" name="OrdersWindow" class="WindowBackground" style="flex-grow: 1; display: flex; position: absolute; left: 50px; top: 50px; right: 50px; bottom: 50px; visibility: hidden;">
+        <ui:VisualElement focusable="false" name="OrdersWindow" class="WindowBackground" style="flex-grow: 1; display: flex; position: absolute; left: 50px; top: 50px; right: 50px; bottom: 50px; visibility: visible;">
             <ui:Label tabindex="-1" text="Orders" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: -24px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-bottom: 0; -unity-font-style: bold; color: rgb(255, 255, 255);" />
             <ui:Button text="X" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OrdersCloseButton" class="CloseButton" style="margin-top: -20px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255); -unity-font-style: bold;" />
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; margin-top: 3px; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                 <ui:ScrollView name="OrderList" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 20%; border-right-color: rgb(140, 140, 140); border-right-width: 2px; border-top-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-                <ui:ScrollView name="OrderDetails" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 80%;" />
+                <ui:VisualElement style="flex-grow: 1; width: 80%;">
+                    <ui:Button name="OrderItem" selectable="true" class="OrderButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-right-width: 0; border-left-width: 0; border-left-color: rgb(149, 149, 149); border-right-color: rgb(149, 149, 149); border-top-color: rgb(149, 149, 149); border-bottom-color: rgb(149, 149, 149); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-width: 1px; border-top-width: 1px; background-color: rgba(93, 226, 82, 0);">
+                        <ui:VisualElement name="ButtonBackground" style="flex-grow: 1; height: 48px; flex-direction: row; background-color: rgba(79, 88, 255, 0);">
+                            <ui:VisualElement name="CurrentAvatarImage" style="flex-grow: 0; width: 40px; height: 40px; margin-top: 3px; margin-right: 4px; margin-bottom: 3px; margin-left: 4px; background-image: url(&quot;project://database/Assets/_Game/Art/Textures/columned-lava-rock_albedo.png?fileID=2800000&amp;guid=9ed685abde1e0f440ae0bae570e70e24&amp;type=3#columned-lava-rock_albedo&quot;); border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; flex-shrink: 1; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-items: auto;" />
+                            <ui:VisualElement style="flex-grow: 1;">
+                                <ui:Label text="Hans Schmidt" name="CurrentSenderName" style="margin-top: 2px; margin-right: 2px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-left; -unity-font-style: bold; color: rgb(27, 27, 27); font-size: 24px;" />
+                                <ui:Label text="hans_schmidt@femail.com" name="CurrentSenderMail" style="margin-top: -2px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-left; -unity-font-style: normal; font-size: 9px; color: rgb(65, 65, 65);" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:ScrollView name="OrderDetails" mouse-wheel-scroll-size="1000" style="flex-grow: 1; margin-top: 0; top: auto; margin-right: 0; margin-bottom: 0; margin-left: 0; width: auto;">
+                        <ui:Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." name="CurrentText" style="white-space: normal; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:VisualElement name="OrderProductList" style="flex-grow: 1;">
+                            <ui:Instance template="OrderProductItem" name="OrderProductItem" />
+                            <ui:Instance template="OrderProductItem" name="OrderProductItem" />
+                            <ui:Instance template="OrderProductItem" name="OrderProductItem" />
+                        </ui:VisualElement>
+                    </ui:ScrollView>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
