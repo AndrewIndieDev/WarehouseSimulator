@@ -18,6 +18,12 @@ public class InteractionController : MonoBehaviour
 
     void Update()
     {
+        if (currentHeld != null && !currentHeld.IsHeld)
+        {
+            currentHeld.transform.parent = null;
+            currentHeld = null;
+        }
+
         if (currentHover == null || !currentHover.IsHeld)
         {
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 3f, interactionLayer))
@@ -66,14 +72,13 @@ public class InteractionController : MonoBehaviour
         {
             if (!Input.GetButton("Placement"))
             {
-                if (currentHover != null)
-                {
-                    currentHover.OnInteract(InteractType.Secondary);
-                }
-
                 if (currentHeld != null)
                 {
                     currentHeld.OnInteract(InteractType.HeldInteraction);
+                }
+                else if (currentHover != null)
+                {
+                    currentHover.OnInteract(InteractType.Secondary);
                 }
             }
         }
