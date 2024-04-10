@@ -60,11 +60,15 @@ public class Computer : MonoBehaviour, IInteractable
         currentSenderMail = ui.Q<Label>("CurrentSenderMail");
         currentSenderMessage = ui.Q<Label>("CurrentText");
         orderProductList = ui.Q<VisualElement>("OrderProductList");
+        ui.Q<Label>("TimeString").dataSource = TimeManager.Instance;
         ui.Q<UITextMoneyLabel>("MoneyText").dataSource = GameManager.Instance;
         shopApp.clicked += () => { shopWindow.visible = true; }; 
         ordersApp.clicked += () => { UpdateOrderList(); ordersWindow.visible = true; };
         shopCloseButton.clicked += () => { shopWindow.visible = false; };
         ordersCloseButton.clicked += () => { ordersWindow.visible = false; };
+        
+        shopWindow.visible = false;
+        ordersWindow.visible = false;
 
         foreach (ProductItem item in ProductManager.Instance.productItems)
         {
