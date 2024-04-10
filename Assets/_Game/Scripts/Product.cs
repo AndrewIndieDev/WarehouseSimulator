@@ -1,46 +1,60 @@
 using UnityEngine;
 
-public class Product : BaseInteractable, IInteractable
+public class Product : BaseInteractable
 {
-    public InteractableType Type => InteractableType.Pickup;
-    public bool IsInteractable => isInteractable;
-    public bool IsHeld => isHeld;
-    public Texture2D ProductIcon { get { return productIcon;  } set { productIcon = value; } }
-
-    public string productId;
-    [SerializeField] private bool isInteractable = true;
-    [SerializeField] private bool isHeld = false;
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private new Collider collider;
-    [SerializeField] private Texture2D productIcon;
-
-    public void OnInteract(InteractType type)
+    #region Base Interactable
+    public override InteractableType Type => InteractableType.Pickup;
+    public override bool IsHeld => isHeld;
+    public override void OnHoverEnter()
     {
-        switch (type)
+        foreach (var mat in mr.materials)
         {
-            case InteractType.Primary:
-                if (!isHeld) // If the object we are interacting with is not held
-                {
-                    isHeld = true;
-                    FreezeProduct();
-                }
-                else // If the object we are interacting with is held
-                {
-                    isHeld = false;
-                    UnFreezeProduct();
-                }
-                break;
-            case InteractType.Secondary:
-                break;
-            case InteractType.HeldInteraction:
-                UnFreezeProduct();
-                rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
-                isHeld = false;
-                break;
-            default:
-                break;
+            if (mat.HasProperty("_Scale"))
+            {
+                mat.SetFloat("_Scale", 1.03f);
+            }
         }
     }
+    public override void OnHoverExit()
+    {
+        foreach (var mat in mr.materials)
+        {
+            if (mat.HasProperty("_Scale"))
+            {
+                mat.SetFloat("_Scale", 0f);
+            }
+        }
+    }
+    public override void HandlePrimaryInteraction()
+    {
+        if (!isHeld) // If the object we are interacting with is not held
+        {
+            isHeld = true;
+            FreezeProduct();
+        }
+        else // If the object we are interacting with is held
+        {
+            isHeld = false;
+            UnFreezeProduct();
+        }
+    }
+    public override void HandleHeldInteraction()
+    {
+        UnFreezeProduct();
+        rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
+        isHeld = false;
+    }
+
+    #endregion
+
+    public Texture2D ProductIcon { get { return productIcon; } set { productIcon = value; } }
+
+    [Header("Generic Product References")]
+    public string productId;
+    [SerializeField] protected bool isHeld = false;
+    [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected MeshRenderer mr;
+    [SerializeField] protected Texture2D productIcon;
 
     public void FreezeProduct()
     {
@@ -53,23 +67,13 @@ public class Product : BaseInteractable, IInteractable
         rb.isKinematic = false;
         ToggleComponents(true);
     }
-
-    public void OnHoverEnter()
-    {
-        // glow around object
-    }
-
-    public void OnHoverExit()
-    {
-        // stop glow around object
-    }
     
     protected virtual void Start()
     {
         ProductManager.Instance.AddProductCount(productId, 1);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (transform.position.y < -10)
         {
@@ -78,7 +82,7 @@ public class Product : BaseInteractable, IInteractable
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         ProductManager.Instance.RemoveProductCount(productId, 1);
     }

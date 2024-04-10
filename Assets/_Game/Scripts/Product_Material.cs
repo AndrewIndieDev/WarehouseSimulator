@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class Product_Material : Product
 {
-    [Header("Material Specific")]
-    [SerializeField] private MeshRenderer meshRenderer;
+    [Header("Product Specific References")]
     public Material material;
 
     protected override void Start()
     {
         base.Start();
-        if (meshRenderer != null)
+        if (mr != null)
         {
-            meshRenderer.material = material;
+            mr.material = material;
         }
     }
 }

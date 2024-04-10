@@ -2,11 +2,43 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Container : BaseInteractable, IInteractable
+public class Container : BaseInteractable
 {
-    public InteractableType Type => InteractableType.Container;
-    public bool IsInteractable => isInteractable;
-    public bool IsHeld => isHeld;
+    #region Base Interactable
+    public override InteractableType Type => InteractableType.Container;
+    public override bool IsInteractable => isInteractable;
+    public override bool IsHeld => isHeld;
+    public override void OnHoverEnter()
+    {
+        // glow around object
+    }
+    public override void OnHoverExit()
+    {
+        // stop glow around object
+    }
+    public override void HandlePrimaryInteraction()
+    {
+        if (!isHeld) // If the object we are interacting with is not held
+        {
+            isHeld = true;
+            FreezeContainer();
+        }
+        else // If the object we are interacting with is held
+        {
+            isHeld = false;
+            UnFreezeContainer();
+        }
+    }
+    public override void HandleSecondaryInteraction()
+    {
+        
+    }
+    public override void HandleHeldInteraction()
+    {
+        
+    }
+    #endregion
+
     public IInteractable ContainedItem => containedItem;
     public int MaxStackSize => maxStackSize;
     public int CurrentAmount => currentAmount;
@@ -21,39 +53,6 @@ public class Container : BaseInteractable, IInteractable
     [SerializeField] private int currentAmount => containedItemParent.childCount;
     [SerializeField] private int maxStackSize;
     [SerializeField] private Transform displayParent;
-
-    public void OnInteract(InteractType type)
-    {
-        switch (type)
-        {
-            case InteractType.Primary:
-                if (!isHeld) // If the object we are interacting with is not held
-                {
-                    isHeld = true;
-                    FreezeContainer();
-                }
-                else // If the object we are interacting with is held
-                {
-                    isHeld = false;
-                    UnFreezeContainer();
-                }
-                break;
-            case InteractType.Secondary:
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void OnHoverEnter()
-    {
-        // glow around object
-    }
-
-    public void OnHoverExit()
-    {
-        // stop glow around object
-    }
 
     public bool PlaceItemInContainer(IInteractable interactable)
     {
@@ -73,13 +72,15 @@ public class Container : BaseInteractable, IInteractable
         return false;
     }
 
-    public IInteractable TakeItemOutOfContainer()
+    public void Button_TakeItemOutOfContainer()
     {
         if (containedItem == null || currentAmount <= 0)
-            return null;
+            return;
 
         IInteractable item = containedItemParent.GetChild(0).GetComponent<IInteractable>();
         Product product = (item as Product);
+        product.OnInteract(InteractType.Primary);
+        product.transform.parent = null;
         
         if (currentAmount <= 0)
         {
@@ -88,7 +89,6 @@ public class Container : BaseInteractable, IInteractable
         }
 
         UpdateDisplay();
-        return item;
     }
 
     private void UpdateDisplay()

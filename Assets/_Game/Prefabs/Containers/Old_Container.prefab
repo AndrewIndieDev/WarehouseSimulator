@@ -184,9 +184,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7930b4899b0158149b143e98f0394b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnPickupContainer:
-    m_PersistentCalls:
-      m_Calls: []
+  disableOnGhostPlacement:
+  - {fileID: 3248766168840992652}
+  - {fileID: 3999465434848292101}
+  - {fileID: 1878391906631385013}
+  - {fileID: 5880343763959074430}
+  - {fileID: 8641212370871475368}
   isInteractable: 1
   isHeld: 0
   rb: {fileID: 8876597755329258769}
@@ -194,13 +197,6 @@ MonoBehaviour:
   takeOutButton: {fileID: 8495578908193998949}
   containedItemParent: {fileID: 2546966927566248034}
   maxStackSize: 10
-  disableOnPlacement:
-  - {fileID: 8518940336161821734}
-  - {fileID: 3999465434848292101}
-  - {fileID: 1878391906631385013}
-  - {fileID: 5880343763959074430}
-  - {fileID: 8641212370871475368}
-  - {fileID: 4304679731390222674}
   displayParent: {fileID: 499707322375327708}
 --- !u!1 &1607293339180050867
 GameObject:
@@ -767,7 +763,7 @@ GameObject:
   - component: {fileID: 6735745598093729861}
   - component: {fileID: 8518940336161821734}
   - component: {fileID: 4304679731390222674}
-  - component: {fileID: 2957723056502594897}
+  - component: {fileID: 998768011093508225}
   m_Layer: 13
   m_Name: TakeOut
   m_TagString: Untagged
@@ -864,7 +860,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2957723056502594897
+--- !u!114 &998768011093508225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -873,8 +869,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8495578908193998949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca3bb4b40146d74abb8f03a5ac5bb02, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f5f85460fd0dc346b12d3d814dec00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isInteractable: 1
-  container: {fileID: 6234469652052867798}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6234469652052867798}
+        m_TargetAssemblyTypeName: Container, Assembly-CSharp
+        m_MethodName: Button_TakeItemOutOfContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum InteractableType
@@ -6,7 +5,8 @@ public enum InteractableType
     None,
     Container,
     Pickup,
-    Vehicle
+    Vehicle,
+    Button
 }
 
 public enum InteractType

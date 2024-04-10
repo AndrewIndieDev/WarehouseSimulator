@@ -9,7 +9,6 @@ public class PalletManager : MonoBehaviour
         Instance = this;
     }
 
-
     [SerializeField] private Pallet palletPrefab;
     [SerializeField] private List<Pallet> pallets = new();
     [SerializeField] private Transform palletParent;

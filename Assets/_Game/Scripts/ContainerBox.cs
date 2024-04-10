@@ -1,21 +1,60 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class ContainerBox : BaseInteractable, IInteractable
+public class ContainerBox : BaseInteractable
 {
-    public InteractableType Type => InteractableType.Container;
-    public bool IsInteractable => isInteractable;
-    public bool IsHeld => isHeld;
+    #region Base Interactable
+    public override InteractableType Type => InteractableType.Container;
+    public override bool IsInteractable => true;
+    public override bool IsHeld => isHeld;
+    public override void OnHoverEnter()
+    {
+        foreach (var mat in mr.materials)
+        {
+            if (mat.HasProperty("_Scale"))
+            {
+                mat.SetFloat("_Scale", 1.03f);
+            }
+        }
+    }
+    public override void OnHoverExit()
+    {
+        foreach (var mat in mr.materials)
+        {
+            if (mat.HasProperty("_Scale"))
+            {
+                mat.SetFloat("_Scale", 0f);
+            }
+        }
+    }
+    public override void HandlePrimaryInteraction()
+    {
+        if (!isHeld) // If the object we are interacting with is not held
+        {
+            isHeld = true;
+            FreezeContainer();
+        }
+        else // If the object we are interacting with is held
+        {
+            isHeld = false;
+            UnFreezeContainer();
+        }
+    }
+    public override void HandleSecondaryInteraction()
+    {
+        ToggleOpen();
+    }
+    public override void HandleHeldInteraction()
+    {
+        OnInteract(InteractType.Secondary);
+    }
+    #endregion
 
-    [SerializeField] private bool isInteractable;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
-    [SerializeField] private List<BoxCollider> flapColliders = new();
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private AnimationCurve failedCloseCurve;
+    [SerializeField] private SkinnedMeshRenderer mr;
     private bool isHeld;
     private float animationTime;
     private bool isClosing;
@@ -100,43 +139,6 @@ public class ContainerBox : BaseInteractable, IInteractable
         SetContainerClosed(!isClosing);
     }
 
-    public void OnHoverEnter()
-    {
-        
-    }
-
-    public void OnHoverExit()
-    {
-        
-    }
-
-    public void OnInteract(InteractType type)
-    {
-        switch (type)
-        {
-            case InteractType.Primary:
-                if (!isHeld) // If the object we are interacting with is not held
-                {
-                    isHeld = true;
-                    FreezeContainer();
-                }
-                else // If the object we are interacting with is held
-                {
-                    isHeld = false;
-                    UnFreezeContainer();
-                }
-                break;
-            case InteractType.Secondary:
-                ToggleOpen();
-                break;
-            case InteractType.HeldInteraction:
-                OnInteract(InteractType.Secondary);
-                break;
-            default:
-                break;
-        }
-    }
-
     public void FreezeContainer()
     {
         rb.isKinematic = true;
@@ -148,14 +150,4 @@ public class ContainerBox : BaseInteractable, IInteractable
         rb.isKinematic = false;
         ToggleComponents(true);
     }
-
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.blue;
-    //    foreach (var collider in flapColliders)
-    //    {
-    //        Gizmos.matrix = Matrix4x4.TRS(collider.bounds.center, collider.transform.rotation, collider.size * collider.transform.lossyScale.x);
-    //        Gizmos.DrawCube(Vector3.zero, Vector3.one);
-    //    }
-    //}
 }

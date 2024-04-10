@@ -184,10 +184,9 @@ MonoBehaviour:
   disableOnGhostPlacement:
   - {fileID: 6686103050377723842}
   productId: mesh_
-  isInteractable: 1
   isHeld: 0
   rb: {fileID: 3021565793560579445}
-  collider: {fileID: 6686103050377723842}
+  mr: {fileID: 0}
   productIcon: {fileID: 0}
   meshFilter: {fileID: 8733842206353563566}
   mesh: {fileID: 0}

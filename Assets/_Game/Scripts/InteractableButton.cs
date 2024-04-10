@@ -1,37 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InteractableButton : MonoBehaviour, IInteractable
+public class InteractableButton : BaseInteractable
 {
-    public InteractableType Type => InteractableType.None;
-    public bool IsInteractable => isInteractable;
-    public bool IsHeld => false;
+    #region Base Interactable
+    public override InteractableType Type => InteractableType.Button;
+    public override bool IsInteractable => true;
+    public override bool IsHeld => false;
+    public override void HandlePrimaryInteraction()
+    {
+        onInteract?.Invoke();
+    }
+    public override void HandleSecondaryInteraction()
+    {
+        HandlePrimaryInteraction();
+    }
+    #endregion
 
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private UnityEvent onInteract;
-
-    public void OnInteract(InteractType type)
-    {
-        switch (type)
-        {
-            case InteractType.Primary:
-                onInteract?.Invoke();
-                break;
-            case InteractType.Secondary:
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void OnHoverEnter()
-    {
-        // glow around object
-    }
-
-    public void OnHoverExit()
-    {
-        // stop glow around object
-    }
 }

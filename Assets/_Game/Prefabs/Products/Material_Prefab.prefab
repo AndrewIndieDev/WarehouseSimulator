@@ -98,11 +98,11 @@ MonoBehaviour:
   disableOnGhostPlacement:
   - {fileID: 8691423303526410558}
   productId: material_
-  isInteractable: 1
   isHeld: 0
   rb: {fileID: 8474137359112655575}
-  collider: {fileID: 8691423303526410558}
-  productIcon: {fileID: 0}
+  mr: {fileID: 8212399864635959744}
+  productIcon: {fileID: 4154780841294389669, guid: 0a80e9d1d01e5ee4098765964307344b,
+    type: 3}
   meshRenderer: {fileID: 8212399864635959744}
   material: {fileID: 0}
 --- !u!1 &2857957337068108636
@@ -170,6 +170,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 088300cdef53eb84db502385a40481b8, type: 2}
+  - {fileID: 2100000, guid: ebf9e613dace64e4c9e5b9c1839249e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

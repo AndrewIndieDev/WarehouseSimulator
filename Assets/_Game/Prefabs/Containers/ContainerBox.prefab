@@ -357,14 +357,8 @@ MonoBehaviour:
   - {fileID: 3864230194085892053}
   - {fileID: 5569576938873658371}
   - {fileID: 4599216048221829160}
-  isInteractable: 1
   rb: {fileID: 5010154641000506864}
   animator: {fileID: 2635533044431149456}
-  flapColliders:
-  - {fileID: 4565397654369499474}
-  - {fileID: 208165802472213245}
-  - {fileID: 6580379976174576673}
-  - {fileID: 2797575299234798733}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 8192
@@ -446,6 +440,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  mr: {fileID: 6301456460744082887}
 --- !u!95 &2635533044431149456
 Animator:
   serializedVersion: 7
