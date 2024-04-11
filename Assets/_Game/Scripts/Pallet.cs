@@ -13,10 +13,10 @@ public class Pallet : MonoBehaviour
     private int TotalContainersSpawned => Containers.Count;
 
     [SerializeField] private Transform containerSlotParent;
-    [SerializeField] private Container containerPrefab;
+    [SerializeField] private ContainerBox containerPrefab;
     [SerializeField] private Transform palletVisualsParent;
 
-    public Dictionary<int, Container> Containers = new();
+    public Dictionary<int, ContainerBox> Containers = new();
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class Pallet : MonoBehaviour
 
     public int AddItemToPallet(string productId, int amount)
     {
-        foreach (Container container in FindAllContainersWithProduct(productId))
+        foreach (ContainerBox container in FindAllContainersWithProduct(productId))
         {
             if (amount <= 0)
                 break; ;
@@ -43,7 +43,7 @@ public class Pallet : MonoBehaviour
         {
             if (TotalContainersSpawned < MaxContainerCount)
             {
-                Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
+                ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
                 Containers.Add(TotalContainersSpawned, container);
                 container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 PlaceProductInContainer(container, productId, 10);
@@ -60,7 +60,7 @@ public class Pallet : MonoBehaviour
 
         if (TotalContainersSpawned < MaxContainerCount)
         {
-            Container container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
+            ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
             Containers.Add(TotalContainersSpawned, container);
             container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             PlaceProductInContainer(container, productId, amount);
@@ -70,15 +70,15 @@ public class Pallet : MonoBehaviour
         return amount; // This returns the amount that couldn't be placed on this Pallet as it's full
     }
 
-    private List<Container> FindAllContainersWithProduct(string productId)
+    private List<ContainerBox> FindAllContainersWithProduct(string productId)
     {
-        List<Container> containersWithProduct = new();
-        foreach (Container container in Containers.Values)
+        List<ContainerBox> containersWithProduct = new();
+        foreach (ContainerBox container in Containers.Values)
         {
-            if ((container.ContainedItem as Product).productId == productId)
-            {
-                containersWithProduct.Add(container);
-            }
+            //if ((container.ContainedItem as Product).productId == productId)
+            //{
+            //    containersWithProduct.Add(container);
+            //}
         }
         return containersWithProduct;
     }
@@ -89,12 +89,13 @@ public class Pallet : MonoBehaviour
     /// <param name="container">Container to place items in.</param>
     /// <param name="amount">Amount to try place in the container.</param>
     /// <returns>Returns the amount of items that couldn't be placed in the container</returns>
-    private int HasSpaceInContainer(Container container, int amount)
+    private int HasSpaceInContainer(ContainerBox container, int amount)
     {
-        return container.CurrentAmount + amount <= container.MaxStackSize ? 0 : amount - (container.MaxStackSize - container.CurrentAmount);
+        return -1;
+        //return container.CurrentAmount + amount <= container.MaxStackSize ? 0 : amount - (container.MaxStackSize - container.CurrentAmount);
     }
 
-    private void PlaceProductInContainer(Container container, string productId, int amount)
+    private void PlaceProductInContainer(ContainerBox container, string productId, int amount)
     {
         for (int i = 0; i < amount; i++)
         {
@@ -105,7 +106,7 @@ public class Pallet : MonoBehaviour
                 return;
             }
             product.ProductIcon = ProductManager.Instance.productItemDictionary[productId].icon;
-            container.PlaceItemInContainer(product);
+            //container.PlaceItemInContainer(product);
         }
     }
 

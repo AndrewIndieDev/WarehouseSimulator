@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &481942744231044177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4286956975559758010}
+  - component: {fileID: 6352086043641885257}
+  m_Layer: 13
+  m_Name: OverlapCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4286956975559758010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481942744231044177}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.4, z: 0.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8687097406727633250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6352086043641885257
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481942744231044177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.8, z: 0.8}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1388713218696481421
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7999169628709153552}
   - component: {fileID: 2797575299234798733}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Flap1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,9 +165,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.0002, y: 0.005, z: 0.01}
   m_Center: {x: 0, y: 0.0025, z: 0}
@@ -128,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3229616615698828934}
   - component: {fileID: 4565397654369499474}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Flap4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,9 +218,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.01, y: 0.005, z: 0.0002}
   m_Center: {x: 0, y: 0.0025, z: 0}
@@ -268,6 +321,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.0050440906, z: 9.313226e-10}
     m_Extent: {x: 0.0095367655, y: 0.009477965, z: 0.009536761}
   m_DirtyAABB: 0
+--- !u!1 &5477532710944362149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4445927423957205510}
+  m_Layer: 13
+  m_Name: ContentsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4445927423957205510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477532710944362149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8687097406727633250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5977637984927907921
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,11 +385,14 @@ Transform:
   m_GameObject: {fileID: 5977637984927907921}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.24, y: 0.52, z: 13.68}
-  m_LocalScale: {x: 1, y: 1.25, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1474112593633338288}
+  - {fileID: 4286956975559758010}
+  - {fileID: 4600769796098922787}
+  - {fileID: 4445927423957205510}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5010154641000506864
@@ -441,6 +528,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   mr: {fileID: 6301456460744082887}
+  overlapCollider: {fileID: 6352086043641885257}
+  closeCollider: {fileID: 5667112810768832690}
+  boxContentsParent: {fileID: 4445927423957205510}
 --- !u!95 &2635533044431149456
 Animator:
   serializedVersion: 7
@@ -578,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 568765182886492213}
   - component: {fileID: 6580379976174576673}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Flap2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,9 +705,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.0002, y: 0.005, z: 0.01}
   m_Center: {x: 0, y: 0.0025, z: 0}
@@ -653,6 +743,59 @@ Transform:
   - {fileID: 7999169628709153552}
   m_Father: {fileID: 7524897147132779833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6529983595320453564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4600769796098922787}
+  - component: {fileID: 5667112810768832690}
+  m_Layer: 13
+  m_Name: ClosingCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4600769796098922787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6529983595320453564}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.4, z: 0.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8687097406727633250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5667112810768832690
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6529983595320453564}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1, y: 0.05, z: 1.1}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &7313158574503239497
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6007247402028478668}
   - component: {fileID: 208165802472213245}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Flap3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -764,9 +907,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.01, y: 0.005, z: 0.0002}
   m_Center: {x: 0, y: 0.0025, z: 0}

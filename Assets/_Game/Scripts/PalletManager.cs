@@ -51,7 +51,7 @@ public class PalletManager : MonoBehaviour
     {
         foreach (Pallet pallet in pallets)
         {
-            foreach (KeyValuePair<int, Container> container in pallet.Containers)
+            foreach (KeyValuePair<int, ContainerBox> container in pallet.Containers)
             {
                 container.Value.UnFreezeContainer();
             }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ContainerBox : BaseInteractable
@@ -39,6 +40,7 @@ public class ContainerBox : BaseInteractable
             isHeld = false;
             UnFreezeContainer();
         }
+        FreezeContents(isHeld);
     }
     public override void HandleSecondaryInteraction()
     {
@@ -46,6 +48,9 @@ public class ContainerBox : BaseInteractable
     }
     public override void HandleHeldInteraction()
     {
+        if (boxContents.Count > 0)
+            return;
+
         OnInteract(InteractType.Secondary);
     }
     #endregion
@@ -55,24 +60,72 @@ public class ContainerBox : BaseInteractable
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private AnimationCurve failedCloseCurve;
     [SerializeField] private SkinnedMeshRenderer mr;
+    [SerializeField] private BoxCollider overlapCollider;
+    [SerializeField] private BoxCollider closeCollider;
+    [SerializeField] private Transform boxContentsParent;
     private bool isHeld;
     private float animationTime;
     private bool isClosing;
     private bool failedClose;
     Coroutine animationCoroutine;
+    private List<Product> boxContents = new();
 
     void Start()
     {
         SetContainerClosed(false);
     }
 
-    private void OnCollisionEnter(Collision other)
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == LayerMask.NameToLayer("NoInteraction"))
+    //        return;
+    //    Product product = other.gameObject.GetComponent<Product>();
+    //    if (product != null && boxContents.Contains(product))
+    //    {
+    //        if (isClosing == true)
+    //            failedClose = true;
+    //    }
+    //}
+
+    private Collider[] GetProductsInsideBox()
     {
-        if (other.contacts[0].thisCollider.transform == transform) return;
-        if (other.gameObject.GetComponent<Product>() != null)
+        overlapCollider.gameObject.SetActive(true);
+        Collider[] found = Physics.OverlapBox(overlapCollider.bounds.center, overlapCollider.bounds.extents * 2, overlapCollider.transform.rotation, interactableLayer);
+        overlapCollider.gameObject.SetActive(false);
+        return found;
+    }
+
+    private bool ObjectsStickingOut()
+    {
+        closeCollider.gameObject.SetActive(true);
+        Collider[] found = Physics.OverlapBox(closeCollider.bounds.center, closeCollider.bounds.extents * 2, closeCollider.transform.rotation, interactableLayer);
+        return found.Length > 1; // we get > 1 because we also get the box itself
+    }
+
+    private void FreezeContents(bool freeze)
+    {
+        if (freeze)
         {
-            if (isClosing == true)
-                failedClose = true;
+            Collider[] hits = GetProductsInsideBox();
+            foreach (var hit in hits)
+            {
+                Product product = hit.GetComponent<Product>();
+                if (product != null)
+                {
+                    product.transform.SetParent(boxContentsParent, true);
+                    boxContents.Add(product);
+                    product.FreezeProduct();
+                }
+            }
+        }
+        else
+        {
+            foreach (var product in boxContents)
+            {
+                product.transform.parent = null;
+                product.UnFreezeProduct();
+            }
+            boxContents.Clear();
         }
     }
 
@@ -132,6 +185,24 @@ public class ContainerBox : BaseInteractable
         this.isClosing = isClosing;
         if (animationCoroutine == null)
             animationCoroutine = StartCoroutine(OpenAnimation());
+        
+        if (isClosing)
+        {
+            if (ObjectsStickingOut())
+            {
+                Debug.Log("Items found sticking out.");
+                closeCollider.gameObject.SetActive(false);
+                Invoke(nameof(TempFailedDelay), 0.3f);
+            }
+        }
+        else
+        {
+            closeCollider.gameObject.SetActive(false);
+        }
+    }
+    private void TempFailedDelay()
+    {
+        failedClose = true;
     }
 
     private void ToggleOpen()
