@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,11 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     public virtual InteractableType Type => InteractableType.None;
     public virtual bool IsInteractable => true;
     public virtual bool IsHeld => false;
+    public virtual bool LockWhenInteractedWith => true;
+
+    protected NetworkVariable<long> nv_lockedBy = new NetworkVariable<long>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    private bool CanNetworkInteract(ulong sender) => LockWhenInteractedWith ? nv_lockedBy.Value >= 0 && sender != (ulong)nv_lockedBy.Value : true;
 
     public virtual void OnHoverEnter()
     {
@@ -19,15 +25,18 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
 
     }
 
-    
     public void OnInteract(InteractType type, ulong sender)
     {
+        if (!CanNetworkInteract(sender))
+            return;
         OnInteractServerRPC(type, sender);
     }
 
     [ServerRpc(RequireOwnership = false)]
     protected virtual void OnInteractServerRPC(InteractType type, ulong sender)
     {
+        if (!CanNetworkInteract(sender))
+            return;
         NetworkObject.ChangeOwnership(sender);
         OnInteractClientRPC(type, sender);
     }
@@ -35,6 +44,8 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     [ClientRpc]
     protected virtual void OnInteractClientRPC(InteractType type, ulong sender)
     {
+        if (!CanNetworkInteract(sender))
+            return;
         switch (type)
         {
             case InteractType.Primary:
@@ -51,6 +62,13 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
                 break;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected virtual void UnlockServerRPC()
+    {
+        nv_lockedBy.Value = -1;
+    }
+
 
     protected virtual void HandlePrimaryInteraction(ulong sender)
     {

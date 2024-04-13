@@ -39,6 +39,7 @@ public class Product : BaseInteractable
         {
             isHeld = false;
             UnFreezeProduct();
+            UnlockServerRPC();
         }
     }
 

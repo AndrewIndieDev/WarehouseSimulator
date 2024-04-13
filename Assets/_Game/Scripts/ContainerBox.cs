@@ -42,6 +42,7 @@ public class ContainerBox : BaseInteractable
         {
             isHeld = false;
             UnFreezeContainer();
+            
         }
         FreezeContents(isHeld);
     }
