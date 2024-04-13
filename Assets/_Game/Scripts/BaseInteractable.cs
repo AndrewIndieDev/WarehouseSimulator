@@ -11,7 +11,7 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     public virtual bool IsHeld => false;
     public virtual bool GetLockOnInteractType(InteractType type) => false;
 
-    protected NetworkVariable<long> nv_lockedBy = new NetworkVariable<long>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    protected NetworkVariable<long> nv_lockedBy = new NetworkVariable<long>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private bool CanNetworkInteract(InteractType type, ulong sender) => GetLockOnInteractType(type) ? nv_lockedBy.Value < 0 || sender == (ulong)nv_lockedBy.Value : true;
 
@@ -37,6 +37,7 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     {
         if (!CanNetworkInteract(type, sender))
             return;
+        nv_lockedBy.Value = (long)sender;
         NetworkObject.ChangeOwnership(sender);
         OnInteractClientRPC(type, sender);
     }
