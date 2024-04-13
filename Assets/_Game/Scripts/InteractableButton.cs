@@ -15,6 +15,7 @@ public class InteractableButton : BaseInteractable
 
     protected override void HandleSecondaryInteraction(ulong sender)
     {
+        if (sender != NetworkManager.LocalClientId) return;
         HandlePrimaryInteraction(0);
     }
     #endregion

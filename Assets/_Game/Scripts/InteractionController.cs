@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
+    public IInteractable currentHeld;
+    public IInteractable currentHover;
+    public Transform heldItemSlot;
+    
     [SerializeField] private Camera cam;
-    [SerializeField] private Transform heldItemSlot;
-    [SerializeField] private IInteractable currentHeld;
-    [SerializeField] private IInteractable currentHover;
     [SerializeField] private LayerMask interactionLayer;
     [SerializeField] private LayerMask placementLayers;
     [SerializeField] private Material acceptablePlacementMaterial;
@@ -94,9 +95,9 @@ public class InteractionController : MonoBehaviour
                         if ((currentHover as InteractableButton) == null)
                         {
                             currentHover.OnInteract(InteractType.Primary, ownerID);
-                            currentHover.transform.parent = heldItemSlot;
-                            currentHover.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                            currentHeld = currentHover;
+                            //currentHover.transform.parent = heldItemSlot;
+                            //currentHover.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                            //currentHeld = currentHover;
                         }
                         else
                             (currentHover as InteractableButton).OnInteract(InteractType.Primary, ownerID);

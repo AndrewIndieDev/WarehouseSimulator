@@ -31,6 +31,7 @@ public class ContainerBox : BaseInteractable
 
     protected override void HandlePrimaryInteraction(ulong sender)
     {
+        if (sender != NetworkManager.LocalClientId) return;
         if (!isHeld) // If the object we are interacting with is not held
         {
             isHeld = true;
@@ -51,6 +52,7 @@ public class ContainerBox : BaseInteractable
 
     protected override void HandleHeldInteraction(ulong sender)
     {
+        if (sender != NetworkManager.LocalClientId) return;
         if (boxContents.Count > 0)
             return;
 

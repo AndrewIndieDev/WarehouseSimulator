@@ -45,16 +45,13 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
         switch (type)
         {
             case InteractType.Primary:
-                if (sender == NetworkManager.Singleton.LocalClientId)
-                    HandlePrimaryInteraction(sender);
+                HandlePrimaryInteraction(sender);
                 break;
             case InteractType.Secondary:
-                if (sender == NetworkManager.Singleton.LocalClientId)
-                    HandleSecondaryInteraction(sender);
+                HandleSecondaryInteraction(sender);
                 break;
             case InteractType.HeldInteraction:
-                if (sender == NetworkManager.Singleton.LocalClientId)
-                    HandleHeldInteraction(sender);
+                HandleHeldInteraction(sender);
                 break;
             default:
                 Debug.LogError($"InteractType <{type}> has not been added to this use case. . .");

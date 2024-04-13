@@ -28,10 +28,12 @@ public class Product : BaseInteractable
 
     protected override void HandlePrimaryInteraction(ulong sender)
     {
+        if (sender != NetworkManager.LocalClientId) return;
         if (!isHeld) // If the object we are interacting with is not held
         {
             isHeld = true;
             FreezeProduct();
+            NetworkManager.LocalClient.PlayerObject.GetComponent<NetworkPlayer>().PickupInteractable(this);
         }
         else // If the object we are interacting with is held
         {
@@ -42,6 +44,7 @@ public class Product : BaseInteractable
 
     protected override void HandleHeldInteraction(ulong sender)
     {
+        if (sender != NetworkManager.LocalClientId) return;
         UnFreezeProduct();
         rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
         isHeld = false;
