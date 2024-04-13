@@ -36,6 +36,7 @@ public class ContainerBox : BaseInteractable
         {
             isHeld = true;
             FreezeContainer();
+            NetworkManager.LocalClient.PlayerObject.GetComponent<NetworkPlayer>().PickupInteractable(this);
         }
         else // If the object we are interacting with is held
         {
