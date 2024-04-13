@@ -11253,16 +11253,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -3970221075518180094, guid: 259d17aae5cddd645b00c4aba59e2663,
-        type: 3}
-      propertyPath: material
-      value: 
-      objectReference: {fileID: 2100000, guid: 4cfe2302eacbd024a9ebbfaae130509c, type: 2}
-    - target: {fileID: -3970221075518180094, guid: 259d17aae5cddd645b00c4aba59e2663,
-        type: 3}
-      propertyPath: productId
-      value: material_gold
-      objectReference: {fileID: 0}
     - target: {fileID: 497700003294900482, guid: 259d17aae5cddd645b00c4aba59e2663,
         type: 3}
       propertyPath: m_Name
@@ -11272,11 +11262,6 @@ PrefabInstance:
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1556421057
-      objectReference: {fileID: 0}
-    - target: {fileID: 3559468317175843954, guid: 259d17aae5cddd645b00c4aba59e2663,
-        type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 108528225
       objectReference: {fileID: 0}
     - target: {fileID: 8103802706491716293, guid: 259d17aae5cddd645b00c4aba59e2663,
         type: 3}
