@@ -7614,15 +7614,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1325992271015321654, guid: c7292d300fa054c47ae3d24f24e129a3,
+    - target: {fileID: 2691027854306127361, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
-      propertyPath: m_Layer
-      value: 13
+      propertyPath: GlobalObjectIdHash
+      value: 2028724474
       objectReference: {fileID: 0}
-    - target: {fileID: 2000496894569260919, guid: c7292d300fa054c47ae3d24f24e129a3,
+    - target: {fileID: 2691027854306127361, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
-      propertyPath: m_Layer
-      value: 13
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1273386368
       objectReference: {fileID: 0}
     - target: {fileID: 4439357094777256474, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
@@ -7674,51 +7674,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5875964358508166068, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 6558537259217074982, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 7406099091109123850, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: door
-      value: 
-      objectReference: {fileID: 1788741862}
     - target: {fileID: 7871117435341385088, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
       propertyPath: m_Name
       value: DoorButton (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7871117435341385088, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 8081829015067416675, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8495287525697693909, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1788741862}
-    - target: {fileID: 8495287525697693909, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleOpen
-      objectReference: {fileID: 0}
-    - target: {fileID: 8501748631773679612, guid: c7292d300fa054c47ae3d24f24e129a3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14956,6 +14921,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: ebf9e613dace64e4c9e5b9c1839249e7, type: 2}
+    - target: {fileID: 2691027854306127361, guid: c7292d300fa054c47ae3d24f24e129a3,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1337469276
+      objectReference: {fileID: 0}
+    - target: {fileID: 2691027854306127361, guid: c7292d300fa054c47ae3d24f24e129a3,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1273386368
+      objectReference: {fileID: 0}
     - target: {fileID: 3760127383092469553, guid: c7292d300fa054c47ae3d24f24e129a3,
         type: 3}
       propertyPath: m_Materials.Array.size
