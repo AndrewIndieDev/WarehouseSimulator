@@ -42,7 +42,7 @@ public class ContainerBox : BaseInteractable
         {
             isHeld = false;
             UnFreezeContainer();
-            
+            UnlockServerRPC();
         }
         FreezeContents(isHeld);
     }
