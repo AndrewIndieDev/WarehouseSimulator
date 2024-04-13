@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8474137359112655575}
   - component: {fileID: 8691423303526410558}
   - component: {fileID: -3970221075518180094}
-  - component: {fileID: 3195858036439972226}
-  - component: {fileID: 1579857464453174906}
+  - component: {fileID: -1926107838098980009}
+  - component: {fileID: -4069283674453359904}
   m_Layer: 13
   m_Name: Material_Prefab
   m_TagString: Untagged
@@ -128,7 +128,7 @@ MonoBehaviour:
   productIcon: {fileID: 4154780841294389669, guid: 0a80e9d1d01e5ee4098765964307344b,
     type: 3}
   material: {fileID: 2100000, guid: 4cfe2302eacbd024a9ebbfaae130509c, type: 2}
---- !u!114 &3195858036439972226
+--- !u!114 &-1926107838098980009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 497700003294900482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: e408b3f89bbf8f247b72c58987a26fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0
@@ -147,9 +147,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -159,7 +159,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &1579857464453174906
+--- !u!114 &-4069283674453359904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
