@@ -5,6 +5,14 @@ public class Product : BaseInteractable
     #region Base Interactable
     public override InteractableType Type => InteractableType.Pickup;
     public override bool IsHeld => isHeld;
+    public override bool GetLockOnInteractType(InteractType type)
+    {
+        return type switch
+        {
+            InteractType.Primary => true,
+            _ => false
+        };
+    }
     public override void OnHoverEnter()
     {
         foreach (var mat in mr.materials)

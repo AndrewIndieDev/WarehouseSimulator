@@ -8,6 +8,15 @@ public class ContainerBox : BaseInteractable
     public override InteractableType Type => InteractableType.Container;
     public override bool IsInteractable => true;
     public override bool IsHeld => isHeld;
+    public override bool GetLockOnInteractType(InteractType type)
+    {
+        return type switch
+        {
+            InteractType.Primary => true,
+            _ => false
+        };
+    }
+
     public override void OnHoverEnter()
     {
         foreach (var mat in mr.materials)

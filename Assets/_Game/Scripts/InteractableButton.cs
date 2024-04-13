@@ -7,7 +7,10 @@ public class InteractableButton : BaseInteractable
     public override InteractableType Type => InteractableType.Button;
     public override bool IsInteractable => true;
     public override bool IsHeld => false;
-    public override bool LockWhenInteractedWith => false;
+    public override bool GetLockOnInteractType(InteractType type)
+    {
+        return false;
+    }
 
     protected override void HandlePrimaryInteraction(ulong sender)
     {
