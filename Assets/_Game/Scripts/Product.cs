@@ -47,7 +47,6 @@ public class Product : BaseInteractable
         {
             isHeld = false;
             UnFreezeProduct();
-            UnlockServerRPC();
         }
     }
 
@@ -80,6 +79,7 @@ public class Product : BaseInteractable
     {
         rb.isKinematic = false;
         ToggleComponents(true);
+        UnlockServerRPC();
     }
     
     protected virtual void Start()
