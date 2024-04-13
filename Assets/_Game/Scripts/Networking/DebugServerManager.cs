@@ -7,13 +7,14 @@ using UnityEngine;
 public class DebugServerManager : MonoBehaviour
 {
 #if UNITY_EDITOR
+    public bool alwaysStartOnMine = false;
     public bool startHostOnDavid = true;
     private ulong davidID = 76561198045888021;
     private ulong andrewID = 76561198173399099;
     
     private void Start()
     {
-        if (SteamClient.SteamId == davidID && startHostOnDavid || SteamClient.SteamId == andrewID && !startHostOnDavid)
+        if (alwaysStartOnMine || SteamClient.SteamId == davidID && startHostOnDavid || SteamClient.SteamId == andrewID && !startHostOnDavid)
             GetComponent<NetworkManager>().StartHost();
         else
         {
