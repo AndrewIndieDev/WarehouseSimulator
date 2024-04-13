@@ -3306,7 +3306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alwaysStartOnMine: 0
-  startHostOnDavid: 1
+  startHostOnDavid: 0
 --- !u!1001 &485053473
 PrefabInstance:
   m_ObjectHideFlags: 0
