@@ -27,7 +27,7 @@ public class SteamP2PRelayTransport : NetworkTransport
         SteamP2PRelayTransport transport;
 
 	// TODO: Increase buffer size.
-        byte[] buffer = new byte[2048];
+        byte[] buffer = new byte[4096];
         ArraySegment<byte> emptyPayload = new ArraySegment<byte>();
 
         public ClientCallbacks(SteamP2PRelayTransport transport)
