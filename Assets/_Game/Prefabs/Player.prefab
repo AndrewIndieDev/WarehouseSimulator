@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 6839855954745479735}
   - component: {fileID: 1679635213279342819}
   - component: {fileID: 4595803523414190943}
+  - component: {fileID: 2041713102889448024}
   m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
@@ -674,3 +675,15 @@ MonoBehaviour:
   - {fileID: 8393184050609337870}
   - {fileID: 2313687241755862786}
   componentsToDisableWhenMine: []
+--- !u!114 &2041713102889448024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258456458544590089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8310b800f1d1bfc429156866a5d6d26b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
