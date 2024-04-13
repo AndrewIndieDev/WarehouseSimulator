@@ -37,7 +37,8 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     {
         if (!CanNetworkInteract(type, sender))
             return;
-        nv_lockedBy.Value = (long)sender;
+        if (GetLockOnInteractType(type))
+            nv_lockedBy.Value = (long)sender;
         NetworkObject.ChangeOwnership(sender);
         OnInteractClientRPC(type, sender);
     }
