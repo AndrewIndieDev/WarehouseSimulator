@@ -45,19 +45,18 @@ public class ContainerBox : BaseInteractable
     protected override void HandlePrimaryInteraction(ulong sender)
     {
         if (sender != NetworkManager.LocalClientId) return;
-        if (!isHeld) // If the object we are interacting with is not held
+        isHeld = !isHeld;
+        FreezeContents(isHeld);
+        if (isHeld) // If the object we are interacting with is not held
         {
-            isHeld = true;
             FreezeContainer();
             NetworkManager.LocalClient.PlayerObject.GetComponent<NetworkPlayer>().PickupInteractable(this);
         }
         else // If the object we are interacting with is held
         {
-            isHeld = false;
             UnFreezeContainer();
             UnlockServerRPC();
         }
-        FreezeContents(isHeld);
     }
 
     protected override void HandleSecondaryInteraction(ulong sender)
