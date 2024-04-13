@@ -7,13 +7,15 @@ public class InteractableButton : BaseInteractable
     public override InteractableType Type => InteractableType.Button;
     public override bool IsInteractable => true;
     public override bool IsHeld => false;
-    public override void HandlePrimaryInteraction()
+
+    protected override void HandlePrimaryInteraction(ulong sender)
     {
         onInteract?.Invoke();
     }
-    public override void HandleSecondaryInteraction()
+
+    protected override void HandleSecondaryInteraction(ulong sender)
     {
-        HandlePrimaryInteraction();
+        HandlePrimaryInteraction(0);
     }
     #endregion
 

@@ -25,7 +25,8 @@ public class Product : BaseInteractable
             }
         }
     }
-    public override void HandlePrimaryInteraction()
+
+    protected override void HandlePrimaryInteraction(ulong sender)
     {
         if (!isHeld) // If the object we are interacting with is not held
         {
@@ -38,7 +39,8 @@ public class Product : BaseInteractable
             UnFreezeProduct();
         }
     }
-    public override void HandleHeldInteraction()
+
+    protected override void HandleHeldInteraction(ulong sender)
     {
         UnFreezeProduct();
         rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);

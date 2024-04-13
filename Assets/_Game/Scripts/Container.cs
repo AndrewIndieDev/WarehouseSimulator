@@ -16,7 +16,8 @@ public class Container : BaseInteractable
     {
         // stop glow around object
     }
-    public override void HandlePrimaryInteraction()
+
+    protected override void HandlePrimaryInteraction(ulong sender)
     {
         if (!isHeld) // If the object we are interacting with is not held
         {
@@ -29,11 +30,13 @@ public class Container : BaseInteractable
             UnFreezeContainer();
         }
     }
-    public override void HandleSecondaryInteraction()
+
+    protected override void HandleSecondaryInteraction(ulong sender)
     {
         
     }
-    public override void HandleHeldInteraction()
+
+    protected override void HandleHeldInteraction(ulong sender)
     {
         
     }
@@ -70,25 +73,6 @@ public class Container : BaseInteractable
             return true;
         }
         return false;
-    }
-
-    public void Button_TakeItemOutOfContainer()
-    {
-        if (containedItem == null || currentAmount <= 0)
-            return;
-
-        IInteractable item = containedItemParent.GetChild(0).GetComponent<IInteractable>();
-        Product product = (item as Product);
-        product.OnInteract(InteractType.Primary);
-        product.transform.parent = null;
-        
-        if (currentAmount <= 0)
-        {
-            containedItem = null;
-            takeOutButton.SetActive(false);
-        }
-
-        UpdateDisplay();
     }
 
     private void UpdateDisplay()

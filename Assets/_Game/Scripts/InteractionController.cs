@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class InteractionController : MonoBehaviour
@@ -15,7 +16,14 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private Renderer placementRenderer => currentHeld != null ? currentHeld.transform.GetComponentInChildren<Renderer>() : null;
 
     private bool isPlacing;
+    
+    private ulong ownerID;
 
+    public void Init()
+    {
+        ownerID = GetComponent<NetworkObject>().OwnerClientId;
+    }
+    
     void Update()
     {
         ValidateCurrentHeld();
@@ -72,7 +80,7 @@ public class InteractionController : MonoBehaviour
         {
             if (currentHeld != null)
             {
-                currentHeld.OnInteract(InteractType.Primary);
+                currentHeld.OnInteract(InteractType.Primary, ownerID);
                 currentHeld.transform.parent = null;
             }
             else if (currentHover != null)
@@ -85,13 +93,13 @@ public class InteractionController : MonoBehaviour
                     default:
                         if ((currentHover as InteractableButton) == null)
                         {
-                            currentHover.OnInteract(InteractType.Primary);
+                            currentHover.OnInteract(InteractType.Primary, ownerID);
                             currentHover.transform.parent = heldItemSlot;
                             currentHover.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                             currentHeld = currentHover;
                         }
                         else
-                            (currentHover as InteractableButton).OnInteract(InteractType.Primary);
+                            (currentHover as InteractableButton).OnInteract(InteractType.Primary, ownerID);
                         break;
                 }
             }
@@ -106,11 +114,11 @@ public class InteractionController : MonoBehaviour
             {
                 if (currentHeld != null)
                 {
-                    currentHeld.OnInteract(InteractType.HeldInteraction);
+                    currentHeld.OnInteract(InteractType.HeldInteraction, ownerID);
                 }
                 else if (currentHover != null)
                 {
-                    currentHover.OnInteract(InteractType.Secondary);
+                    currentHover.OnInteract(InteractType.Secondary, ownerID);
                 }
             }
         }
@@ -154,7 +162,7 @@ public class InteractionController : MonoBehaviour
             {
                 if (!acceptable)
                     return;
-                currentHeld.OnInteract(InteractType.Primary);
+                currentHeld.OnInteract(InteractType.Primary, ownerID);
                 currentHeld.transform.parent = null;
                 currentHeld.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 placementRenderer.material = originalMaterial;

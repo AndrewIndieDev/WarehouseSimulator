@@ -24,7 +24,7 @@ public interface IInteractable
     public bool IsHeld { get; }
     public void OnHoverEnter();
     public void OnHoverExit();
-    public void OnInteract(InteractType type);
+    public void OnInteract(InteractType type, ulong sender);
     public Transform transform { get; }
     public GameObject gameObject { get; }
 }

@@ -28,7 +28,8 @@ public class ContainerBox : BaseInteractable
             }
         }
     }
-    public override void HandlePrimaryInteraction()
+
+    protected override void HandlePrimaryInteraction(ulong sender)
     {
         if (!isHeld) // If the object we are interacting with is not held
         {
@@ -42,16 +43,18 @@ public class ContainerBox : BaseInteractable
         }
         FreezeContents(isHeld);
     }
-    public override void HandleSecondaryInteraction()
+
+    protected override void HandleSecondaryInteraction(ulong sender)
     {
         ToggleOpen();
     }
-    public override void HandleHeldInteraction()
+
+    protected override void HandleHeldInteraction(ulong sender)
     {
         if (boxContents.Count > 0)
             return;
 
-        OnInteract(InteractType.Secondary);
+        OnInteract(InteractType.Secondary, sender);
     }
     #endregion
 

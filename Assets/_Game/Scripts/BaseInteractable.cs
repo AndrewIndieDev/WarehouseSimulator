@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class BaseInteractable : MonoBehaviour, IInteractable
+public abstract class BaseInteractable : NetworkBehaviour, IInteractable
 {
     public List<Component> disableOnGhostPlacement = new();
+
+    protected BaseInteractable()
+    {
+    }
 
     public virtual InteractableType Type => InteractableType.None;
 
@@ -21,18 +26,35 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
 
     }
 
-    public void OnInteract(InteractType type)
+    
+    public void OnInteract(InteractType type, ulong sender)
+    {
+        OnInteractServerRPC(type, sender);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected virtual void OnInteractServerRPC(InteractType type, ulong sender)
+    {
+        NetworkObject.ChangeOwnership(sender);
+        OnInteractClientRPC(type, sender);
+    }
+    
+    [ClientRpc]
+    protected virtual void OnInteractClientRPC(InteractType type, ulong sender)
     {
         switch (type)
         {
             case InteractType.Primary:
-                HandlePrimaryInteraction();
+                if (sender == NetworkManager.Singleton.LocalClientId)
+                    HandlePrimaryInteraction(sender);
                 break;
             case InteractType.Secondary:
-                HandleSecondaryInteraction();
+                if (sender == NetworkManager.Singleton.LocalClientId)
+                    HandleSecondaryInteraction(sender);
                 break;
             case InteractType.HeldInteraction:
-                HandleHeldInteraction();
+                if (sender == NetworkManager.Singleton.LocalClientId)
+                    HandleHeldInteraction(sender);
                 break;
             default:
                 Debug.LogError($"InteractType <{type}> has not been added to this use case. . .");
@@ -40,31 +62,31 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
         }
     }
 
-    public virtual void HandlePrimaryInteraction()
+    protected virtual void HandlePrimaryInteraction(ulong sender)
     {
         
     }
 
-    public virtual void HandleSecondaryInteraction()
+    protected virtual void HandleSecondaryInteraction(ulong sender)
     {
         
     }
 
-    public virtual void HandleHeldInteraction()
+    protected virtual void HandleHeldInteraction(ulong sender)
     {
         
     }
 
-    public virtual void ToggleComponents(bool enabled)
+    protected virtual void ToggleComponents(bool isEnabled)
     {
         foreach (Component component in disableOnGhostPlacement)
         {
             MeshRenderer mr = (component as MeshRenderer);
             Collider col = (component as Collider);
             if (mr != null)
-                mr.enabled = enabled;
+                mr.enabled = isEnabled;
             else if (col != null)
-                col.enabled = enabled;
+                col.enabled = isEnabled;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -152,8 +153,9 @@ public class Computer : MonoBehaviour, IInteractable
         
     }
 
-    public void OnInteract(InteractType type)
+    public void OnInteract(InteractType type, ulong sender)
     {
+        if (sender != NetworkManager.Singleton.LocalClientId) return;
         switch (type)
         {
             case InteractType.Primary:
