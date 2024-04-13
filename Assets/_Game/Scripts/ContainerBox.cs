@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class ContainerBox : BaseInteractable
@@ -8,6 +9,9 @@ public class ContainerBox : BaseInteractable
     public override InteractableType Type => InteractableType.Container;
     public override bool IsInteractable => true;
     public override bool IsHeld => isHeld;
+    
+    NetworkVariable<bool> isClosed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    
     public override bool GetLockOnInteractType(InteractType type)
     {
         return type switch
@@ -58,7 +62,8 @@ public class ContainerBox : BaseInteractable
 
     protected override void HandleSecondaryInteraction(ulong sender)
     {
-        ToggleOpen();
+        if (sender != NetworkManager.LocalClientId) return;
+            ToggleOpen();
     }
 
     protected override void HandleHeldInteraction(ulong sender)
@@ -86,9 +91,9 @@ public class ContainerBox : BaseInteractable
     Coroutine animationCoroutine;
     private List<Product> boxContents = new();
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        SetContainerClosed(false);
+        SetContainerClosed(isClosed.Value, false);
     }
 
     //private void OnTriggerEnter(Collider other)
@@ -191,22 +196,38 @@ public class ContainerBox : BaseInteractable
         isClosing = false;
     }
 
-    public void OnFlapHit()
+    [ServerRpc(RequireOwnership = false)]
+    private void SetContainerClosedServerRPC(bool isClosing)
     {
-        SetContainerClosed(false);
-    }
-
-    private void SetContainerClosed(bool isClosing)
-    {
-        this.isClosing = isClosing;
-        if (animationCoroutine == null)
-            animationCoroutine = StartCoroutine(OpenAnimation());
-        
+        bool failed = false;
         if (isClosing)
         {
             if (ObjectsStickingOut())
             {
                 Debug.Log("Items found sticking out.");
+                failed = true;
+            }
+        }
+
+        isClosed.Value = isClosing && !failed;
+        SetContainerClosedClientRPC(isClosing, failed);
+    }
+
+    [ClientRpc]
+    private void SetContainerClosedClientRPC(bool isClosing, bool failedClose)
+    {
+        SetContainerClosed(isClosing, failedClose);
+    }
+
+    private void SetContainerClosed(bool isClosing, bool failedClose)
+    {
+        this.isClosing = isClosing;
+        if (animationCoroutine == null)
+            animationCoroutine = StartCoroutine(OpenAnimation());
+        if (isClosing)
+        {
+            if (failedClose)
+            {
                 closeCollider.gameObject.SetActive(false);
                 Invoke(nameof(TempFailedDelay), 0.3f);
             }
@@ -216,6 +237,7 @@ public class ContainerBox : BaseInteractable
             closeCollider.gameObject.SetActive(false);
         }
     }
+    
     private void TempFailedDelay()
     {
         failedClose = true;
@@ -223,7 +245,7 @@ public class ContainerBox : BaseInteractable
 
     private void ToggleOpen()
     {
-        SetContainerClosed(!isClosing);
+        SetContainerClosedServerRPC(!isClosing);
     }
 
     public void FreezeContainer()
