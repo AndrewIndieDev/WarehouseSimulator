@@ -8,7 +8,6 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     public virtual InteractableType Type => InteractableType.None;
     public virtual bool IsInteractable => true;
     public virtual bool IsHeld => false;
-    protected bool IsInteracting { get; set; } = false;
 
     public virtual void OnHoverEnter()
     {
@@ -23,12 +22,6 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     
     public void OnInteract(InteractType type, ulong sender)
     {
-        if (sender == NetworkManager.Singleton.LocalClientId)
-        {
-            if (IsInteracting)
-                return;
-            IsInteracting = true;
-        }
         OnInteractServerRPC(type, sender);
     }
 
@@ -42,9 +35,6 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
     [ClientRpc]
     protected virtual void OnInteractClientRPC(InteractType type, ulong sender)
     {
-        if (sender == NetworkManager.Singleton.LocalClientId)
-            IsInteracting = false;
-
         switch (type)
         {
             case InteractType.Primary:

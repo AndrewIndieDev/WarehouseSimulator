@@ -13,8 +13,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void PickupInteractable(IInteractable interactable)
     {
-        interactionController.currentHover.transform.parent = interactionController.heldItemSlot;
-        interactionController.currentHover.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        interactable.transform.parent = interactionController.heldItemSlot;
+        interactable.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         interactionController.currentHeld = interactable;
     }
 }
