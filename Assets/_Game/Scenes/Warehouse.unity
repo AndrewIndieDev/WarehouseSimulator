@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b58e8b0e59981f47964b449d1d02e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palletPrefab: {fileID: 843780593383197155, guid: 246bc23729ab78640b16ba12e3f63aab,
+  palletPrefab: {fileID: 8529974641127238196, guid: 246bc23729ab78640b16ba12e3f63aab,
     type: 3}
   pallets: []
   palletParent: {fileID: 1462677322}
@@ -3256,11 +3256,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayStartTime: 6
   dayEndTime: 18
-  secondsPerHour: 30
+  secondsPerHour: 10
   use24HourClock: 1
   timeTickInterval: 0.1
   defaultTimeEvents:
-  - time: 7
+  - time: 5.93
     eventType: 1
   - time: 12
     eventType: 2

@@ -9,7 +9,7 @@ public class PalletManager : MonoBehaviour
         Instance = this;
     }
 
-    [SerializeField] private Pallet palletPrefab;
+    [SerializeField] private GameObject palletPrefab;
     [SerializeField] private List<Pallet> pallets = new();
     [SerializeField] private Transform palletParent;
 
@@ -17,7 +17,7 @@ public class PalletManager : MonoBehaviour
     {
         if (pallets.Count == 0)
         {
-            Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(0).transform.position, Quaternion.identity);
+            Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(0).transform.position, Quaternion.identity).GetComponent<Pallet>();
             pallets.Add(newPallet);
         }
 
@@ -30,7 +30,7 @@ public class PalletManager : MonoBehaviour
                 productData.Value.transitCount = pallet.AddItemToPallet(productData.Key, productData.Value.transitCount);
                 if (productData.Value.transitCount > 0 && i == pallets.Count - 1 && pallets.Count < palletParent.childCount)
                 {
-                    Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(i + 1).position, Quaternion.identity);
+                    Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(i + 1).position, Quaternion.identity).GetComponent<Pallet>();
                     pallets.Add(newPallet);
                 }
             }

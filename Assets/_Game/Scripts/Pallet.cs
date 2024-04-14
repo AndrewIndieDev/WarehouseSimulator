@@ -13,7 +13,7 @@ public class Pallet : MonoBehaviour
     private int TotalContainersSpawned => Containers.Count;
 
     [SerializeField] private Transform containerSlotParent;
-    [SerializeField] private ContainerBox containerPrefab;
+    [SerializeField] private GameObject containerPrefab;
     [SerializeField] private Transform palletVisualsParent;
 
     public Dictionary<int, ContainerBox> Containers = new();
@@ -27,7 +27,7 @@ public class Pallet : MonoBehaviour
     {
         if (Containers.Count == 0)
         {
-            ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(0));
+            ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(0)).GetComponent<ContainerBox>();
             Containers.Add(0, container);
             container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
@@ -50,7 +50,7 @@ public class Pallet : MonoBehaviour
             {
                 if (TotalContainersSpawned < MaxContainerCount)
                 {
-                    ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned));
+                    ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned)).GetComponent<ContainerBox>();
                     Containers.Add(TotalContainersSpawned, container);
                     container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                     Containers[TotalContainersSpawned - 1].AddProduct(productId);

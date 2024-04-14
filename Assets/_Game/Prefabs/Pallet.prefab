@@ -1813,7 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerSlotParent: {fileID: 5459430680759266426}
-  containerPrefab: {fileID: 6234469652052867798, guid: 2e1c1a0162007cc4fb415ce6d8b08755,
+  containerPrefab: {fileID: 5977637984927907921, guid: 846300da7c01713479a3a3ced30c7c04,
     type: 3}
   palletVisualsParent: {fileID: 3789860464625494818}
 --- !u!1 &8566174084715306900
