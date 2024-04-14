@@ -126,7 +126,10 @@ public class SteamP2PRelayTransport : NetworkTransport
         {
             Debug.Log("ServerCallbacks: OnMessage");
 
-            // TODO: Assert that size <= buffer size
+            while (size > buffer.Length)
+            {
+                buffer = new byte[buffer.Length * 2];
+            }
             Marshal.Copy(data, buffer, 0, size);
 
             transport.InvokeOnTransportEvent(NetworkEvent.Data, connection.Id, new ArraySegment<byte>(buffer, 0, size), Time.realtimeSinceStartup);

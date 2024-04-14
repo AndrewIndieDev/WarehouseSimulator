@@ -101,7 +101,10 @@ public class ProductManager : MonoBehaviour
     {
         foreach (var item in productItems)
         {
-            productData.Add(item.id, new ProductData() { stockCount = 0, transitCount = 10 });
+            ProductData data = new ProductData() { stockCount = 0, transitCount = 0 };
+            if (item.type == EProductType.Material)
+                data.transitCount = 100;
+            productData.Add(item.id, data);
             productItemDictionary.Add(item.id, item);
         }
     }
