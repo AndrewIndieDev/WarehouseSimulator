@@ -134,19 +134,13 @@ public class ProductManager : MonoBehaviour
         Computer.Instance.UpdateOrderList();
     }
 
-    public void OrderProduct(string id, int count)
+    public void OrderProduct(string productId, int count)
     {
-        if (productData.TryGetValue(id, out var value))
+        if (productData.TryGetValue(productId, out var value))
         {
-            if (GameManager.Instance.BuyProduct(productItemDictionary[id].price * count))
+            if (GameManager.Instance.BuyProduct(productItemDictionary[productId].price * count))
             {
                 value.transitCount += count;
-                //SpawnProductPrefab(id, transform.position, transform.rotation);
-                int remainder = PalletManager.Instance.OrderNewStock(id, count);
-                if (remainder > 0)
-                {
-                    Debug.LogWarning($"Unable to find pallet space for {remainder} {id}'s.");
-                }
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -156,6 +157,7 @@ public class TimeManager : NetworkBehaviour
     private IEnumerator TruckArrived()
     {
         yield return null;
+        PalletManager.Instance.PlaceOrderInTruck();
     }
     
     private IEnumerator TruckDeparted()

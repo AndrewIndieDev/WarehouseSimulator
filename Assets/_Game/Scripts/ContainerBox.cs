@@ -95,24 +95,38 @@ public class ContainerBox : BaseInteractable
         SetContainerClosed(isClosed.Value, false);
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.layer == LayerMask.NameToLayer("NoInteraction"))
-    //        return;
-    //    Product product = other.gameObject.GetComponent<Product>();
-    //    if (product != null && boxContents.Contains(product))
-    //    {
-    //        if (isClosing == true)
-    //            failedClose = true;
-    //    }
-    //}
+    /// <summary>
+    /// Adds a product to the container.
+    /// </summary>
+    /// <param name="productId">string ID of the product to add.</param>
+    /// <returns>returns if this product was able to be added.</returns>
+    public bool AddProduct(string productId)
+    {
+        int currentCount = boxContents.Count;
+        if (currentCount >= boxContentsParent.childCount)
+            return false;
+        Product p = ProductManager.Instance.SpawnProductPrefab(productId, boxContentsParent.GetChild(currentCount).position, Quaternion.identity);
+        p.transform.SetParent(boxContentsParent.GetChild(currentCount));
+        p.transform.localPosition = Vector3.zero;
+        p.FreezeProduct();
+        boxContents.Add(p);
+        return true;
+    }
 
-    private Collider[] GetProductsInsideBox()
+    private List<Product> GetProductsInsideBox()
     {
         overlapCollider.gameObject.SetActive(true);
-        Collider[] found = Physics.OverlapBox(overlapCollider.bounds.center, overlapCollider.bounds.extents * 2, overlapCollider.transform.rotation, interactableLayer);
+        Collider[] found = Physics.OverlapBox(overlapCollider.bounds.center, overlapCollider.bounds.extents, overlapCollider.transform.rotation, interactableLayer);
         overlapCollider.gameObject.SetActive(false);
-        return found;
+        List<Product> products = new();
+        for (int i = 0; i < found.Length; i++)
+        {
+            if (found[i].GetComponent<Product>() != null)
+            {
+                products.Add(found[i].GetComponent<Product>());
+            }
+        }
+        return products;
     }
 
     private bool ObjectsStickingOut()
@@ -126,15 +140,30 @@ public class ContainerBox : BaseInteractable
     {
         if (freeze)
         {
-            Collider[] hits = GetProductsInsideBox();
-            foreach (var hit in hits)
+            if (boxContents.Count > 0)
             {
-                Product product = hit.GetComponent<Product>();
-                if (product != null)
+                foreach (var product in boxContents)
                 {
-                    product.transform.SetParent(boxContentsParent, true);
-                    boxContents.Add(product);
+                    product.transform.parent = null;
+                    product.UnFreezeProduct();
+                }
+            }
+
+            List<Product> hits = GetProductsInsideBox();
+            for (int i = 0; i < hits.Count; i++)
+            {
+                Product product = hits[i];
+                if (boxContents.Count < boxContentsParent.childCount)
+                {
+                    product.transform.SetParent(boxContentsParent.GetChild(i));
+                    product.transform.localPosition = Vector3.zero;
+                    product.transform.localRotation = Quaternion.identity;
                     product.FreezeProduct();
+                    boxContents.Add(product);
+                }
+                else
+                {
+                    Debug.LogError($"Somehow there are too many objects inside the box? [Count: {boxContents.Count}] [Available: {boxContentsParent.childCount}]");
                 }
             }
         }

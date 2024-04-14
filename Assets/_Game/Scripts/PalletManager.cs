@@ -13,7 +13,7 @@ public class PalletManager : MonoBehaviour
     [SerializeField] private List<Pallet> pallets = new();
     [SerializeField] private Transform palletParent;
 
-    public int OrderNewStock(string productId, int amount)
+    public int PlaceOrderInTruck()
     {
         if (pallets.Count == 0)
         {
@@ -21,40 +21,23 @@ public class PalletManager : MonoBehaviour
             pallets.Add(newPallet);
         }
 
-        for (int i = 0; i < pallets.Count; i++)
+        int remainder = 0;
+        foreach (var productData in ProductManager.Instance.productData)
         {
-            Pallet pallet = pallets[i];
-            amount = pallet.AddItemToPallet(productId, amount);
-            if (amount > 0 && i == pallets.Count - 1 && pallets.Count < palletParent.childCount)
+            for (int i = 0; i < pallets.Count; i++)
             {
-                Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(i + 1).position, Quaternion.identity);
-                pallets.Add(newPallet);
+                Pallet pallet = pallets[i];
+                productData.Value.transitCount = pallet.AddItemToPallet(productData.Key, productData.Value.transitCount);
+                if (productData.Value.transitCount > 0 && i == pallets.Count - 1 && pallets.Count < palletParent.childCount)
+                {
+                    Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(i + 1).position, Quaternion.identity);
+                    pallets.Add(newPallet);
+                }
             }
+            if (productData.Value.transitCount > 0)
+                remainder += productData.Value.transitCount;
         }
         // Unable to find enough space, remainder will need to be refunded, or needs to be rolled over to next order
-        return amount;
-    }
-
-
-    /// <summary>
-    /// REMOVE THIS LATER WHEN THE ORDERS CAN BE COMPLETED WITH UI
-    /// </summary>
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.R))
-        {
-            EnableOrderPhysics();
-        }
-    }
-
-    public void EnableOrderPhysics()
-    {
-        foreach (Pallet pallet in pallets)
-        {
-            foreach (KeyValuePair<int, ContainerBox> container in pallet.Containers)
-            {
-                container.Value.UnFreezeContainer();
-            }
-        }
+        return remainder;
     }
 }
