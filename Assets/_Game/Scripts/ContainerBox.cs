@@ -10,7 +10,7 @@ public class ContainerBox : BaseInteractable
     public override bool IsInteractable => true;
     public override bool IsHeld => isHeld;
     
-    NetworkVariable<bool> isClosed = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<bool> isClosed = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     
     public override bool GetLockOnInteractType(InteractType type)
     {
@@ -108,7 +108,7 @@ public class ContainerBox : BaseInteractable
         Product p = ProductManager.Instance.SpawnProductPrefab(productId, boxContentsParent.GetChild(currentCount).position, Quaternion.identity);
         p.transform.SetParent(boxContentsParent.GetChild(currentCount));
         p.transform.localPosition = Vector3.zero;
-        p.FreezeProduct();
+        //p.FreezeProduct();
         boxContents.Add(p);
         return true;
     }
@@ -132,7 +132,7 @@ public class ContainerBox : BaseInteractable
     private bool ObjectsStickingOut()
     {
         closeCollider.gameObject.SetActive(true);
-        Collider[] found = Physics.OverlapBox(closeCollider.bounds.center, closeCollider.bounds.extents * 2, closeCollider.transform.rotation, interactableLayer);
+        Collider[] found = Physics.OverlapBox(closeCollider.bounds.center, closeCollider.bounds.extents, closeCollider.transform.rotation, interactableLayer);
         return found.Length > 1; // we get > 1 because we also get the box itself
     }
 
@@ -147,6 +147,7 @@ public class ContainerBox : BaseInteractable
                     product.transform.parent = null;
                     product.UnFreezeProduct();
                 }
+                boxContents.Clear();
             }
 
             List<Product> hits = GetProductsInsideBox();

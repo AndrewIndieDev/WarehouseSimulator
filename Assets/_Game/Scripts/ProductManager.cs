@@ -173,21 +173,25 @@ public class ProductManager : MonoBehaviour
                     Product_Material pm = Instantiate(materialPrefab, position, rotation).GetComponent<Product_Material>();
                     pm.productId = id;
                     pm.material = value.data as Material;
+                    pm.NetworkObject.Spawn();
                     return pm;
                 case EProductType.Sound:
                     Product_Sound ps = Instantiate(soundPrefab, position, rotation).GetComponent<Product_Sound>();
                     ps.productId = id;
                     ps.audioResource = value.data as AudioResource;
+                    ps.NetworkObject.Spawn();
                     return ps;
                 case EProductType.Mesh:
                     Product_Mesh pmesh = Instantiate(meshPrefab, position, rotation).GetComponent<Product_Mesh>();
                     pmesh.productId = id;
                     pmesh.mesh = value.data as Mesh;
+                    pmesh.NetworkObject.Spawn();
                     return pmesh;
                 case EProductType.Sprite:
                     Product_Sprite psprite = Instantiate(spritePrefab, position, rotation).GetComponent<Product_Sprite>();
                     psprite.productId = id;
                     psprite.sprite = value.data as Sprite;
+                    psprite.NetworkObject.Spawn();
                     return psprite;
                 case EProductType.Script:
                     return null;

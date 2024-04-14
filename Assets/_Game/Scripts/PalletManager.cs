@@ -27,7 +27,9 @@ public class PalletManager : MonoBehaviour
             for (int i = 0; i < pallets.Count; i++)
             {
                 Pallet pallet = pallets[i];
-                productData.Value.transitCount = pallet.AddItemToPallet(productData.Key, productData.Value.transitCount);
+                remainder = pallet.AddItemToPallet(productData.Key, productData.Value.transitCount);
+                Debug.Log(remainder);
+                productData.Value.transitCount = remainder;
                 if (productData.Value.transitCount > 0 && i == pallets.Count - 1 && pallets.Count < palletParent.childCount)
                 {
                     Pallet newPallet = Instantiate(palletPrefab, palletParent.GetChild(i + 1).position, Quaternion.identity).GetComponent<Pallet>();

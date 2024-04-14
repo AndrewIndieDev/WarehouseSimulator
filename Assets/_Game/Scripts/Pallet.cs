@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Pallet : MonoBehaviour
@@ -27,53 +28,33 @@ public class Pallet : MonoBehaviour
     {
         if (Containers.Count == 0)
         {
-            ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(0)).GetComponent<ContainerBox>();
+            ContainerBox container = Instantiate(containerPrefab).GetComponent<ContainerBox>();
             Containers.Add(0, container);
-            container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            container.transform.SetLocalPositionAndRotation(containerSlotParent.GetChild(0).position, containerSlotParent.GetChild(0).rotation);
+            container.NetworkObject.Spawn();
         }
 
-        foreach (ContainerBox container in Containers.Values)
-        {
-            if (amount <= 0)
-                break;
-
-            if (container.AddProduct(productId))
-            {
-                amount--;
-                continue;
-            }
-        }
-
+        int amountLeft = amount;
         for (int i = 0; i < amount; i++)
         {
             if (!Containers[TotalContainersSpawned - 1].AddProduct(productId))
             {
                 if (TotalContainersSpawned < MaxContainerCount)
                 {
-                    ContainerBox container = Instantiate(containerPrefab, containerSlotParent.GetChild(TotalContainersSpawned)).GetComponent<ContainerBox>();
+                    ContainerBox container = Instantiate(containerPrefab).GetComponent<ContainerBox>();
                     Containers.Add(TotalContainersSpawned, container);
-                    container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                    container.transform.SetPositionAndRotation(containerSlotParent.GetChild(TotalContainersSpawned - 1).position, containerSlotParent.GetChild(TotalContainersSpawned - 1).rotation);
                     Containers[TotalContainersSpawned - 1].AddProduct(productId);
+                    container.NetworkObject.Spawn();
                 }
                 else
                 {
                     break;
                 }
             }
+            amountLeft--;
         }
-        return amount; // This returns the amount that couldn't be placed on this Pallet as it's full
-    }
-
-    private void RemoveContainer(Container toRemove)
-    {
-        foreach (var intContainerPair in Containers)
-        {
-            if (intContainerPair.Value == toRemove)
-            {
-                Containers.Remove(intContainerPair.Key);
-                break;
-            }
-        }
+        return amountLeft; // This returns the amount that couldn't be placed on this Pallet as it's full
     }
 
     private void RandomisePalletVisuals()
