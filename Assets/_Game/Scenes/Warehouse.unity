@@ -3086,13 +3086,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 483629621}
+  - component: {fileID: 483629627}
   - component: {fileID: 483629620}
   - component: {fileID: 483629622}
-  - component: {fileID: 483629623}
   - component: {fileID: 483629626}
-  - component: {fileID: 483629625}
-  - component: {fileID: 483629624}
-  - component: {fileID: 483629627}
+  - component: {fileID: 483629628}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3211,76 +3209,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   money: 9999999
   respawnProduct: {fileID: 483629621}
---- !u!114 &483629623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483629619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e31c4acd5e9ffe448a82560cf876a2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayStartTime: 6
-  dayEndTime: 18
-  secondsPerHour: 60
-  use24HourClock: 1
-  timeEvents: []
-  currentTimeString: 
---- !u!114 &483629624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483629619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5239edd00560e6944a706b476b49faf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serverId: 0
-  debug: 0
---- !u!114 &483629625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483629619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkConfig:
-    ProtocolVersion: 0
-    NetworkTransport: {fileID: 483629624}
-    PlayerPrefab: {fileID: 6258456458544590089, guid: 076dd0130c1d6d645b0f654d620676ad,
-      type: 3}
-    Prefabs:
-      NetworkPrefabsLists:
-      - {fileID: 11400000, guid: eff22c81913b4834f9eafa2d2c46fbd6, type: 2}
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 10
-    EnableNetworkLogs: 1
-    OldPrefabList: []
-  RunInBackground: 1
-  LogLevel: 1
 --- !u!114 &483629626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3302,11 +3230,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 483629619}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf02de641e50cf34d8a91faa7096c6f9, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alwaysStartOnMine: 0
-  startHostOnDavid: 1
+  GlobalObjectIdHash: 1813423396
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &483629628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483629619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31c4acd5e9ffe448a82560cf876a2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayStartTime: 6
+  dayEndTime: 18
+  secondsPerHour: 2
+  use24HourClock: 1
+  timeTickInterval: 0.1
+  defaultTimeEvents:
+  - time: 7
+    eventType: 1
+  - time: 12
+    eventType: 2
+  randomTimeEvents:
+  - eventType: 4
+    minTime: 0
+    maxTime: 0
+    chance: 100
+    amountMin: 0
+    amountMax: 2
+  currentTimeString: 
 --- !u!1001 &485053473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4401,6 +4366,106 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 690118856}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &726951301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 726951305}
+  - component: {fileID: 726951304}
+  - component: {fileID: 726951303}
+  - component: {fileID: 726951302}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &726951302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726951301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf02de641e50cf34d8a91faa7096c6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alwaysStartOnMine: 1
+  startHostOnDavid: 1
+--- !u!114 &726951303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726951301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5239edd00560e6944a706b476b49faf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverId: 0
+  debug: 0
+--- !u!114 &726951304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726951301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkConfig:
+    ProtocolVersion: 0
+    NetworkTransport: {fileID: 726951303}
+    PlayerPrefab: {fileID: 6258456458544590089, guid: 076dd0130c1d6d645b0f654d620676ad,
+      type: 3}
+    Prefabs:
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: eff22c81913b4834f9eafa2d2c46fbd6, type: 2}
+    TickRate: 30
+    ClientConnectionBufferTimeout: 10
+    ConnectionApproval: 0
+    ConnectionData: 
+    EnableTimeResync: 0
+    TimeResyncInterval: 30
+    EnsureNetworkVariableLengthSafety: 0
+    EnableSceneManagement: 1
+    ForceSamePrefabs: 1
+    RecycleNetworkIds: 1
+    NetworkIdRecycleDelay: 120
+    RpcHashSize: 0
+    LoadSceneTimeOut: 120
+    SpawnTimeout: 10
+    EnableNetworkLogs: 1
+    OldPrefabList: []
+  RunInBackground: 1
+  LogLevel: 1
+--- !u!4 &726951305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726951301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &727191976
 GameObject:
   m_ObjectHideFlags: 0
@@ -10352,7 +10417,8 @@ MonoBehaviour:
     type: 3}
   orderItem: {fileID: 9197481963319205126, guid: 5a3d5161ea61bbf47addd1956c94d794,
     type: 3}
-  orderProductItem: {fileID: 0}
+  orderProductItem: {fileID: 9197481963319205126, guid: 0ccf6d7ba06559146826e7ebe490f955,
+    type: 3}
   defaultProfileImage: {fileID: 2800000, guid: 9ed685abde1e0f440ae0bae570e70e24, type: 3}
 --- !u!64 &1585400545
 MeshCollider:
@@ -15606,9 +15672,10 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 483629621}
+  - {fileID: 726951305}
   - {fileID: 751809459}
   - {fileID: 2030682499}
-  - {fileID: 483629621}
   - {fileID: 161916656}
   - {fileID: 1160234427}
   - {fileID: 37421208}

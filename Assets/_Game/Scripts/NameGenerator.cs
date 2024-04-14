@@ -11,9 +11,12 @@ public static class NameGenerator
 
     public static void Init()
     {
-        Addressables.LoadAssetAsync<TextAsset>("male_firstnames").Completed += (op) => { MaleFirstnames = op.Result.text.Replace("\"", "").Split(','); };
-        Addressables.LoadAssetAsync<TextAsset>("female_firstnames").Completed += (op) => { FemaleFirstnames = op.Result.text.Replace("\"", "").Split(','); };
-        Addressables.LoadAssetAsync<TextAsset>("surnames").Completed += (op) => { Surnames = op.Result.text.Replace("\"", "").Split(','); };
+        //Addressables.LoadAssetAsync<TextAsset>("male_firstnames").Completed += (op) => { MaleFirstnames = op.Result.text.Replace("\"", "").Split(','); };
+        //Addressables.LoadAssetAsync<TextAsset>("female_firstnames").Completed += (op) => { FemaleFirstnames = op.Result.text.Replace("\"", "").Split(','); };
+        //Addressables.LoadAssetAsync<TextAsset>("surnames").Completed += (op) => { Surnames = op.Result.text.Replace("\"", "").Split(','); };
+        MaleFirstnames = Addressables.LoadAssetAsync<TextAsset>("male_firstnames").WaitForCompletion().text.Replace("\"", "").Split(',');
+        FemaleFirstnames = Addressables.LoadAssetAsync<TextAsset>("female_firstnames").WaitForCompletion().text.Replace("\"", "").Split(',');
+        Surnames = Addressables.LoadAssetAsync<TextAsset>("surnames").WaitForCompletion().text.Replace("\"", "").Split(',');
     }
 
     public static void GenerateName(out string firstname, out string surname, out string email)
