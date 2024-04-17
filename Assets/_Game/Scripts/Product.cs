@@ -53,32 +53,50 @@ public class Product : BaseInteractable
     protected override void HandleHeldInteraction(ulong sender)
     {
         if (sender != NetworkManager.LocalClientId) return;
+        if (!IsHeld) return;
         UnFreezeProduct();
         rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
         isHeld = false;
     }
-
     #endregion
 
     public Texture2D ProductIcon { get { return productIcon; } set { productIcon = value; } }
+    public bool IsInContainer { get; private set; }
+    public ContainerBox ContainedIn { get { return containedIn; } set { containedIn = value; } }
 
     [Header("Generic Product References")]
     public string productId;
     [SerializeField] protected bool isHeld = false;
     [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected float productMass;
     [SerializeField] protected MeshRenderer mr;
     [SerializeField] protected Texture2D productIcon;
+
+    private ContainerBox containedIn;
+
+    private void Awake()
+    {
+        productMass = rb.mass;
+    }
 
     public void FreezeProduct()
     {
         rb.isKinematic = true;
-        ToggleComponents(false);
+        rb.mass = 0;
+        IsInContainer = !isHeld;
     }
 
     public void UnFreezeProduct()
     {
         rb.isKinematic = false;
         ToggleComponents(true);
+        rb.mass = productMass;
+        IsInContainer = false;
+        if (containedIn != null)
+        {
+            containedIn.RemoveProduct(this);
+            containedIn = null;
+        }
         UnlockServerRPC();
     }
     
@@ -99,5 +117,21 @@ public class Product : BaseInteractable
     protected virtual void OnDestroy()
     {
         ProductManager.Instance.RemoveProductCount(productId, 1);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (IsInContainer || IsHeld)
+            return;
+
+        ContainerBox container = collision.gameObject.GetComponent<ContainerBox>();
+        if (container != null)
+        {
+            if (container.AddExistingProduct(this))
+            {
+                Debug.Log($"Added {productId} to {container.name}");
+                containedIn = container;
+            }
+        }
     }
 }

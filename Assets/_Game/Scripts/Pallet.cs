@@ -37,14 +37,14 @@ public class Pallet : MonoBehaviour
         int amountLeft = amount;
         for (int i = 0; i < amount; i++)
         {
-            if (!Containers[TotalContainersSpawned - 1].AddProduct(productId))
+            if (!Containers[TotalContainersSpawned - 1].SpawnAndAddProduct(productId))
             {
                 if (TotalContainersSpawned < MaxContainerCount)
                 {
                     ContainerBox container = Instantiate(containerPrefab).GetComponent<ContainerBox>();
                     Containers.Add(TotalContainersSpawned, container);
                     container.transform.SetPositionAndRotation(containerSlotParent.GetChild(TotalContainersSpawned - 1).position, containerSlotParent.GetChild(TotalContainersSpawned - 1).rotation);
-                    Containers[TotalContainersSpawned - 1].AddProduct(productId);
+                    Containers[TotalContainersSpawned - 1].SpawnAndAddProduct(productId);
                     container.NetworkObject.Spawn();
                 }
                 else

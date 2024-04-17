@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1556421057
+  GlobalObjectIdHash: 108528225
   InScenePlacedSourceGlobalObjectIdHash: 108528225
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -124,6 +124,7 @@ MonoBehaviour:
   productId: material_gold
   isHeld: 0
   rb: {fileID: 8474137359112655575}
+  productMass: 0
   mr: {fileID: 8212399864635959744}
   productIcon: {fileID: 4154780841294389669, guid: 0a80e9d1d01e5ee4098765964307344b,
     type: 3}

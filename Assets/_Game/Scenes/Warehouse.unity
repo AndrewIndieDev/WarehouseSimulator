@@ -3026,7 +3026,7 @@ MonoBehaviour:
   use24HourClock: 1
   timeTickInterval: 0.1
   defaultTimeEvents:
-  - time: 5.93
+  - time: 6
     eventType: 1
   - time: 12
     eventType: 2
@@ -4163,7 +4163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf02de641e50cf34d8a91faa7096c6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alwaysStartOnMine: 0
+  alwaysStartOnMine: 1
   startHostOnDavid: 1
 --- !u!114 &726951303
 MonoBehaviour:
@@ -11511,7 +11511,7 @@ PrefabInstance:
     - target: {fileID: 1169705456215034644, guid: 622d27435be179a46a71f3838c62a961,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.274
       objectReference: {fileID: 0}
     - target: {fileID: 1169705456215034644, guid: 622d27435be179a46a71f3838c62a961,
         type: 3}

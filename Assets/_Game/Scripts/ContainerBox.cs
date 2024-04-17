@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ContainerBox : BaseInteractable
@@ -46,7 +47,7 @@ public class ContainerBox : BaseInteractable
     {
         if (sender != NetworkManager.LocalClientId) return;
         isHeld = !isHeld;
-        FreezeContents(isHeld);
+        //FreezeContents(isHeld);
         if (isHeld) // If the object we are interacting with is not held
         {
             FreezeContainer();
@@ -68,8 +69,7 @@ public class ContainerBox : BaseInteractable
     protected override void HandleHeldInteraction(ulong sender)
     {
         if (sender != NetworkManager.LocalClientId) return;
-        if (boxContents.Count > 0)
-            return;
+        if (!isHeld) return;
 
         OnInteract(InteractType.Secondary, sender);
     }
@@ -100,7 +100,7 @@ public class ContainerBox : BaseInteractable
     /// </summary>
     /// <param name="productId">string ID of the product to add.</param>
     /// <returns>returns if this product was able to be added.</returns>
-    public bool AddProduct(string productId)
+    public bool SpawnAndAddProduct(string productId)
     {
         int currentCount = boxContents.Count;
         if (currentCount >= boxContentsParent.childCount)
@@ -108,15 +108,41 @@ public class ContainerBox : BaseInteractable
         Product p = ProductManager.Instance.SpawnProductPrefab(productId, boxContentsParent.GetChild(currentCount).position, Quaternion.identity);
         p.transform.SetParent(boxContentsParent.GetChild(currentCount));
         p.transform.localPosition = Vector3.zero;
-        //p.FreezeProduct();
+        p.FreezeProduct();
+        p.ContainedIn = this;
         boxContents.Add(p);
         return true;
+    }
+
+    public bool AddExistingProduct(Product product)
+    {
+        int currentCount = boxContents.Count;
+        if (currentCount >= boxContentsParent.childCount)
+            return false;
+        for (int i = 0; i < boxContentsParent.childCount; i++)
+        {
+            if (boxContentsParent.GetChild(i).childCount == 0)
+            {
+                product.transform.SetParent(boxContentsParent.GetChild(i));
+                break;
+            }
+        }
+        product.transform.localPosition = Vector3.zero;
+        product.FreezeProduct();
+        boxContents.Add(product);
+        return true;
+    }
+
+    public void RemoveProduct(Product product)
+    {
+        if (boxContents.Contains(product))
+            boxContents.Remove(product);
     }
 
     private List<Product> GetProductsInsideBox()
     {
         overlapCollider.gameObject.SetActive(true);
-        Collider[] found = Physics.OverlapBox(overlapCollider.bounds.center, overlapCollider.bounds.extents, overlapCollider.transform.rotation, interactableLayer);
+        Collider[] found = Physics.OverlapBox(overlapCollider.bounds.center, overlapCollider.bounds.extents / 2, overlapCollider.transform.rotation, interactableLayer); // Ln 119
         overlapCollider.gameObject.SetActive(false);
         List<Product> products = new();
         for (int i = 0; i < found.Length; i++)
@@ -132,28 +158,18 @@ public class ContainerBox : BaseInteractable
     private bool ObjectsStickingOut()
     {
         closeCollider.gameObject.SetActive(true);
-        Collider[] found = Physics.OverlapBox(closeCollider.bounds.center, closeCollider.bounds.extents, closeCollider.transform.rotation, interactableLayer);
-        return found.Length > 1; // we get > 1 because we also get the box itself
+        Collider[] found = Physics.OverlapBox(closeCollider.bounds.center, closeCollider.bounds.extents / 2, closeCollider.transform.rotation, interactableLayer);
+        return found.Length > 1; // we get > 1 because we also collide with the box itself... wait we shouldn't get this, so the bounds.extents must be too big... maybe try divide by 2? (includes Ln 119)...
     }
 
     private void FreezeContents(bool freeze)
     {
+        // We shouldn't need to call this anymore due to objects being parented to the container, and always frozen in the container.
         if (freeze)
         {
-            if (boxContents.Count > 0)
+            for (int i = 0; i < boxContents.Count; i++)
             {
-                foreach (var product in boxContents)
-                {
-                    product.transform.parent = null;
-                    product.UnFreezeProduct();
-                }
-                boxContents.Clear();
-            }
-
-            List<Product> hits = GetProductsInsideBox();
-            for (int i = 0; i < hits.Count; i++)
-            {
-                Product product = hits[i];
+                Product product = boxContents[i];
                 if (boxContents.Count < boxContentsParent.childCount)
                 {
                     product.transform.SetParent(boxContentsParent.GetChild(i));
@@ -167,6 +183,34 @@ public class ContainerBox : BaseInteractable
                     Debug.LogError($"Somehow there are too many objects inside the box? [Count: {boxContents.Count}] [Available: {boxContentsParent.childCount}]");
                 }
             }
+
+            //if (boxContents.Count > 0)
+            //{
+            //    foreach (var product in boxContents)
+            //    {
+            //        product.transform.parent = null;
+            //        product.UnFreezeProduct();
+            //    }
+            //    boxContents.Clear();
+            //}
+
+            //List<Product> hits = GetProductsInsideBox();
+            //for (int i = 0; i < hits.Count; i++)
+            //{
+            //    Product product = hits[i];
+            //    if (boxContents.Count < boxContentsParent.childCount)
+            //    {
+            //        product.transform.SetParent(boxContentsParent.GetChild(i));
+            //        product.transform.localPosition = Vector3.zero;
+            //        product.transform.localRotation = Quaternion.identity;
+            //        product.FreezeProduct();
+            //        boxContents.Add(product);
+            //    }
+            //    else
+            //    {
+            //        Debug.LogError($"Somehow there are too many objects inside the box? [Count: {boxContents.Count}] [Available: {boxContentsParent.childCount}]");
+            //    }
+            //}
         }
         else
         {

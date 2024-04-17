@@ -103,7 +103,7 @@ public class ProductManager : MonoBehaviour
         {
             ProductData data = new ProductData() { stockCount = 0, transitCount = 0 };
             if (item.type == EProductType.Material)
-                data.transitCount = 100;
+                data.transitCount = 10;
             productData.Add(item.id, data);
             productItemDictionary.Add(item.id, item);
         }
