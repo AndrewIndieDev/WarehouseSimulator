@@ -7,15 +7,19 @@ public class InteractionController : MonoBehaviour
     public IInteractable currentHeld;
     public IInteractable currentHover;
     public Transform heldItemSlot;
-    
+
+    [Header("References")]
     [SerializeField] private Camera cam;
     [SerializeField] private LayerMask interactionLayer;
     [SerializeField] private LayerMask placementLayers;
     [SerializeField] private Material acceptablePlacementMaterial;
     [SerializeField] private Material unacceptablePlacementMaterial;
     [SerializeField] private Material originalMaterial;
-    [SerializeField] private Renderer placementRenderer => currentHeld != null ? currentHeld.transform.GetComponentInChildren<Renderer>() : null;
 
+    [Header("Variables")]
+    [SerializeField] private float interactionRange = 3f;
+
+    private Renderer placementRenderer => currentHeld != null ? currentHeld.transform.GetComponentInChildren<Renderer>() : null;
     private bool isPlacing;
     
     private ulong ownerID;
@@ -55,23 +59,45 @@ public class InteractionController : MonoBehaviour
 
     private void HandleHoverRaycast()
     {
-
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 3f, interactionLayer))
+        IInteractable interactable = null;
+        RaycastHit[] found = Physics.RaycastAll(cam.transform.position, cam.transform.forward, interactionRange, interactionLayer);
+        Vector3 closestPoint = Vector3.one * interactionRange * 2;
+        for (int i = 0; i < found.Length; i++)
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            IInteractable previous = interactable;
+
+            interactable = found[i].collider.GetComponent<IInteractable>();
+
             if (interactable == null)
-                interactable = hit.collider.GetComponentInParent<IInteractable>();
-            if (interactable != null && currentHover != interactable && interactable.IsInteractable)
             {
-                currentHover?.OnHoverExit();
-                interactable.OnHoverEnter();
-                currentHover = interactable;
+                interactable = found[i].collider.GetComponentInParent<IInteractable>();
+            }
+            
+            if (interactable != null)
+            {
+                if (Vector3.Distance(found[i].point, transform.position) < Vector3.Distance(closestPoint, transform.position))
+                {
+                    closestPoint = found[i].point;
+                }
+                else
+                {
+                    interactable = previous;
+                }
             }
         }
-        else
+
+        if (interactable == null)
         {
             currentHover?.OnHoverExit();
             currentHover = null;
+        }
+
+        if (interactable != null && interactable.IsInteractable)
+        {
+            Debug.Log($"currentHover set to {interactable.gameObject.name}");
+            currentHover?.OnHoverExit();
+            interactable.OnHoverEnter();
+            currentHover = interactable;
         }
     }
 
@@ -137,7 +163,9 @@ public class InteractionController : MonoBehaviour
             isPlacing = true;
 
             if (originalMaterial == null)
+            {
                 originalMaterial = placementRenderer.material;
+            }
 
             bool acceptable = false;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out var hit, 5f, placementLayers))
@@ -149,7 +177,8 @@ public class InteractionController : MonoBehaviour
 
                 acceptable = true;
 
-                ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, false);
+                (currentHeld as BaseInteractable).ToggleComponents(false);
+                //ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, false);
             }
             else
             {
@@ -170,7 +199,8 @@ public class InteractionController : MonoBehaviour
                 currentHeld.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f));
                 placementRenderer.material = originalMaterial;
                 originalMaterial = null;
-                ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, true);
+                (currentHeld as BaseInteractable).ToggleComponents(true);
+                //ToggleComponents((currentHeld as BaseInteractable).disableOnGhostPlacement, true);
                 currentHeld = null;
             }
         }
@@ -192,18 +222,18 @@ public class InteractionController : MonoBehaviour
         }
     }
 
-    private void ToggleComponents(List<Component> components, bool enabled)
-    {
-        if (components == null)
-            return;
-        foreach (Component component in components)
-        {
-            MeshRenderer mr = (component as MeshRenderer);
-            Collider col = (component as Collider);
-            if (mr != null)
-                mr.enabled = enabled;
-            else if (col != null)
-                col.enabled = enabled;
-        }
-    }
+    //private void ToggleComponents(List<Component> components, bool enabled)
+    //{
+    //    if (components == null)
+    //        return;
+    //    foreach (Component component in components)
+    //    {
+    //        MeshRenderer mr = (component as MeshRenderer);
+    //        Collider col = (component as Collider);
+    //        if (mr != null)
+    //            mr.enabled = enabled;
+    //        else if (col != null)
+    //            col.enabled = enabled;
+    //    }
+    //}
 }

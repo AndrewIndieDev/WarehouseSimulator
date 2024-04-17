@@ -111,6 +111,8 @@ public class TimeManager : NetworkBehaviour
         {
             if (time.Value < dayEndTime)
             {
+                if (time == null)
+                    break;
                 time.Value = Mathf.Clamp(time.Value + timeTickInterval / secondsPerHour, dayStartTime, dayEndTime);
                 if (timeEvents.IsValidIndex(nextEventIndex) && time.Value >= timeEvents[nextEventIndex].time)
                 {

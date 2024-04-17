@@ -28,7 +28,6 @@ public class PalletManager : MonoBehaviour
             {
                 Pallet pallet = pallets[i];
                 remainder = pallet.AddItemToPallet(productData.Key, productData.Value.transitCount);
-                Debug.Log(remainder);
                 productData.Value.transitCount = remainder;
                 if (productData.Value.transitCount > 0 && i == pallets.Count - 1 && pallets.Count < palletParent.childCount)
                 {

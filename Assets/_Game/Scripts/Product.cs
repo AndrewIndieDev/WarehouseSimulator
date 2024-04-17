@@ -114,7 +114,7 @@ public class Product : BaseInteractable
         }
     }
 
-    protected virtual void OnDestroy()
+    protected virtual new void OnDestroy()
     {
         ProductManager.Instance.RemoveProductCount(productId, 1);
     }

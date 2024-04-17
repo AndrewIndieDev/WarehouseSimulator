@@ -87,7 +87,7 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
         
     }
 
-    protected virtual void ToggleComponents(bool isEnabled)
+    public virtual void ToggleComponents(bool isEnabled)
     {
         foreach (Component component in disableOnGhostPlacement)
         {

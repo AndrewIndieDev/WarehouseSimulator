@@ -5,7 +5,7 @@ public class InteractableButton : BaseInteractable
 {
     #region Base Interactable
     public override InteractableType Type => InteractableType.Button;
-    public override bool IsInteractable => true;
+    public override bool IsInteractable => isInteractable;
     public override bool IsHeld => false;
     public override bool GetLockOnInteractType(InteractType type)
     {

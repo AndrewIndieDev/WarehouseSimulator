@@ -332,4 +332,13 @@ public class ContainerBox : BaseInteractable
         rb.isKinematic = false;
         ToggleComponents(true);
     }
+
+    public override void ToggleComponents(bool isEnabled)
+    {
+        foreach (Product product in boxContents)
+        {
+            product.ToggleComponents(isEnabled);
+        }
+        base.ToggleComponents(isEnabled);
+    }
 }
