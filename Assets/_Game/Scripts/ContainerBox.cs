@@ -63,7 +63,7 @@ public class ContainerBox : BaseInteractable
     protected override void HandleSecondaryInteraction(ulong sender)
     {
         if (sender != NetworkManager.LocalClientId) return;
-            ToggleOpen();
+        ToggleOpen();
     }
 
     protected override void HandleHeldInteraction(ulong sender)

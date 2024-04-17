@@ -94,7 +94,6 @@ public class InteractionController : MonoBehaviour
 
         if (interactable != null && interactable.IsInteractable)
         {
-            Debug.Log($"currentHover set to {interactable.gameObject.name}");
             currentHover?.OnHoverExit();
             interactable.OnHoverEnter();
             currentHover = interactable;
@@ -141,12 +140,10 @@ public class InteractionController : MonoBehaviour
             {
                 if (currentHeld != null)
                 {
-                    Debug.Log("currentHeld != null");
                     currentHeld.OnInteract(InteractType.HeldInteraction, ownerID);
                 }
                 else if (currentHover != null)
                 {
-                    Debug.Log("currentHeld == null");
                     currentHover.OnInteract(InteractType.Secondary, ownerID);
                 }
             }
