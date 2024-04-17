@@ -40,6 +40,7 @@ public class Product : BaseInteractable
         if (!isHeld) // If the object we are interacting with is not held
         {
             isHeld = true;
+            RemoveFromContainer();
             FreezeProduct();
             NetworkManager.LocalClient.PlayerObject.GetComponent<NetworkPlayer>().PickupInteractable(this);
         }
@@ -61,7 +62,7 @@ public class Product : BaseInteractable
     #endregion
 
     public Texture2D ProductIcon { get { return productIcon; } set { productIcon = value; } }
-    public bool IsInContainer { get; private set; }
+    public bool IsInContainer { get { return containedIn != null; } }
     public ContainerBox ContainedIn { get { return containedIn; } set { containedIn = value; } }
 
     [Header("Generic Product References")]
@@ -83,7 +84,6 @@ public class Product : BaseInteractable
     {
         rb.isKinematic = true;
         rb.mass = 0;
-        IsInContainer = !isHeld;
     }
 
     public void UnFreezeProduct()
@@ -91,13 +91,22 @@ public class Product : BaseInteractable
         rb.isKinematic = false;
         ToggleComponents(true);
         rb.mass = productMass;
-        IsInContainer = false;
+        UnlockServerRPC();
+    }
+
+    public virtual void PutInContainer(ContainerBox container)
+    {
+        containedIn = container;
+        FreezeProduct();
+    }
+
+    public virtual void RemoveFromContainer()
+    {
         if (containedIn != null)
         {
             containedIn.RemoveProduct(this);
             containedIn = null;
         }
-        UnlockServerRPC();
     }
     
     protected virtual void Start()

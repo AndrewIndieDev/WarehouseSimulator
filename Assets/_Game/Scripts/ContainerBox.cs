@@ -108,8 +108,7 @@ public class ContainerBox : BaseInteractable
         Product p = ProductManager.Instance.SpawnProductPrefab(productId, boxContentsParent.GetChild(currentCount).position, Quaternion.identity);
         p.transform.SetParent(boxContentsParent.GetChild(currentCount));
         p.transform.localPosition = Vector3.zero;
-        p.FreezeProduct();
-        p.ContainedIn = this;
+        p.PutInContainer(this);
         boxContents.Add(p);
         return true;
     }

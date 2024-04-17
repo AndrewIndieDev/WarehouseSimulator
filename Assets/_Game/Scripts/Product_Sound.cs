@@ -16,4 +16,16 @@ public class Product_Sound : Product
             audioSource.Play();
         }
     }
+
+    public override void PutInContainer(ContainerBox container)
+    {
+        base.PutInContainer(container);
+        audioSource.volume = 0.2f;
+    }
+
+    public override void RemoveFromContainer()
+    {
+        base.RemoveFromContainer();
+        audioSource.volume = 1.0f;
+    }
 }
