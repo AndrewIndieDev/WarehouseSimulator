@@ -64,6 +64,7 @@ public class Product : BaseInteractable
     public Texture2D ProductIcon { get { return productIcon; } set { productIcon = value; } }
     public bool IsInContainer { get { return containedIn != null; } }
     public ContainerBox ContainedIn { get { return containedIn; } set { containedIn = value; } }
+    public Rigidbody Rb { get { return rb; } }
 
     [Header("Generic Product References")]
     public string productId;
@@ -116,6 +117,9 @@ public class Product : BaseInteractable
 
     protected virtual void Update()
     {
+        if (!IsOwner)
+            return;
+
         if (transform.position.y < -10)
         {
             rb.linearVelocity = Vector3.zero;
@@ -134,7 +138,7 @@ public class Product : BaseInteractable
             return;
 
         ContainerBox container = collision.gameObject.GetComponent<ContainerBox>();
-        if (container != null)
+        if (container != null && container.IsOpen)
         {
             if (container.AddExistingProduct(this))
             {

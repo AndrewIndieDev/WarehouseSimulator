@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 5569576938873658371}
   - component: {fileID: 4599216048221829160}
   - component: {fileID: 1563914636538150186}
-  - component: {fileID: 7215315891225740814}
+  - component: {fileID: 4245714790712992458}
   m_Layer: 13
   m_Name: ContainerBox
   m_TagString: Container
@@ -632,6 +632,7 @@ MonoBehaviour:
   - {fileID: 3864230194085892053}
   - {fileID: 5569576938873658371}
   - {fileID: 4599216048221829160}
+  - {fileID: 5667112810768832690}
   rb: {fileID: 5010154641000506864}
   animator: {fileID: 2635533044431149456}
   interactableLayer:
@@ -877,7 +878,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &7215315891225740814
+--- !u!114 &4245714790712992458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

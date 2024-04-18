@@ -39,10 +39,36 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
             return;
         if (GetLockOnInteractType(type))
             nv_lockedBy.Value = (long)sender;
-        NetworkObject.ChangeOwnership(sender);
+        ChangeOwnership(sender);
         OnInteractClientRPC(type, sender);
     }
     
+    // CHANGE THIS ONCE WE WORK OUT WHY NetworkObject.ChangeOwnership SCREWS WITH THE RIGIDBODY KINEMATIC-NESS
+    protected virtual void ChangeOwnership(ulong sender)
+    {
+        bool isKinematic = true;
+        if (this is ContainerBox)
+        {
+            isKinematic = (this as ContainerBox).Rb.isKinematic;
+        }
+        else if (this is Product)
+        {
+            isKinematic = (this as Product).Rb.isKinematic;
+        }
+
+        NetworkObject.ChangeOwnership(sender);
+
+        if (this is ContainerBox)
+        {
+            (this as ContainerBox).Rb.isKinematic = isKinematic;
+        }
+        else if (this is Product)
+        {
+            (this as Product).Rb.isKinematic = isKinematic;
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     [ClientRpc]
     protected virtual void OnInteractClientRPC(InteractType type, ulong sender)
     {

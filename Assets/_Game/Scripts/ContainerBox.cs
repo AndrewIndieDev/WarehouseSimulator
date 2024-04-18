@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ContainerBox : BaseInteractable
@@ -47,13 +46,12 @@ public class ContainerBox : BaseInteractable
     {
         if (sender != NetworkManager.LocalClientId) return;
         isHeld = !isHeld;
-        //FreezeContents(isHeld);
-        if (isHeld) // If the object we are interacting with is not held
+        if (isHeld)
         {
             FreezeContainer();
             NetworkManager.LocalClient.PlayerObject.GetComponent<NetworkPlayer>().PickupInteractable(this);
         }
-        else // If the object we are interacting with is held
+        else
         {
             UnFreezeContainer();
             UnlockServerRPC();
@@ -75,6 +73,9 @@ public class ContainerBox : BaseInteractable
     }
     #endregion
 
+    public bool IsOpen => isClosed.Value == false;
+    public Rigidbody Rb { get { return rb; } }
+
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask interactableLayer;
@@ -93,6 +94,18 @@ public class ContainerBox : BaseInteractable
     public override void OnNetworkSpawn()
     {
         SetContainerClosed(isClosed.Value, false);
+    }
+
+    private void Update()
+    {
+        if (!IsOwner)
+            return;
+
+        if (transform.position.y < -5)
+        {
+            rb.linearVelocity = Vector3.zero;
+            transform.position = GameManager.Instance.RespawnPosition;
+        }
     }
 
     /// <summary>
@@ -127,6 +140,7 @@ public class ContainerBox : BaseInteractable
             }
         }
         product.transform.localPosition = Vector3.zero;
+        product.transform.localRotation = Quaternion.identity;
         product.FreezeProduct();
         boxContents.Add(product);
         return true;
@@ -182,34 +196,6 @@ public class ContainerBox : BaseInteractable
                     Debug.LogError($"Somehow there are too many objects inside the box? [Count: {boxContents.Count}] [Available: {boxContentsParent.childCount}]");
                 }
             }
-
-            //if (boxContents.Count > 0)
-            //{
-            //    foreach (var product in boxContents)
-            //    {
-            //        product.transform.parent = null;
-            //        product.UnFreezeProduct();
-            //    }
-            //    boxContents.Clear();
-            //}
-
-            //List<Product> hits = GetProductsInsideBox();
-            //for (int i = 0; i < hits.Count; i++)
-            //{
-            //    Product product = hits[i];
-            //    if (boxContents.Count < boxContentsParent.childCount)
-            //    {
-            //        product.transform.SetParent(boxContentsParent.GetChild(i));
-            //        product.transform.localPosition = Vector3.zero;
-            //        product.transform.localRotation = Quaternion.identity;
-            //        product.FreezeProduct();
-            //        boxContents.Add(product);
-            //    }
-            //    else
-            //    {
-            //        Debug.LogError($"Somehow there are too many objects inside the box? [Count: {boxContents.Count}] [Available: {boxContentsParent.childCount}]");
-            //    }
-            //}
         }
         else
         {
