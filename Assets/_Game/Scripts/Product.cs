@@ -84,6 +84,7 @@ public class Product : BaseInteractable
     public void FreezeProduct()
     {
         rb.isKinematic = true;
+        ToggleComponents(false);
         rb.mass = 0;
     }
 
@@ -98,7 +99,8 @@ public class Product : BaseInteractable
     public virtual void PutInContainer(ContainerBox container)
     {
         containedIn = container;
-        FreezeProduct();
+        rb.isKinematic = true;
+        rb.mass = 0;
     }
 
     public virtual void RemoveFromContainer()
