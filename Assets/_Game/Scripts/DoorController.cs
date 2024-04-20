@@ -33,6 +33,24 @@ public class DoorControllerEditor : Editor
 
 public class DoorController : MonoBehaviour
 {
+    private enum DoorType { Receiving, Dispatch }
+    public static DoorController receiving;
+    public static DoorController dispatch;
+    [SerializeField] private DoorType doorType;
+
+    private void Awake()
+    {
+        switch (doorType)
+        {
+            case DoorType.Receiving:
+                receiving = this;
+                break;
+            case DoorType.Dispatch:
+                dispatch = this;
+                break;
+        }
+    }
+
     [SerializeField] private AudioSource audioSource;
     public Transform doorTransform;
     public Vector3 openPosition;

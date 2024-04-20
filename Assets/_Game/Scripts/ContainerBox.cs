@@ -141,7 +141,7 @@ public class ContainerBox : BaseInteractable
         }
         product.transform.localPosition = Vector3.zero;
         product.transform.localRotation = Quaternion.identity;
-        product.FreezeProduct();
+        product.PutInContainer(this);
         boxContents.Add(product);
         return true;
     }

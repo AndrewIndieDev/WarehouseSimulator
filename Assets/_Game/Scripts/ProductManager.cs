@@ -97,25 +97,36 @@ public class ProductManager : MonoBehaviour
 
     public List<OnlineOrder> onlineOrders = new();
 
+    public bool HasOrderedStock
+    {
+        get
+        {
+            foreach (var data in productData)
+            {
+                if (data.Value.transitCount > 0)
+                    return true;
+            }
+            return false;
+        }
+    }
+
     private void Start()
     {
         foreach (var item in productItems)
         {
             ProductData data = new ProductData() { stockCount = 0, transitCount = 0 };
-            if (item.type == EProductType.Material)
-                data.transitCount = 10;
             productData.Add(item.id, data);
             productItemDictionary.Add(item.id, item);
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.P))
-        {
-            GenerateNewRandomOrder();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKey(KeyCode.P))
+    //    {
+    //        GenerateNewRandomOrder();
+    //    }
+    //}
     
     public void GenerateNewRandomOrder()
     {

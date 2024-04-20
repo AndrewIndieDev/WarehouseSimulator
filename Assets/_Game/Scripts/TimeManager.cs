@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum ETimeEventType
 {
@@ -159,11 +157,16 @@ public class TimeManager : NetworkBehaviour
     private IEnumerator TruckArrived()
     {
         yield return null;
-        PalletManager.Instance.PlaceOrderInTruck();
+        if (ProductManager.Instance.HasOrderedStock)
+        {
+            PalletManager.Instance.PlaceOrderInTruck();
+            DoorController.receiving.Open();
+        }
     }
     
     private IEnumerator TruckDeparted()
     {
         yield return null;
+        DoorController.receiving.Close();
     }
 }
