@@ -89,7 +89,13 @@ public class TimeManager : NetworkBehaviour
 
     public void EndDay()
     {
-        
+        if (time.Value != dayEndTime)
+        {
+            Debug.Log($"You can't leave. It's only {currentTimeString}, you need to wait till {GetTimeString(dayEndTime)}");
+            return;
+        }
+        Debug.Log($"Day has ended. New day has started.");
+        time.Value = dayStartTime;
     }
     
     private void SortTimeEventsByTime()
@@ -99,7 +105,7 @@ public class TimeManager : NetworkBehaviour
     
     private void Update()
     {
-        currentTimeString = GetTimeString();
+        currentTimeString = GetTimeString(time.Value);
     }
 
     private IEnumerator TimeLoop()
@@ -143,15 +149,15 @@ public class TimeManager : NetworkBehaviour
         }
     }
     
-    public string GetTimeString()
+    public string GetTimeString(float time)
     {
-        int hour = (int)time.Value;
+        int hour = (int)time;
         if (!use24HourClock && hour > 12)
             hour -= 12;
-        int minute = (int)((time.Value - (int)time.Value) * 60f);
+        int minute = (int)((time - (int)time) * 60f);
         if (use24HourClock)
             return hour.ToString("D2") + ":" + minute.ToString("D2");
-        return hour.ToString("D2") + ":" + minute.ToString("D2") + " " + ((int)time.Value > 12 ? "pm" : "am");
+        return hour.ToString("D2") + ":" + minute.ToString("D2") + " " + ((int)time > 12 ? "pm" : "am");
     }
 
     private IEnumerator TruckArrived()
@@ -160,13 +166,15 @@ public class TimeManager : NetworkBehaviour
         if (ProductManager.Instance.HasOrderedStock)
         {
             PalletManager.Instance.PlaceOrderInTruck();
-            DoorController.receiving.Open();
+            if (!DoorController.receiving.isOpen)
+                DoorController.receiving.Open();
         }
     }
     
     private IEnumerator TruckDeparted()
     {
         yield return null;
-        DoorController.receiving.Close();
+        if (DoorController.receiving.isOpen)
+            DoorController.receiving.Close();
     }
 }
