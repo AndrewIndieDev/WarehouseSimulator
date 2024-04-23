@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Product : BaseInteractable
@@ -48,6 +49,8 @@ public class Product : BaseInteractable
         {
             isHeld = false;
             UnFreezeProduct();
+            if (!IsServer)
+                ReleaseOwnershipServerRPC();
         }
     }
 
@@ -79,6 +82,12 @@ public class Product : BaseInteractable
     private void Awake()
     {
         productMass = rb.mass;
+    }
+
+    [ServerRpc]
+    private void ReleaseOwnershipServerRPC()
+    {
+        ChangeOwnership(0);
     }
 
     public void FreezeProduct()
