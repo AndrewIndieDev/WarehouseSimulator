@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -15,14 +16,14 @@ public class DoorControllerEditor : Editor
         if (GUILayout.Button("Open"))
         {
             if (Application.isPlaying)
-                (target as DoorController)?.Open();
+                (target as DoorController)?.OpenServerRPC();
             else
                 (target as DoorController).doorTransform.localPosition = (target as DoorController).openPosition;
         }
         if (GUILayout.Button("Close"))
         {
             if (Application.isPlaying)
-                (target as DoorController)?.Close();
+                (target as DoorController)?.CloseServerRPC();
             else
                 (target as DoorController).doorTransform.localPosition = (target as DoorController).closePosition;
         }
@@ -31,7 +32,7 @@ public class DoorControllerEditor : Editor
 
 #endif
 
-public class DoorController : MonoBehaviour
+public class DoorController : NetworkBehaviour
 {
     private enum DoorType { Receiving, Dispatch }
     public static DoorController receiving;
@@ -61,34 +62,57 @@ public class DoorController : MonoBehaviour
     [SerializeField] private float openTime = 5f;
 
     [HideInInspector] public bool isInTransition = false;
-    [HideInInspector] public bool isOpen = false;
-    
+    [HideInInspector] public NetworkVariable<bool> isOpen = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private Coroutine currentCoroutine;
 
-    public void Open()
+
+    public override void OnNetworkSpawn()
     {
-        audioSource.clip = openSound;
-        audioSource.Play();
-        isInTransition = true;
-        isOpen = true;
-        StartCoroutine(OpenDoor());
+        isOpen.OnValueChanged += OnOpenValueChanged;
+        doorTransform.localPosition = isOpen.Value ? openPosition : closePosition;
     }
     
-    public void Close()
+    private void OnOpenValueChanged(bool previousValue, bool newValue)
     {
-        audioSource.clip = closeSound;
-        audioSource.Play();
-        isInTransition = true;
-        isOpen = false;
-        StartCoroutine(CloseDoor());
+        if (newValue)
+        {
+            audioSource.clip = openSound;
+            audioSource.Play();
+            isInTransition = true;
+            if (currentCoroutine != null)
+                StopCoroutine(currentCoroutine);
+            currentCoroutine = StartCoroutine(OpenDoor());
+        }
+        else
+        {
+            audioSource.clip = closeSound;
+            audioSource.Play();
+            isInTransition = true;
+            if (currentCoroutine != null)
+                StopCoroutine(currentCoroutine);
+            currentCoroutine = StartCoroutine(CloseDoor());
+        }
+    }
+
+    [ServerRpc]
+    public void OpenServerRPC()
+    {
+        isOpen.Value = true;
+    }
+    
+    [ServerRpc]
+    public void CloseServerRPC()
+    {
+        isOpen.Value = false;
     }
 
     public void ToggleOpen()
     {
         if (isInTransition) return;
-        if (isOpen)
-            Close();
+        if (isOpen.Value)
+            CloseServerRPC();
         else
-            Open();
+            OpenServerRPC();
     }
     
     IEnumerator OpenDoor()

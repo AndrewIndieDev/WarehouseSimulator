@@ -166,15 +166,15 @@ public class TimeManager : NetworkBehaviour
         if (ProductManager.Instance.HasOrderedStock)
         {
             PalletManager.Instance.PlaceOrderInTruck();
-            if (!DoorController.receiving.isOpen)
-                DoorController.receiving.Open();
+            if (!DoorController.receiving.isOpen.Value)
+                DoorController.receiving.OpenServerRPC();
         }
     }
     
     private IEnumerator TruckDeparted()
     {
         yield return null;
-        if (DoorController.receiving.isOpen)
-            DoorController.receiving.Close();
+        if (DoorController.receiving.isOpen.Value)
+            DoorController.receiving.CloseServerRPC();
     }
 }
