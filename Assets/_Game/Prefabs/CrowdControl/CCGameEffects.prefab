@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2217931299554109576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2421345640385628408}
+  - component: {fileID: 6242687292711500208}
+  m_Layer: 0
+  m_Name: CCGameEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2421345640385628408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217931299554109576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6242687292711500208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217931299554109576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0945ab536c2b34468faca76f63bf294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 2
+  orderliness: 2
+  icon: {fileID: 21300000, guid: 66daf4d4a8fa4ec4f9ed87f00c0c400b, type: 3}
+  iconColor: {r: 1, g: 0, b: 1, a: 1}
+  id: invertcontrols
+  displayName: Invert Controls
+  description: Temporarly invert the player's controls.
+  price: 10
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories: []
+  duration: 5
+  paused: 0
+  pausedFromMenu: 0

@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &368566066254471973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 368566066254471974}
+  - component: {fileID: 368566066254471981}
+  - component: {fileID: 368566066254471980}
+  - component: {fileID: 368566066254471971}
+  - component: {fileID: 368566066254471970}
+  - component: {fileID: 368566066254471969}
+  - component: {fileID: 368566066254471968}
+  m_Layer: 0
+  m_Name: CCGameEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &368566066254471974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &368566066254471981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585fd3dfd51d3ce41bed044536f9fa8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 0
+  morality: 2
+  orderliness: 2
+  icon: {fileID: 21300000, guid: e29926aa00513124487404b240ed6c20, type: 3}
+  iconColor: {r: 0, g: 1, b: 0, a: 1}
+  id: jump
+  displayName: Jump
+  description: Force the player to jump!
+  price: 1
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories: []
+--- !u!114 &368566066254471980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d51a39c01bc10499ba449d891bfc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 1
+  orderliness: 7
+  icon: {fileID: 21300000, guid: 5014a6b7be03df64eb990a2bd4e3d4a1, type: 3}
+  iconColor: {r: 0.9254902, g: 0.14509803, b: 0.14509803, a: 1}
+  id: damageplayer
+  displayName: Damage Player
+  description: Take away one HP point.
+  price: 0
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories:
+  - Health
+--- !u!114 &368566066254471971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e63880d4da1cd34ca04329eef047e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 7
+  orderliness: 7
+  icon: {fileID: 21300000, guid: 4a079a9bf1e993d45a5791d8d6281122, type: 3}
+  iconColor: {r: 0, g: 1, b: 1, a: 1}
+  id: recover
+  displayName: Recover
+  description: Recover one HP point.
+  price: 0
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories:
+  - Health
+--- !u!114 &368566066254471970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502484a3d2b0f3046a4abfc07b63247d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 7
+  orderliness: 8
+  icon: {fileID: 21300000, guid: 66daf4d4a8fa4ec4f9ed87f00c0c400b, type: 3}
+  iconColor: {r: 1, g: 1, b: 0, a: 1}
+  id: givecoins
+  displayName: Give Coins
+  description: Give the player coins.
+  price: 1
+  maxRetries: 3
+  retryDelay: 1.5
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories:
+  - Coins
+  m_parameterEntries: []
+--- !u!114 &368566066254471969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29cacee4ed6e9fa4ea5dc8bfa70dcba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 1
+  orderliness: 8
+  icon: {fileID: 21300000, guid: 66daf4d4a8fa4ec4f9ed87f00c0c400b, type: 3}
+  iconColor: {r: 0.6415094, g: 0.6415094, b: 0.28746885, a: 1}
+  id: takecoins
+  displayName: Take Coins
+  description: Take a certain amount of coins away from the player.
+  price: 0
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories:
+  - Coins
+  m_parameterEntries: []
+--- !u!114 &368566066254471968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368566066254471973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0945ab536c2b34468faca76f63bf294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noPooling: 0
+  sellable: 1
+  visible: 1
+  morality: 2
+  orderliness: 2
+  icon: {fileID: 21300000, guid: 66daf4d4a8fa4ec4f9ed87f00c0c400b, type: 3}
+  iconColor: {r: 1, g: 0, b: 1, a: 1}
+  id: invertcontrols
+  displayName: Invert Controls
+  description: Temporarly invert the player's controls.
+  price: 10
+  maxRetries: 3
+  retryDelay: 2
+  pendingDelay: 0.5
+  sessionMax: 0
+  Categories: []
+  duration: 5
+  paused: 0
+  pausedFromMenu: 0
