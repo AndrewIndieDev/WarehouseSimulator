@@ -59,7 +59,7 @@ public class Product : BaseInteractable
         if (!IsHeld) return;
         isHeld = false;
         UnFreezeProduct();
-        ReleaseOwnershipServerRPC(Camera.main.transform.forward * 30);
+        ReleaseOwnershipServerRPC(Camera.main.transform.forward);
     }
     #endregion
 
@@ -88,7 +88,8 @@ public class Product : BaseInteractable
     {
         ChangeOwnership(0);
         UnFreezeProduct();
-        rb.AddForce(force, ForceMode.Impulse);
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(force, ForceMode.VelocityChange);
     }
 
     public void FreezeProduct()
