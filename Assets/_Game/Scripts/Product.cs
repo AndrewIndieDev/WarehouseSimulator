@@ -59,7 +59,7 @@ public class Product : BaseInteractable
         if (!IsHeld) return;
         isHeld = false;
         UnFreezeProduct();
-        ReleaseOwnershipServerRPC(Camera.main.transform.forward * 2);
+        ReleaseOwnershipServerRPC(Camera.main.transform.forward * 7);
     }
     #endregion
 
