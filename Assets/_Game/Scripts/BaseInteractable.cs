@@ -38,7 +38,8 @@ public abstract class BaseInteractable : NetworkBehaviour, IInteractable
             return;
         if (GetLockOnInteractType(type))
             nv_lockedBy.Value = (long)sender;
-        ChangeOwnership(sender);
+        if (type == InteractType.Primary)
+            ChangeOwnership(sender);
         OnInteractClientRPC(type, sender);
     }
     

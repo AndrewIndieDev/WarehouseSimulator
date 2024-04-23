@@ -94,13 +94,13 @@ public class DoorController : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void OpenServerRPC()
     {
         isOpen.Value = true;
     }
     
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void CloseServerRPC()
     {
         isOpen.Value = false;
