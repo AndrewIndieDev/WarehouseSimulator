@@ -58,11 +58,9 @@ public class Product : BaseInteractable
     {
         if (sender != NetworkManager.LocalClientId) return;
         if (!IsHeld) return;
-        UnFreezeProduct();
-        rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
         isHeld = false;
         if (!IsServer)
-            ReleaseOwnershipServerRPC();
+            ReleaseOwnershipServerRPC(Camera.main.transform.forward * 30);
     }
     #endregion
 
@@ -87,9 +85,11 @@ public class Product : BaseInteractable
     }
 
     [ServerRpc]
-    private void ReleaseOwnershipServerRPC()
+    private void ReleaseOwnershipServerRPC(Vector3 force = default)
     {
         ChangeOwnership(0);
+        UnFreezeProduct();
+        rb.AddForce(force, ForceMode.Impulse);
     }
 
     public void FreezeProduct()
