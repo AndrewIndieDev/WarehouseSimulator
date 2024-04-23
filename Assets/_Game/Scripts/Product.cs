@@ -58,8 +58,9 @@ public class Product : BaseInteractable
         if (sender != NetworkManager.LocalClientId) return;
         if (!IsHeld) return;
         isHeld = false;
-        UnFreezeProduct();
-        ReleaseOwnershipServerRPC(Camera.main.transform.forward * 7);
+        if (!IsServer)
+            UnFreezeProduct();
+        ReleaseOwnershipServerRPC(MovementController.Instance.lastForwardDirection * 7); // WHY
     }
     #endregion
 

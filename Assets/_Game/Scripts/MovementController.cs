@@ -18,6 +18,8 @@ public class MovementController : MonoBehaviour
     public float mouseSensitivityY = 5.0f;
     public float sprintMultiplier = 2.0f;
     //public float jumpStrength = 5.0f;
+    
+    public Vector3 lastForwardDirection;
 
     private CharacterController cc;
     private Vector3 currentMovementVector;
@@ -84,6 +86,8 @@ public class MovementController : MonoBehaviour
             currentYVelocity = 0.0f;
         else
             currentYVelocity += Physics.gravity.y * Time.deltaTime;
+
+        lastForwardDirection = cam.transform.forward;
 
         //if (Input.GetButtonDown("Jump") && currentYVelocity <= 0.0f && currentYVelocity > -1.0f)
         //    currentYVelocity = jumpStrength;

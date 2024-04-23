@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3771401966270084767}
   - component: {fileID: 4384616808398068849}
   - component: {fileID: 3252022912995463849}
-  - component: {fileID: 8423776916252584704}
   m_Layer: 12
   m_Name: Cube
   m_TagString: Untagged
@@ -87,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8423776916252584704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193329253706657270}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2572794201460321819
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +223,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6723366506091094979}
-  - component: {fileID: 6035021598374122790}
   m_Layer: 14
   m_Name: HeldSlot
   m_TagString: Untagged
@@ -268,27 +245,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7800639063149203445}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6035021598374122790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2982289319797631108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 64965357
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 0
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
-  SpawnWithObservers: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 0
 --- !u!1 &3172365060720615684
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf656c6259264f043a2a3c2a6282b436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heldItemSlot: {fileID: 6723366506091094979}
+  heldItemSlot: {fileID: 5749269633034854717}
   cam: {fileID: 7213762147586778933}
   interactionLayer:
     serializedVersion: 2

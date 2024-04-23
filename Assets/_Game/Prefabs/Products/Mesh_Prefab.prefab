@@ -142,7 +142,7 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
-  AutoObjectParentSync: 0
+  AutoObjectParentSync: 1
 --- !u!54 &3021565793560579445
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
   productId: mesh_
   isHeld: 0
   rb: {fileID: 3021565793560579445}
+  productMass: 0
   mr: {fileID: 0}
   productIcon: {fileID: 0}
   meshFilter: {fileID: 8733842206353563566}

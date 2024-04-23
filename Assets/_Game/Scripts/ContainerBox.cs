@@ -118,9 +118,10 @@ public class ContainerBox : BaseInteractable
         int currentCount = boxContents.Count;
         if (currentCount >= boxContentsParent.childCount)
             return false;
-        Product p = ProductManager.Instance.SpawnProductPrefab(productId, boxContentsParent.GetChild(currentCount).position, Quaternion.identity);
-        p.transform.SetParent(boxContentsParent.GetChild(currentCount));
-        p.transform.localPosition = Vector3.zero;
+        Product p = ProductManager.Instance.SpawnProductPrefab(productId, Vector3.zero, Quaternion.identity);
+        p.transform.SetParent(transform);
+        p.transform.localRotation = Quaternion.identity;
+        p.transform.localPosition = boxContentsParent.GetChild(boxContents.Count).localPosition;
         p.PutInContainer(this);
         boxContents.Add(p);
         return true;
@@ -131,16 +132,9 @@ public class ContainerBox : BaseInteractable
         int currentCount = boxContents.Count;
         if (currentCount >= boxContentsParent.childCount)
             return false;
-        for (int i = 0; i < boxContentsParent.childCount; i++)
-        {
-            if (boxContentsParent.GetChild(i).childCount == 0)
-            {
-                product.transform.SetParent(boxContentsParent.GetChild(i));
-                break;
-            }
-        }
-        product.transform.localPosition = Vector3.zero;
+        product.transform.SetParent(transform);
         product.transform.localRotation = Quaternion.identity;
+        product.transform.localPosition = boxContentsParent.GetChild(boxContents.Count).localPosition;
         product.PutInContainer(this);
         boxContents.Add(product);
         return true;
