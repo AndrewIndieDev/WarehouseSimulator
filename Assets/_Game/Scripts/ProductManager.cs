@@ -115,7 +115,7 @@ public class ProductManager : MonoBehaviour
         foreach (var item in productItems)
         {
             ProductData data = new ProductData() { stockCount = 0, transitCount = 0 };
-            if (item.type == EProductType.Sound)
+            if (item.type == EProductType.Material)
                 data.transitCount = Random.Range(1, 2);
             productData.Add(item.id, data);
             productItemDictionary.Add(item.id, item);
