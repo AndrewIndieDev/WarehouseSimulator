@@ -49,8 +49,7 @@ public class Product : BaseInteractable
         {
             isHeld = false;
             UnFreezeProduct();
-            if (!IsServer)
-                ReleaseOwnershipServerRPC();
+            ReleaseOwnershipServerRPC();
         }
     }
 
@@ -59,8 +58,8 @@ public class Product : BaseInteractable
         if (sender != NetworkManager.LocalClientId) return;
         if (!IsHeld) return;
         isHeld = false;
-        if (!IsServer)
-            ReleaseOwnershipServerRPC(Camera.main.transform.forward * 30);
+        UnFreezeProduct();
+        ReleaseOwnershipServerRPC(Camera.main.transform.forward * 30);
     }
     #endregion
 
