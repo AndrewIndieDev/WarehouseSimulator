@@ -61,6 +61,8 @@ public class Product : BaseInteractable
         UnFreezeProduct();
         rb.AddForce(Camera.main.transform.forward * 30, ForceMode.Impulse);
         isHeld = false;
+        if (!IsServer)
+            ReleaseOwnershipServerRPC();
     }
     #endregion
 
