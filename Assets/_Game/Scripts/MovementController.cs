@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -8,11 +9,7 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public static MovementController Instance { get; private set; }
-    void Awake()
-    {
-        Instance = this;
-    }
-
+    
     public float CurrentPitch { get { return currentPitch; } }
 
     public Camera cam;
@@ -35,6 +32,8 @@ public class MovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!GetComponent<NetworkObject>().IsOwner) return;
+        Instance = this;
         cc = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
