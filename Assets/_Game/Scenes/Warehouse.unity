@@ -5728,7 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf02de641e50cf34d8a91faa7096c6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alwaysStartOnMine: 1
+  alwaysStartOnMine: 0
   startHostOnDavid: 1
 --- !u!114 &726951303
 MonoBehaviour:
@@ -15032,6 +15032,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 906565282112595471, guid: 47eb37f76285f3c429f17a0b887f84b3,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1992076723
+      objectReference: {fileID: 0}
+    - target: {fileID: 906565282112595471, guid: 47eb37f76285f3c429f17a0b887f84b3,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 3911877848
+      objectReference: {fileID: 0}
     - target: {fileID: 2323029309024688105, guid: 47eb37f76285f3c429f17a0b887f84b3,
         type: 3}
       propertyPath: m_Name
